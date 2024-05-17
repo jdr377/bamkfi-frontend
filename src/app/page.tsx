@@ -9,7 +9,7 @@ export default function Home() {
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4">
 				<div className="flex items-center gap-4">
-					<div className="rounded-full bg-secondary flex p-8">
+					<div className="rounded-full bg-secondary flex p-8 border border-[#F3E9DD4D]">
 						<NusdIcon className="h-14 w-14 stroke-primary" />
 					</div>
 					<h1 className="text-4xl">NUSD</h1>
@@ -27,7 +27,7 @@ export default function Home() {
 			</div>
 			<div className="flex flex-col gap-4">
 				<div className="flex items-center gap-4">
-					<div className="rounded-full bg-secondary flex p-8">
+					<div className="rounded-full bg-secondary flex p-8 border border-[#F3E9DD4D]">
 						<BamkIcon className="h-14 w-14 stroke-primary" />
 					</div>
 					<h1 className="text-xl">BAMK•OF•NAKAMOTO•DOLLAR</h1>
@@ -38,7 +38,11 @@ export default function Home() {
 					accessible dollar-denominated savings instrument — the Bitcoin Bond.
 				</h2>
 				<div className="max-w-full w-[612px]">
-					<a href="https://magiceden.io/runes/BAMK%E2%80%A2OF%E2%80%A2NAKAMOTO%E2%80%A2DOLLAR" target="_blank" className="grow">
+					<a
+						href="https://magiceden.io/runes/BAMK%E2%80%A2OF%E2%80%A2NAKAMOTO%E2%80%A2DOLLAR"
+						target="_blank"
+						className="grow"
+					>
 						<Button className="w-full h-14 text-lg">Buy BAMK</Button>
 					</a>
 				</div>
