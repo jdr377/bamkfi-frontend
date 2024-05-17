@@ -1,14 +1,18 @@
 'use client'
 
 import React from 'react'
-import ThemeToggle from '@/components/theme-toggle'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import classNames from 'classnames'
 import { usePathname } from 'next/navigation'
+
+import { TWITTER_URL, TELEGRAM_URL } from '@/lib/constants'
+
 import TwitterIcon from '@/icons/twitter'
 import TelegramIcon from '@/icons/telegram'
-import { TWITTER_URL, TELEGRAM_URL } from '@/lib/constants'
+import BamkIcon from '@/icons/bamk'
+
+import ThemeToggle from '@/components/theme-toggle'
+import { Button } from '@/components/ui/button'
 
 export default function Header() {
 	const pathname = usePathname()
@@ -69,7 +73,8 @@ export default function Header() {
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
 				<div className="flex items-center">
 					<Link href="/">
-						<img className="h-8 mr-6" src="/logo.png" />
+						<BamkIcon className="sm:hidden h-8 w-8 stroke-primary" />
+						<img className="hidden sm:block h-8 mr-6" src="/logo.png" />
 					</Link>
 					{/* <div className="flex items-center gap-4 text-sm lg:gap-6">{links.map(renderLink)}</div> */}
 				</div>
