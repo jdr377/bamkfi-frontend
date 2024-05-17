@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import classNames from 'classnames'
 import { usePathname } from 'next/navigation'
+import TwitterIcon from '@/icons/twitter'
+import TelegramIcon from '@/icons/telegram'
+import { TWITTER_URL, TELEGRAM_URL } from '@/lib/constants'
 
 export default function Header() {
 	const pathname = usePathname()
@@ -14,7 +17,8 @@ export default function Header() {
 		return [
 			{
 				name: 'Buy NUSD',
-				href: 'https://unisat.io/market/brc20?tick=%24NUSD' },
+				href: 'https://unisat.io/market/brc20?tick=%24NUSD'
+			},
 			{
 				name: 'Buy BAMK',
 				href: '/buy-bamk'
@@ -69,11 +73,21 @@ export default function Header() {
 					</Link>
 					{/* <div className="flex items-center gap-4 text-sm lg:gap-6">{links.map(renderLink)}</div> */}
 				</div>
-				<div className="flex items-center gap-6">
+				<div className="flex items-center gap-4">
 					<div className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center">
 						<p>TVL</p>
 						<p className="text-primary font-bold">$0</p>
 					</div>
+					<a href={TWITTER_URL} target="_blank">
+						<Button variant="ghost" size="icon">
+							<TwitterIcon className="h-5 w-5 fill-foreground/60 hover:fill-foreground/80" />
+						</Button>
+					</a>
+					<a href={TELEGRAM_URL} target="_blank">
+						<Button variant="ghost" size="icon">
+							<TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
+						</Button>
+					</a>
 					{/* <Button>Connect Wallet</Button> */}
 				</div>
 			</div>

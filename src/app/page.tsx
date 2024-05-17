@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Home() {
 	return (
-		<main className="max-w-screen-xl container flex flex-col gap-6 mt-8">
+		<div className="max-w-screen-xl container flex flex-col gap-6 mt-8">
 			<img src="/nusd-banner.png" className="w-[400px]" />
 			<h1 className="text-2xl">BAMK•OF•NAKAMOTO•DOLLAR</h1>
 			<h2 className="max-w-full w-[612px]">
@@ -19,6 +19,6 @@ export default function Home() {
 					<Button className="w-full h-14 text-lg" variant="secondary">Buy BAMK</Button>
 				</Link>
 			</div>
-		</main>
+		</div>
 	)
 }
