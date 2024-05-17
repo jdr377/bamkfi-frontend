@@ -67,7 +67,7 @@ export default function Header() {
 					<Link href="/">
 						<img className="h-8 mr-6" src="/logo.png" />
 					</Link>
-					<div className="flex items-center gap-4 text-sm lg:gap-6">{links.map(renderLink)}</div>
+					{/* <div className="flex items-center gap-4 text-sm lg:gap-6">{links.map(renderLink)}</div> */}
 				</div>
 				<div className="flex items-center gap-6">
 					<div className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center">
