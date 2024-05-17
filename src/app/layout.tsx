@@ -11,8 +11,19 @@ import classNames from 'classnames'
 const mulish = Mulish({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: 'Bamk.fi',
-	description: 'Bitcoin synthetic dollar protcol'
+	title: 'BAMK•OF•NAKAMOTO•DOLLAR',
+	description: 'Bitcoin synthetic dollar protcol',
+	twitter: {
+		card: 'summary_large_image',
+		title: 'BAMK•OF•NAKAMOTO•DOLLAR',
+		description: 'Bitcoin synthetic dollar protcol',
+		creator: '@ordinalswallet',
+		images: ['https://bamkfi-fontend.vercel.app/unfurl.png']
+	},
+	openGraph: {
+		images: ['https://bamkfi-fontend.vercel.app/unfurl.png']
+	}
+
 }
 
 export default function RootLayout({
