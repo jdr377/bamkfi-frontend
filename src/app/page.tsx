@@ -38,8 +38,8 @@ export default function Home() {
 					accessible dollar-denominated savings instrument — the Bitcoin Bond.
 				</h2>
 				<div className="max-w-full w-[612px]">
-					<a href="https://unisat.io/market/brc20?tick=%24NUSD" target="_blank" className="grow">
-						<Button className="w-full h-14 text-lg">Buy NUSD</Button>
+					<a href="https://magiceden.io/runes/BAMK%E2%80%A2OF%E2%80%A2NAKAMOTO%E2%80%A2DOLLAR" target="_blank" className="grow">
+						<Button className="w-full h-14 text-lg">Buy BAMK</Button>
 					</a>
 				</div>
 			</div>
