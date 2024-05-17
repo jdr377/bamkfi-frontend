@@ -26,11 +26,29 @@ export const metadata: Metadata = {
 
 }
 
-export default function RootLayout({
+async function getData() {
+	const res = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
+		headers: {
+			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
+		},
+		next: { revalidate: 600 }
+	})
+
+	if (!res.ok) {
+		console.log(res)
+		return {}
+	}
+
+	return res.json()
+}
+
+export default async function RootLayout({
 	children
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const { data } = await getData()
+
 	return (
 		<html lang="en" className="h-full">
 			<body className={classNames(mulish.className, 'flex flex-col h-full')}>
@@ -40,7 +58,7 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Header />
+					<Header data={data} />
 					<main className="flex-[1_1_auto]">
 						{children}
 					</main>

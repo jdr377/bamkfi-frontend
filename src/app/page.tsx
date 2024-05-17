@@ -4,7 +4,7 @@ import Link from 'next/link'
 import BamkIcon from '@/icons/bamk'
 import NusdIcon from '@/icons/nusd'
 
-export default function Home() {
+export default async function Home() {
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4">

@@ -14,7 +14,8 @@ import BamkIcon from '@/icons/bamk'
 import ThemeToggle from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 
-export default function Header() {
+export default function Header(props: any) {
+	const { data } = props;
 	const pathname = usePathname()
 
 	const links = React.useMemo(() => {
@@ -81,7 +82,7 @@ export default function Header() {
 				<div className="flex items-center gap-4">
 					<div className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center">
 						<p>TVL</p>
-						<p className="text-primary font-bold">$0</p>
+						<p className="text-primary font-bold">${data.minted}</p>
 					</div>
 					<a href={TWITTER_URL} target="_blank">
 						<Button variant="ghost" size="icon">
