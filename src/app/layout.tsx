@@ -5,19 +5,19 @@ import { Mulish, Nunito, Noto_Sans } from 'next/font/google';
 import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
 import Header from '@/components/header'
-import Footer from '@/components/footer'
+// import Footer from '@/components/footer'
 import classNames from 'classnames'
 
 const mulish = Mulish({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
 	title: 'BAMK•OF•NAKAMOTO•DOLLAR',
-	description: 'Bitcoin synthetic dollar protcol',
+	description: 'Bitcoin synthetic dollar protocol',
 	twitter: {
 		card: 'summary_large_image',
 		title: 'BAMK•OF•NAKAMOTO•DOLLAR',
 		description: 'Bitcoin synthetic dollar protcol',
-		creator: '@ordinalswallet',
+		creator: '@bamkfi',
 		images: ['https://bamkfi-fontend.vercel.app/unfurl.png']
 	},
 	openGraph: {
@@ -62,7 +62,7 @@ export default async function RootLayout({
 					<main className="flex-[1_1_auto]">
 						{children}
 					</main>
-					<Footer />
+					{/* <Footer /> */}
 				</ThemeProvider>
 			</body>
 		</html>

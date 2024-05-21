@@ -5,64 +5,65 @@ import Link from 'next/link'
 import classNames from 'classnames'
 import { usePathname } from 'next/navigation'
 
-import { TWITTER_URL, TELEGRAM_URL } from '@/lib/constants'
+import { TWITTER_URL, TELEGRAM_URL, NUSD_MARKET_URL, BAMK_MARKET_URL } from '@/lib/constants'
 
 import TwitterIcon from '@/icons/twitter'
 import TelegramIcon from '@/icons/telegram'
 import BamkIcon from '@/icons/bamk'
 
-import ThemeToggle from '@/components/theme-toggle'
+// import ThemeToggle from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 
 export default function Header(props: any) {
-	const { data } = props;
+	const { data } = props
 	const pathname = usePathname()
 
 	const links = React.useMemo(() => {
 		return [
 			{
 				name: 'Buy NUSD',
-				href: 'https://unisat.io/market/brc20?tick=%24NUSD'
+				href: NUSD_MARKET_URL
 			},
 			{
 				name: 'Buy BAMK',
-				href: '/buy-bamk'
-			},
-			{
-				name: 'Docs',
-				href: '/docs'
-			},
-			{
-				name: 'Airdrop',
-				href: '/airdrop'
+				href: BAMK_MARKET_URL
 			}
+			// {
+			// 	name: 'Docs',
+			// 	href: '/docs'
+			// },
+			// {
+			// 	name: 'Airdrop',
+			// 	href: '/airdrop'
+			// }
 		]
 	}, [])
 
-	const renderLink = React.useCallback(
-		(e: any) => {
-			if (e.href.startsWith('/')) {
-				return (
-					<Link
-						key={e.name}
-						href={e.href}
-						className={classNames('transition-colors hover:text-foreground/80 text-foreground/60', {
-							['text-foreground']: e.href === pathname
-						})}
-					>
-						{e.name}
-					</Link>
-				)
-			}
+	const RenderLink = React.useCallback(
+		(props: { name: string; href: string }) => {
+			// if (e.href.startsWith('/')) {
+			// 	return (
+			// 		<Link
+			// 			key={e.name}
+			// 			href={e.href}
+			// 			className={classNames('transition-colors hover:text-foreground/80 text-foreground/60', {
+			// 				['text-foreground']: e.href === pathname
+			// 			})}
+			// 		>
+			// 			{e.name}
+			// 		</Link>
+			// 	)
+			// }
 
 			return (
 				<a
-					key={e.name}
-					href={e.href}
+					key={props.name}
+					href={props.href}
 					className="transition-colors hover:text-foreground/80 text-foreground/60"
 					target="_blank"
+					rel="noopener noreferrer"
 				>
-					{e.name}
+					{props.name}
 				</a>
 			)
 		},
@@ -74,22 +75,26 @@ export default function Header(props: any) {
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
 				<div className="flex items-center">
 					<Link href="/">
-						<BamkIcon className="sm:hidden h-8 w-8 stroke-primary" />
-						<img className="hidden sm:block h-8 mr-6" src="/logo.png" />
+						<BamkIcon className="xs:hidden h-8 w-8 stroke-primary" />
+						<img className="hidden xs:block h-8 mr-6" src="/logo.png" />
 					</Link>
-					{/* <div className="flex items-center gap-4 text-sm lg:gap-6">{links.map(renderLink)}</div> */}
+				</div>
+				<div className="hidden md:flex items-center gap-4 text-sm lg:gap-6">
+					{links.map(l => (
+						<RenderLink key={l.name} {...l} />
+					))}
 				</div>
 				<div className="flex items-center gap-4">
 					<div className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center">
 						<p>TVL</p>
-						<p className="text-primary font-bold">${data.minted}</p>
+						<p className="text-primary font-bold">${Number(data.minted).toLocaleString()}</p>
 					</div>
-					<a href={TWITTER_URL} target="_blank">
+					<a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
 						<Button variant="ghost" size="icon">
 							<TwitterIcon className="h-5 w-5 fill-foreground/60 hover:fill-foreground/80" />
 						</Button>
 					</a>
-					<a href={TELEGRAM_URL} target="_blank">
+					<a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
 						<Button variant="ghost" size="icon">
 							<TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
 						</Button>
