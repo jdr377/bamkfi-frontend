@@ -40,6 +40,10 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        'secondary-btn': {
+          DEFAULT: "hsl(var(--secondary-btn))",
+          foreground: "hsl(var(--secondary-btn-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -65,6 +69,9 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      borderWidth: {
+        '3': '3px'
       },
       keyframes: {
         "accordion-down": {
