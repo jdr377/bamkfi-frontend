@@ -5,7 +5,12 @@ import Link from 'next/link'
 import classNames from 'classnames'
 import { usePathname } from 'next/navigation'
 
-import { TWITTER_URL, TELEGRAM_URL, NUSD_MARKET_URL, BAMK_MARKET_URL } from '@/lib/constants'
+import {
+	NUSD_MARKET_URL,
+	BAMK_MARKET_URL,
+	GENESIS_POINTS_BLOCK,
+	POINTS_PER_BLOCK
+} from '@/lib/constants'
 
 import TwitterIcon from '@/icons/twitter'
 import TelegramIcon from '@/icons/telegram'
@@ -14,7 +19,21 @@ import BamkIcon from '@/icons/bamk'
 // import ThemeToggle from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 
-export default function Header(props: any) {
+export default function Header(props: {
+	data:
+		| {
+				nusdInfoData?: undefined
+				bestHeightData?: undefined
+		  }
+		| {
+				nusdInfoData: {
+					minted: string
+				}
+				bestHeightData: {
+					height: number
+				}
+		  }
+}) {
 	const { data } = props
 	const pathname = usePathname()
 
@@ -84,12 +103,34 @@ export default function Header(props: any) {
 						<RenderLink key={l.name} {...l} />
 					))}
 				</div>
-				<div className="flex items-center gap-4">
-					<div className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center">
-						<p>TVL</p>
-						<p className="text-primary font-bold">${Number(data.minted).toLocaleString()}</p>
-					</div>
-					<a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
+				<div className="flex items-center gap-2">
+					{data.nusdInfoData?.minted && (
+						<div
+							title="Total Value Locked"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
+						>
+							<p>TVL</p>
+							<p className="text-primary font-bold">
+								${Number(data.nusdInfoData.minted).toLocaleString()}
+							</p>
+						</div>
+					)}
+					{data.bestHeightData?.height && (
+						<div
+							title="Total Points Allocated"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
+						>
+							<p>TPA</p>
+							<p className="text-primary font-bold">
+								
+								{(
+									(data.bestHeightData.height - GENESIS_POINTS_BLOCK) *
+									POINTS_PER_BLOCK
+								).toLocaleString()}
+							</p>
+						</div>
+					)}
+					{/* <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
 						<Button variant="ghost" size="icon">
 							<TwitterIcon className="h-5 w-5 fill-foreground/60 hover:fill-foreground/80" />
 						</Button>
@@ -98,7 +139,7 @@ export default function Header(props: any) {
 						<Button variant="ghost" size="icon">
 							<TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
 						</Button>
-					</a>
+					</a> */}
 					{/* <Button>Connect Wallet</Button> */}
 				</div>
 			</div>
