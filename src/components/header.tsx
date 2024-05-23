@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Link from 'next/link'
-import classNames from 'classnames'
 import { usePathname } from 'next/navigation'
 
 import {
@@ -11,13 +10,7 @@ import {
 	GENESIS_POINTS_BLOCK,
 	POINTS_PER_BLOCK
 } from '@/lib/constants'
-
-import TwitterIcon from '@/icons/twitter'
-import TelegramIcon from '@/icons/telegram'
 import BamkIcon from '@/icons/bamk'
-
-// import ThemeToggle from '@/components/theme-toggle'
-import { Button } from '@/components/ui/button'
 
 export default function Header(props: {
 	data:
@@ -92,7 +85,7 @@ export default function Header(props: {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
-				<div className="flex items-center">
+				<div className="flex items-center mr-2">
 					<Link href="/">
 						<BamkIcon className="xs:hidden h-8 w-8 stroke-primary" />
 						<img className="hidden xs:block h-8 mr-6" src="/logo.png" />
@@ -122,7 +115,6 @@ export default function Header(props: {
 						>
 							<p>TPA</p>
 							<p className="text-primary font-bold">
-								
 								{(
 									(data.bestHeightData.height - GENESIS_POINTS_BLOCK) *
 									POINTS_PER_BLOCK
