@@ -7,8 +7,9 @@ import { usePathname } from 'next/navigation'
 import {
 	NUSD_MARKET_URL,
 	BAMK_MARKET_URL,
-	GENESIS_POINTS_BLOCK,
-	POINTS_PER_BLOCK
+	SEASON_1_GENESIS_BLOCK,
+	SEASON_1_BAMK_PER_BLOCK,
+	SEASON_1_TOTAL_BLOCKS
 } from '@/lib/constants'
 import BamkIcon from '@/icons/bamk'
 
@@ -110,15 +111,16 @@ export default function Header(props: {
 					)}
 					{data.bestHeightData?.height && (
 						<div
-							title="Total Bamk Allocated"
+							title="Total Bamk Awarded"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
 						>
 							<p>TBA</p>
 							<p className="text-primary font-bold">
 								{(
-									(data.bestHeightData.height - GENESIS_POINTS_BLOCK) *
-									POINTS_PER_BLOCK
+									(data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) *
+									SEASON_1_BAMK_PER_BLOCK
 								).toLocaleString()}
+								{` (${Number(((data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) / SEASON_1_TOTAL_BLOCKS * 100).toFixed(2)).toLocaleString()}%)`}
 							</p>
 						</div>
 					)}
