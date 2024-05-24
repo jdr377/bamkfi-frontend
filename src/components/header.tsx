@@ -18,6 +18,8 @@ export default function Header(props: {
 		| {
 				nusdInfoData?: undefined
 				bestHeightData?: undefined
+				bamkRuneData?: undefined
+				btcPriceData?: undefined
 		  }
 		| {
 				nusdInfoData: {
@@ -25,6 +27,22 @@ export default function Header(props: {
 				}
 				bestHeightData: {
 					height: number
+				}
+				bamkRuneData: {
+					tick: string;
+					symbol: string;
+					curPrice: number;
+					changePrice: number;
+					btcVolume: number;
+					amountVolume: number;
+					cap: string;
+					capUSD: string;
+					warning: boolean;
+				}
+				btcPriceData: {
+					bitcoin: {
+					  usd: number;
+					}
 				}
 		  }
 }) {
@@ -83,6 +101,12 @@ export default function Header(props: {
 		[pathname]
 	)
 
+	let APY = 0;
+	if (data.bamkRuneData && data.btcPriceData && data.nusdInfoData) {
+		const usdPricePerRune = data.bamkRuneData?.curPrice / 100_000_000 * data.btcPriceData.bitcoin.usd;
+		APY = usdPricePerRune * SEASON_1_BAMK_PER_BLOCK * 144 * 365 / Number(data.nusdInfoData.minted);
+	}
+
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
@@ -109,7 +133,7 @@ export default function Header(props: {
 							</p>
 						</div>
 					)}
-					{data.bestHeightData?.height && (
+					{/* {data.bestHeightData?.height && (
 						<div
 							title="Total Bamk Awarded"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
@@ -119,7 +143,18 @@ export default function Header(props: {
 								{`${Number(((data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) / SEASON_1_TOTAL_BLOCKS * 100).toFixed(2)).toLocaleString()}%`}
 							</p>
 						</div>
-					)}
+					)} */}
+					{APY ? (
+						<div
+							title="Annual Percentage Yield"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
+						>
+							<p>APY</p>
+							<p className="text-primary font-bold">
+								{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+							</p>
+						</div>
+					) : null}
 					{/* <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
 						<Button variant="ghost" size="icon">
 							<TwitterIcon className="h-5 w-5 fill-foreground/60 hover:fill-foreground/80" />

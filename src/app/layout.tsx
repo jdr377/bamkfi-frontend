@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from 'next/font/google'
-import { Mulish, Nunito, Noto_Sans } from 'next/font/google';
+import { Mulish } from 'next/font/google';
 
 import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
 	openGraph: {
 		images: ['https://bamkfi-fontend.vercel.app/unfurl.png']
 	}
-
 }
 
 async function getData() {
@@ -51,9 +49,54 @@ async function getData() {
 	}
 	const bestHeightData: { height: number } = (await bestHeight.json()).data;
 
+	const bamkRune = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
+		method: 'POST',
+		headers: {
+		  "Content-Type": "application/json",
+		  Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
+		},
+		body: JSON.stringify({
+			tick: 'BAMK•OF•NAKAMOTO•DOLLAR',
+			timeType: 'day1',
+		}),
+	});
+	if (!bamkRune.ok) {
+		console.log(bamkRune)
+		return {}
+	}
+	const bamkRuneData: {
+		tick: string;
+		symbol: string;
+		curPrice: number; // in sats
+		changePrice: number;
+		btcVolume: number;
+		amountVolume: number;
+		cap: string;
+		capUSD: string;
+		warning: boolean;
+	} = (await bamkRune.json()).data;
+
+	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
+		method: 'GET',
+		headers: {
+			'x-cg-demo-api-key': process.env.COINGECKO_API_KEY as string,
+		},
+	});
+	if (!btcPrice.ok) {
+		console.log(bamkRune)
+		return {}
+	}
+	const btcPriceData: {
+		bitcoin: {
+		  usd: number;
+		}
+	 } = (await btcPrice.json());
+	
 	return {
 		nusdInfoData,
 		bestHeightData,
+		bamkRuneData,
+		btcPriceData,
 	}
 }
 
