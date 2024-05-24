@@ -110,10 +110,10 @@ export default function Header(props: {
 					)}
 					{data.bestHeightData?.height && (
 						<div
-							title="Total Points Allocated"
+							title="Total Bamk Allocated"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
 						>
-							<p>TPA</p>
+							<p>TBA</p>
 							<p className="text-primary font-bold">
 								{(
 									(data.bestHeightData.height - GENESIS_POINTS_BLOCK) *
