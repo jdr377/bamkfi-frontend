@@ -114,13 +114,9 @@ export default function Header(props: {
 							title="Total Bamk Awarded"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
 						>
-							<p>TBA</p>
+							<p>S1 Progress</p>
 							<p className="text-primary font-bold">
-								{(
-									(data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) *
-									SEASON_1_BAMK_PER_BLOCK
-								).toLocaleString()}
-								{` (${Number(((data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) / SEASON_1_TOTAL_BLOCKS * 100).toFixed(2)).toLocaleString()}%)`}
+								{`${Number(((data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) / SEASON_1_TOTAL_BLOCKS * 100).toFixed(2)).toLocaleString()}%`}
 							</p>
 						</div>
 					)}
