@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/button'
 
 import TwitterIcon from '@/icons/twitter'
 import TelegramIcon from '@/icons/telegram'
-import { TWITTER_URL, TELEGRAM_URL } from '@/lib/constants'
+import GithubIcon from '@/icons/github'
+import { TWITTER_URL, TELEGRAM_URL, GITHUB_URL } from '@/lib/constants'
 
 export default function Footer() {
 	return (
@@ -17,6 +18,11 @@ export default function Footer() {
 				<a href={TELEGRAM_URL} target="_blank">
 					<Button variant="ghost" size="icon">
 						<TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
+					</Button>
+				</a>
+				<a href={GITHUB_URL} target="_blank">
+					<Button variant="ghost" size="icon">
+						<GithubIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
 					</Button>
 				</a>
 			</div>
