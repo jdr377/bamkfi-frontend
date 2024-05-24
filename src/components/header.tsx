@@ -3,15 +3,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Inter } from 'next/font/google'
 
 import {
 	NUSD_MARKET_URL,
 	BAMK_MARKET_URL,
-	SEASON_1_GENESIS_BLOCK,
 	SEASON_1_BAMK_PER_BLOCK,
-	SEASON_1_TOTAL_BLOCKS
 } from '@/lib/constants'
 import BamkIcon from '@/icons/bamk'
+import classNames from 'classnames'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export default function Header(props: {
 	data:
@@ -113,7 +115,12 @@ export default function Header(props: {
 				<div className="flex items-center mr-2">
 					<Link href="/">
 						<BamkIcon className="xs:hidden h-8 w-8 stroke-primary" />
-						<img className="hidden xs:block h-8 mr-6" src="/logo.png" />
+						<div className={classNames(inter.className, "hidden xs:flex h-8 mr-6 gap-4 font-inter")}>
+							<BamkIcon className="h-8 w-8 stroke-primary" />
+							<div className='uppercase text-zinc-50 text-xl leading-[31px] tracking-[0.23em]'>
+								Bamk.fi
+							</div>
+						</div>
 					</Link>
 				</div>
 				<div className="hidden md:flex items-center gap-4 text-sm lg:gap-6">

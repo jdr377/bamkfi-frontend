@@ -1,7 +1,4 @@
 import { Button } from '@/components/ui/button'
-// import Link from 'next/link'
-
-// import BamkIcon from '@/icons/bamk'
 import NusdIcon from '@/icons/nusd'
 import { Nunito } from 'next/font/google'
 import classNames from 'classnames'
@@ -28,12 +25,12 @@ export default async function Home() {
 					solution for money not reliant on the traditional banking system, alongside a globally
 					accessible dollar-denominated savings instrument — the Bitcoin&nbsp;Bond.
 				</h2>
-				<h2 className="max-w-full w-[612px] leading-7">
+				{/* <h2 className="max-w-full w-[612px] leading-7">
 					Season 0 was a public mint starting at block {840280}. 6.25% of $BAMK supply was free to inscribe.
 				</h2>
 				<h2 className="max-w-full w-[612px] leading-7">
 					Welcome to Season 1. Starting with the first public purchase of $NUSD at block {SEASON_1_GENESIS_BLOCK}, holders of $NUSD are allocated 6.25% of supply ({SEASON_1_BAMK_PER_BLOCK.toLocaleString()} $BAMK per block) proportionally based on their $NUSD holdings. Season 1 ends at block {SEASON_1_GENESIS_BLOCK + SEASON_1_TOTAL_BLOCKS}.
-				</h2>
+				</h2> */}
 				<div className="max-w-full w-[612px] flex items-center gap-4">
 					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
 						<Button className="w-full h-14 text-lg">Buy NUSD</Button>
