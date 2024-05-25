@@ -54,16 +54,16 @@ export default async function Home() {
 					<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
 				</h1>
 				{data.bamkRuneData ? (
-					<div className="flex gap-2">
+					<div className="flex gap-2 flex-wrap -mt-2">
 						<div
 							title="BAMK Price"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
 							<p>{data.bamkRuneData.curPrice} sats/🏦</p>
 						</div>
 						<div
 							title="Fully Diluted Valuation"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
 							<p>FDV</p>
 							<p className="text-primary font-bold">
@@ -72,7 +72,7 @@ export default async function Home() {
 						</div>
 						<div
 							title="Total Circulating Supply"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
 							<p>Circulating</p>
 							<p className="text-primary font-bold">
