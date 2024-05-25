@@ -8,6 +8,18 @@ import { Fitty } from '@/components/ui/fitty'
 const nunito = Nunito({ subsets: ['latin'] })
 
 async function getData() {
+	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
+		headers: {
+			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
+		},
+		next: { revalidate: 600 }
+	})
+	if (!nusdInfo.ok) {
+		console.log(nusdInfo)
+		return {}
+	}
+	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
+
 	const bamkRune = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
 		method: 'POST',
 		headers: {
@@ -35,6 +47,7 @@ async function getData() {
 		warning: boolean;
 	} = (await bamkRune.json()).data;
 	return {
+		nusdInfoData,
 		bamkRuneData
 	}
 }
@@ -44,12 +57,12 @@ export default async function Home() {
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4 md:ml-12">
-				<div className="flex items-center gap-4">
+				{/* <div className="flex items-center gap-4">
 					<div className="rounded-full bg-secondary flex p-8 border-2 border-[#F3E9DD4D]">
 						<NusdIcon className="h-14 w-14 stroke-primary" />
 					</div>
 					<h1 className="text-4xl">NUSD</h1>
-				</div>
+				</div> */}
 				<h1 className={classNames(nunito, 'max-w-full w-[520px] mt-2 break-words')}>
 					<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
 				</h1>
@@ -79,6 +92,17 @@ export default async function Home() {
 								{`$${Number(data.bamkRuneData?.capUSD).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
 							</p>
 						</div>
+						{data.nusdInfoData?.minted && (
+							<div
+								title="Total Value Locked"
+								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+							>
+								<p>NUSD TVL</p>
+								<p className="text-primary font-bold">
+									${Number(data.nusdInfoData.minted).toLocaleString()}
+								</p>
+							</div>
+						)}
 					</div>
 				) : null}
 				<h2 className="max-w-full w-[612px] leading-7">

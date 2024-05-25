@@ -7,7 +7,7 @@ import { TWITTER_URL, TELEGRAM_URL, GITHUB_URL } from '@/lib/constants'
 
 export default function Footer() {
 	return (
-		<div className="flex justify-between items-center h-14 max-w-screen-xl container">
+		<div className="flex justify-center sm:justify-between items-center h-14 max-w-screen-xl container mt-6">
 			<div />
 			<div className="flex items-center gap-4">
 				<a href={TWITTER_URL} target="_blank">

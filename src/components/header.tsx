@@ -112,10 +112,9 @@ export default function Header(props: {
 	return (
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
-				<div className="flex items-center mr-2">
+				<div className="flex items-center">
 					<Link href="/">
-						<BamkIcon className="xs:hidden h-8 w-8 stroke-primary" />
-						<div className={classNames(inter.className, "hidden xs:flex h-8 mr-6 gap-4 font-inter")}>
+						<div className={classNames(inter.className, "flex h-8 mr-6 gap-4 font-inter")}>
 							<BamkIcon className="h-8 w-8 stroke-primary" />
 							<div className='uppercase text-zinc-50 text-xl leading-[31px] tracking-[0.23em]'>
 								Bamk.fi
@@ -129,28 +128,6 @@ export default function Header(props: {
 					))}
 				</div>
 				<div className="flex items-center gap-2">
-					{data.nusdInfoData?.minted && (
-						<div
-							title="Total Value Locked"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
-						>
-							<p>TVL</p>
-							<p className="text-primary font-bold">
-								${Number(data.nusdInfoData.minted).toLocaleString()}
-							</p>
-						</div>
-					)}
-					{/* {data.bestHeightData?.height && (
-						<div
-							title="Total Bamk Awarded"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
-						>
-							<p>S1 Progress</p>
-							<p className="text-primary font-bold">
-								{`${Number(((data.bestHeightData.height - SEASON_1_GENESIS_BLOCK) / SEASON_1_TOTAL_BLOCKS * 100).toFixed(2)).toLocaleString()}%`}
-							</p>
-						</div>
-					)} */}
 					{APY ? (
 						<div
 							title="Annual Percentage Yield"
@@ -162,16 +139,6 @@ export default function Header(props: {
 							</p>
 						</div>
 					) : null}
-					{/* <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
-						<Button variant="ghost" size="icon">
-							<TwitterIcon className="h-5 w-5 fill-foreground/60 hover:fill-foreground/80" />
-						</Button>
-					</a>
-					<a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
-						<Button variant="ghost" size="icon">
-							<TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
-						</Button>
-					</a> */}
 					{/* <Button>Connect Wallet</Button> */}
 				</div>
 			</div>
