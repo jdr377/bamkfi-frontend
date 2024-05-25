@@ -2,12 +2,45 @@ import { Button } from '@/components/ui/button'
 import NusdIcon from '@/icons/nusd'
 import { Nunito } from 'next/font/google'
 import classNames from 'classnames'
-import { BAMK_MARKET_URL, NUSD_MARKET_URL, SEASON_1_BAMK_PER_BLOCK, SEASON_1_GENESIS_BLOCK, SEASON_1_TOTAL_BLOCKS } from '@/lib/constants'
+import { BAMK_MARKET_URL, BAMK_PREMINED_SUPPLY, BAMK_TOTAL_SUPPLY, NUSD_MARKET_URL, SEASON_1_BAMK_PER_BLOCK, SEASON_1_GENESIS_BLOCK, SEASON_1_TOTAL_BLOCKS } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
+async function getData() {
+	const bamkRune = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
+		method: 'POST',
+		headers: {
+		  "Content-Type": "application/json",
+		  Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
+		},
+		body: JSON.stringify({
+			tick: 'BAMK•OF•NAKAMOTO•DOLLAR',
+			timeType: 'day1',
+		}),
+	});
+	if (!bamkRune.ok) {
+		console.log(bamkRune)
+		return {}
+	}
+	const bamkRuneData: {
+		tick: string;
+		symbol: string;
+		curPrice: number; // in sats
+		changePrice: number;
+		btcVolume: number;
+		amountVolume: number;
+		cap: string;
+		capUSD: string;
+		warning: boolean;
+	} = (await bamkRune.json()).data;
+	return {
+		bamkRuneData
+	}
+}
+
 export default async function Home() {
+	const data = await getData()
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4 md:ml-12">
@@ -17,9 +50,37 @@ export default async function Home() {
 					</div>
 					<h1 className="text-4xl">NUSD</h1>
 				</div>
-				<h1 className={classNames(nunito, 'max-w-full w-[520px] mt-2 mb-1 break-words')}>
+				<h1 className={classNames(nunito, 'max-w-full w-[520px] mt-2 break-words')}>
 					<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
 				</h1>
+				{data.bamkRuneData ? (
+					<div className="flex gap-2">
+						<div
+							title="BAMK Price"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+						>
+							<p>{data.bamkRuneData.curPrice} sats/🏦</p>
+						</div>
+						<div
+							title="Fully Diluted Valuation"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+						>
+							<p>FDV</p>
+							<p className="text-primary font-bold">
+								{`$${Number(data.bamkRuneData?.capUSD).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+							</p>
+						</div>
+						<div
+							title="Total Circulating Supply"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max -mt-2"
+						>
+							<p>Circulating</p>
+							<p className="text-primary font-bold">
+								{`$${(Number(data.bamkRuneData?.capUSD) * (1 - (BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY))).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+							</p>
+						</div>
+					</div>
+				) : null}
 				<h2 className="max-w-full w-[612px] leading-7">
 					Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
 					solution for money not reliant on the traditional banking system, alongside a globally
