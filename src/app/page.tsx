@@ -95,7 +95,7 @@ export default async function Home() {
 						{data.nusdInfoData?.minted && (
 							<div
 								title="Total Value Locked"
-								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1t"
+								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 							>
 								<p>NUSD TVL</p>
 								<p className="text-primary font-bold">
@@ -117,13 +117,13 @@ export default async function Home() {
 					Welcome to Season 1. Starting with the first public purchase of $NUSD at block {SEASON_1_GENESIS_BLOCK}, holders of $NUSD are allocated 6.25% of supply ({SEASON_1_BAMK_PER_BLOCK.toLocaleString()} $BAMK per block) proportionally based on their $NUSD holdings. Season 1 ends at block {SEASON_1_GENESIS_BLOCK + SEASON_1_TOTAL_BLOCKS}.
 				</h2> */}
 				<div className="max-w-full w-[612px] flex items-center gap-4">
-					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
-						<Button className="w-full h-14 text-lg" variant="secondary">Buy NUSD</Button>
-					</a>
 					<a href={BAMK_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
 						<Button className="w-full h-14 text-lg">
 							Buy BAMK
 						</Button>
+					</a>
+					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
+						<Button className="w-full h-14 text-lg" variant="secondary">Buy NUSD</Button>
 					</a>
 				</div>
 			</div>
