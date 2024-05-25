@@ -62,21 +62,21 @@ export default async function Home() {
 							<p>{data.bamkRuneData.curPrice} sats/🏦</p>
 						</div>
 						<div
+							title="Market Cap (Circulating Supply)"
+							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+						>
+							<p>MCAP</p>
+							<p className="text-primary font-bold">
+								{`$${(Number(data.bamkRuneData?.capUSD) * (1 - (BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY))).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+							</p>
+						</div>
+						<div
 							title="Fully Diluted Valuation"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
 							<p>FDV</p>
 							<p className="text-primary font-bold">
 								{`$${Number(data.bamkRuneData?.capUSD).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-							</p>
-						</div>
-						<div
-							title="Total Circulating Supply"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-						>
-							<p>Circulating</p>
-							<p className="text-primary font-bold">
-								{`$${(Number(data.bamkRuneData?.capUSD) * (1 - (BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY))).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
 							</p>
 						</div>
 					</div>
