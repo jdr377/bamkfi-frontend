@@ -95,7 +95,7 @@ export default async function Home() {
 						{data.nusdInfoData?.minted && (
 							<div
 								title="Total Value Locked"
-								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1t"
 							>
 								<p>NUSD TVL</p>
 								<p className="text-primary font-bold">
@@ -118,10 +118,10 @@ export default async function Home() {
 				</h2> */}
 				<div className="max-w-full w-[612px] flex items-center gap-4">
 					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
-						<Button className="w-full h-14 text-lg">Buy NUSD</Button>
+						<Button className="w-full h-14 text-lg" variant="secondary">Buy NUSD</Button>
 					</a>
 					<a href={BAMK_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
-						<Button className="w-full h-14 text-lg" variant="secondary">
+						<Button className="w-full h-14 text-lg">
 							Buy BAMK
 						</Button>
 					</a>
