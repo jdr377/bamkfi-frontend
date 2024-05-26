@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
-import NusdIcon from '@/icons/nusd'
 import { Nunito } from 'next/font/google'
 import classNames from 'classnames'
-import { BAMK_MARKET_URL, BAMK_PREMINED_SUPPLY, BAMK_TOTAL_SUPPLY, NUSD_MARKET_URL, SEASON_1_BAMK_PER_BLOCK, SEASON_1_GENESIS_BLOCK, SEASON_1_TOTAL_BLOCKS } from '@/lib/constants'
+import { BAMK_MARKET_URL, BAMK_PREMINED_SUPPLY, BAMK_TOTAL_SUPPLY, NUSD_MARKET_URL, NUSD_RUNE_MARKET_URL, SEASON_1_BAMK_PER_BLOCK, SEASON_1_GENESIS_BLOCK, SEASON_1_TOTAL_BLOCKS } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
 
 const nunito = Nunito({ subsets: ['latin'] })
@@ -46,14 +45,40 @@ async function getData() {
 		capUSD: string;
 		warning: boolean;
 	} = (await bamkRune.json()).data;
+
+	const nusdRune = await fetch('https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance', {
+		method: 'GET',
+		headers: {
+			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
+		},
+	});
+	if (!nusdRune.ok) {
+		console.log('error fetching nusdRune:', nusdRune)
+		return {}
+	}
+	const nusdRuneData: {
+		"amount": string,
+		"runeid": string,
+		"rune": string,
+		"spacedRune": string,
+		"symbol": string,
+	} = (await nusdRune.json()).data;
+
 	return {
 		nusdInfoData,
+		nusdRuneData,
 		bamkRuneData
 	}
 }
 
 export default async function Home() {
 	const data = await getData()
+	let TVL = 0;
+	if (data.nusdRuneData && data.nusdInfoData) {
+		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(data.nusdRuneData.amount)
+		const nusdBrc20Circulating = Number(data.nusdInfoData.minted)
+		TVL = nusdRuneCirculating + nusdBrc20Circulating
+	}
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4 md:ml-12">
@@ -72,7 +97,10 @@ export default async function Home() {
 							title="BAMK Price"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
-							<p>{data.bamkRuneData.curPrice} sats/🏦</p>
+							<p>
+								<span className='text-primary'>{data.bamkRuneData.curPrice} sats</span>
+								{' /🏦'}
+							</p>
 						</div>
 						<div
 							title="Market Cap (Circulating Supply)"
@@ -92,14 +120,14 @@ export default async function Home() {
 								{`$${Number(data.bamkRuneData?.capUSD).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
 							</p>
 						</div>
-						{data.nusdInfoData?.minted && (
+						{TVL > 0 && (
 							<div
 								title="Total Value Locked"
 								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 							>
 								<p>NUSD TVL</p>
 								<p className="text-primary font-bold">
-									${Number(data.nusdInfoData.minted).toLocaleString()}
+									${TVL.toLocaleString()}
 								</p>
 							</div>
 						)}
@@ -122,7 +150,7 @@ export default async function Home() {
 							Buy BAMK
 						</Button>
 					</a>
-					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
+					<a href={NUSD_RUNE_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
 						<Button className="w-full h-14 text-lg" variant="secondary">Buy NUSD</Button>
 					</a>
 				</div>

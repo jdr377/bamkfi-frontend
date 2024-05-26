@@ -21,6 +21,7 @@ export default function Header(props: {
 				nusdInfoData?: undefined
 				bestHeightData?: undefined
 				bamkRuneData?: undefined
+				nusdRuneData?: undefined
 				btcPriceData?: undefined
 		  }
 		| {
@@ -29,6 +30,13 @@ export default function Header(props: {
 				}
 				bestHeightData: {
 					height: number
+				}
+				nusdRuneData: {
+					"amount": string,
+					"runeid": string,
+					"rune": string,
+					"spacedRune": string,
+					"symbol": string,
 				}
 				bamkRuneData: {
 					tick: string;
@@ -104,9 +112,12 @@ export default function Header(props: {
 	)
 
 	let APY = 0;
-	if (data.bamkRuneData && data.btcPriceData && data.nusdInfoData) {
-		const usdPricePerRune = data.bamkRuneData?.curPrice / 100_000_000 * data.btcPriceData.bitcoin.usd;
-		APY = usdPricePerRune * SEASON_1_BAMK_PER_BLOCK * 144 * 365 / Number(data.nusdInfoData.minted);
+	if (data.bamkRuneData && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
+		const usdPricePerBamk = data.bamkRuneData?.curPrice / 100_000_000 * data.btcPriceData.bitcoin.usd;
+		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(data.nusdRuneData.amount)
+		const nusdBrc20Circulating = Number(data.nusdInfoData.minted)
+		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
+		APY = usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365 / nusdTotalCirculating;
 	}
 
 	return (
@@ -127,20 +138,21 @@ export default function Header(props: {
 						<RenderLink key={l.name} {...l} />
 					))}
 				</div>
-				<div className="flex items-center gap-2">
-					{APY ? (
-						<div
-							title="Annual Percentage Yield"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
-						>
-							<p>APY</p>
-							<p className="text-primary font-bold">
-								{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-							</p>
+				{APY > 0 ? (
+					<div className="flex items-center gap-2">
+							<div
+								title="Annual Percentage Yield"
+								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
+							>
+								<p>APY</p>
+								<p className="text-primary font-bold">
+									{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+								</p>
+							</div>
 						</div>
-					) : null}
-					{/* <Button>Connect Wallet</Button> */}
-				</div>
+					) : null
+				}
+				{/* <Button>Connect Wallet</Button> */}
 			</div>
 		</header>
 	)

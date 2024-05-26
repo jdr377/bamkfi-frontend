@@ -76,6 +76,24 @@ async function getData() {
 		warning: boolean;
 	} = (await bamkRune.json()).data;
 
+	const nusdRune = await fetch('https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance', {
+		method: 'GET',
+		headers: {
+			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
+		},
+	});
+	if (!nusdRune.ok) {
+		console.log('error fetching nusdRune:', nusdRune)
+		return {}
+	}
+	const nusdRuneData: {
+		"amount": string,
+		"runeid": string,
+		"rune": string,
+		"spacedRune": string,
+		"symbol": string,
+	} = (await nusdRune.json()).data;
+
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
 		headers: {
@@ -94,6 +112,7 @@ async function getData() {
 	
 	return {
 		nusdInfoData,
+		nusdRuneData,
 		bestHeightData,
 		bamkRuneData,
 		btcPriceData,
