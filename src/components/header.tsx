@@ -138,21 +138,19 @@ export default function Header(props: {
 						<RenderLink key={l.name} {...l} />
 					))}
 				</div> */}
-				<div className="flex items-center gap-2">
-					{APY ? (
-						<div
-							title="Annual Percentage Yield"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
-						>
-							<p>APY</p>
-							<p className="text-primary font-bold">
-								{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-							</p>
-						</div>
-					) : null
+				{APY > 0 ? (
+					<div
+						title="Annual Percentage Yield"
+						className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
+					>
+						<p>APY</p>
+						<p className="text-primary font-bold">
+							{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+						</p>
+					</div>
+				) : null
 				}
 				{/* <Button>Connect Wallet</Button> */}
-			</div>
 			</div>
 		</header>
 	)
