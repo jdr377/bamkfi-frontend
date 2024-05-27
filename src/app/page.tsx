@@ -144,16 +144,26 @@ export default async function Home() {
 				<h2 className="max-w-full w-[612px] leading-7">
 					Welcome to Season 1. Starting with the first public purchase of $NUSD at block {SEASON_1_GENESIS_BLOCK}, holders of $NUSD are allocated 6.25% of supply ({SEASON_1_BAMK_PER_BLOCK.toLocaleString()} $BAMK per block) proportionally based on their $NUSD holdings. Season 1 ends at block {SEASON_1_GENESIS_BLOCK + SEASON_1_TOTAL_BLOCKS}.
 				</h2> */}
-				<div className="max-w-full w-[612px] flex items-center gap-4">
-					<a href={BAMK_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
+				<div className="grid grid-cols-1 gap-3 max-w-full w-full sm:grid-cols-2 sm:grid-rows-2 sm:w-[612px]">
+					<a href={BAMK_MARKET_URL} target="_blank" rel="noopener noreferrer" className="col-span-1">
 						<Button className="w-full h-14 text-lg">
-							Buy BAMK
+						Buy BAMK
 						</Button>
 					</a>
-					<a href={NUSD_RUNE_MARKET_URL} target="_blank" rel="noopener noreferrer" className="grow">
-						<Button className="w-full h-14 text-lg" variant="secondary">Buy NUSD</Button>
+					<a href={NUSD_MARKET_URL} target="_blank" rel="noopener noreferrer" className="col-span-1">
+						<Button className="w-full h-14 text-lg" variant="secondary">
+						Buy NUSD (BRC-20)
+						</Button>
+					</a>
+					<a href={NUSD_RUNE_MARKET_URL} target="_blank" rel="noopener noreferrer" className="col-span-1 sm:col-start-2 sm:row-start-2">
+						<Button className="w-full h-14 text-lg" variant="secondary">
+						Buy NUSD (Runes)
+						</Button>
 					</a>
 				</div>
+
+
+
 			</div>
 		</div>
 	)
