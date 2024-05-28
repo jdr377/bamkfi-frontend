@@ -59,6 +59,7 @@ async function getData() {
 			tick: 'BAMK•OF•NAKAMOTO•DOLLAR',
 			timeType: 'day1',
 		}),
+		next: { revalidate: 600 }
 	});
 	if (!bamkRune.ok) {
 		console.log(bamkRune)
@@ -81,6 +82,7 @@ async function getData() {
 		headers: {
 			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
 		},
+		next: { revalidate: 600 }
 	});
 	if (!nusdRune.ok) {
 		console.log('error fetching nusdRune:', nusdRune)
@@ -99,6 +101,7 @@ async function getData() {
 		headers: {
 			'x-cg-demo-api-key': process.env.COINGECKO_API_KEY as string,
 		},
+		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
 		console.log(bamkRune)
