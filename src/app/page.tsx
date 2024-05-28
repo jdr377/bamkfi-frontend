@@ -6,8 +6,9 @@ import {
 	BAMK_PREMINED_SUPPLY,
 	BAMK_TOTAL_SUPPLY,
 	ETHENA_SUSDE_BACKING_ACCOUNT,
+	ETHENA_SUSDE_TOKEN_CONTRACT,
 	NUSD_MARKET_URL,
-	NUSD_RUNE_MARKET_URL,
+	NUSD_RUNE_MARKET_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
 
@@ -80,13 +81,12 @@ async function getData() {
 	} = (await nusdRune.json()).data
 
 	const INFURA_API_KEY = process.env.INFURA_API_KEY
-	const susdeTokenContract = '0x9D39A5DE30e57443BfF2A8307A4256c8797A3497'
 	const data = {
 		jsonrpc: '2.0',
 		method: 'eth_call',
 		params: [
 			{
-				to: susdeTokenContract,
+				to: ETHENA_SUSDE_TOKEN_CONTRACT,
 				data: '0x70a08231000000000000000000000000' + ETHENA_SUSDE_BACKING_ACCOUNT.substring(2) // balanceOf method hash + address without '0x'
 			},
 			'latest'
@@ -195,21 +195,28 @@ export default async function Home() {
 							</div>
 						)}
 						{data.susdeBackingUSDValue > 0 && (
-							<div
-								title="Backed by Ethena sUSDe"
-								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+							<a
+								href={`https://etherscan.io/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?a=${ETHENA_SUSDE_BACKING_ACCOUNT}`}
+								className="cursor-pointer"
+								target="_blank"
+								rel="noopener noreferrer"
 							>
-								<p>USDe Reserves</p>
-								<p className="text-primary font-bold">
-									$
-									{data.susdeBackingUSDValue.toLocaleString(undefined, {
-										maximumFractionDigits: 0
-									})}
-								</p>
-							</div>
+								<div
+									title="Backed by Ethena sUSDe"
+									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+								>
+									<p>USDe Reserves</p>
+									<p className="text-primary font-bold">
+										$
+										{data.susdeBackingUSDValue.toLocaleString(undefined, {
+											maximumFractionDigits: 0
+										})}
+									</p>
+								</div>
+							</a>
 						)}
 					</div>
-				) : null}	
+				) : null}
 				<h2 className="max-w-full w-[800px] leading-7">
 					Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
 					solution for money not reliant on the traditional banking system, alongside a globally
