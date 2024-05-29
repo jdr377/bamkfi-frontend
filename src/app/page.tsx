@@ -217,7 +217,7 @@ export default async function Home() {
 						)}
 					</div>
 				) : null}
-				<h2 className="max-w-full w-[800px] leading-7">
+				<h2 className="max-w-full w-[612px] leading-7">
 					Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
 					solution for money not reliant on the traditional banking system, alongside a globally
 					accessible dollar-denominated savings instrument — the Bitcoin&nbsp;Bond.
@@ -228,33 +228,23 @@ export default async function Home() {
 				<h2 className="max-w-full w-[612px] leading-7">
 					Welcome to Season 1. Starting with the first public purchase of $NUSD at block {SEASON_1_GENESIS_BLOCK}, holders of $NUSD are allocated 6.25% of supply ({SEASON_1_BAMK_PER_BLOCK.toLocaleString()} $BAMK per block) proportionally based on their $NUSD holdings. Season 1 ends at block {SEASON_1_GENESIS_BLOCK + SEASON_1_TOTAL_BLOCKS}.
 				</h2> */}
-				<div className="grid grid-cols-1 gap-3 max-w-full w-full sm:grid-cols-3 sm:grid-rows-1 sm:w-[800px]">
+				<div className="flex flex-wrap gap-3 w-[612px]">
 					<a
 						href={BAMK_MARKET_URL}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="col-span-1"
+						className='flex-grow'
 					>
 						<Button className="w-full h-14 text-lg">Buy BAMK</Button>
-					</a>
-					<a
-						href={NUSD_MARKET_URL}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="col-span-1"
-					>
-						<Button className="w-full h-14 text-lg" variant="secondary">
-							Buy NUSD (BRC-20)
-						</Button>
 					</a>
 					<a
 						href={NUSD_RUNE_MARKET_URL}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="col-span-1 sm:col-start-3 sm:row-start-1"
+						className='flex-grow'
 					>
 						<Button className="w-full h-14 text-lg" variant="secondary">
-							Buy NUSD (Runes)
+							Buy NUSD
 						</Button>
 					</a>
 				</div>
