@@ -12,6 +12,7 @@ import {
 } from '@/lib/constants'
 import BamkIcon from '@/icons/bamk'
 import classNames from 'classnames'
+import NusdIcon from '@/icons/nusd'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -143,6 +144,9 @@ export default function Header(props: {
 						title="Annual Percentage Yield"
 						className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center"
 					>
+						<div className="rounded-full bg-secondary flex p-1">
+							<NusdIcon className="h-3 w-3 stroke-primary" />
+						</div>
 						<p>APY</p>
 						<p className="text-primary font-bold">
 							{`${(APY * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}

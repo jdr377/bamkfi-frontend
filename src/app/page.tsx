@@ -11,6 +11,7 @@ import {
 	NUSD_RUNE_MARKET_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
+import NusdIcon from '@/icons/nusd'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -159,14 +160,14 @@ export default async function Home() {
 						>
 							<p>
 								<span className="text-primary">{data.bamkRuneData.curPrice} sats</span>
-								{' /🏦'}
+								{' / 🏦'}
 							</p>
 						</div>
 						<div
 							title="Market Cap (Circulating Supply)"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
-							<p>MCAP</p>
+							<p>🏦 MCAP</p>
 							<p className="text-primary font-bold">
 								{`$${(
 									Number(data.bamkRuneData?.capUSD) *
@@ -178,7 +179,7 @@ export default async function Home() {
 							title="Fully Diluted Valuation"
 							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 						>
-							<p>FDV</p>
+							<p>🏦 FDV</p>
 							<p className="text-primary font-bold">
 								{`$${Number(data.bamkRuneData?.capUSD).toLocaleString(undefined, {
 									maximumFractionDigits: 0
@@ -190,7 +191,10 @@ export default async function Home() {
 								title="Total Value Locked"
 								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 							>
-								<p>NUSD TVL</p>
+								<div className="rounded-full bg-secondary flex p-1">
+									<NusdIcon className="h-3 w-3 stroke-primary" />
+								</div>
+								<p>TVL</p>
 								<p className="text-primary font-bold">${TVL.toLocaleString()}</p>
 							</div>
 						)}
@@ -205,6 +209,9 @@ export default async function Home() {
 									title="Backed by Ethena sUSDe"
 									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 								>
+									<div className="rounded-full bg-secondary flex p-1">
+										<NusdIcon className="h-3 w-3 stroke-primary" />
+									</div>
 									<p>USDe Reserves</p>
 									<p className="text-primary font-bold">
 										$
