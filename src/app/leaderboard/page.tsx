@@ -16,7 +16,7 @@ import Body from '@/components/leaderboard/body'
 const nunito = Nunito({ subsets: ['latin'] })
 
 async function getData() {
-	const leaderboard_ = await fetch('https://calhounjohn.com/bamk-leaderboard', {
+	const leaderboard_ = await fetch('https://calhounjohn.com/reward/getLeaderboard', {
 		headers: {
 			Authorization: `Bearer big-bamker-password`
 		},
@@ -66,14 +66,13 @@ async function getData() {
 	const btc_data = (await btcPrice.json())
 	return {
 		leaderboard_data,
-    bamkRuneData,
-    btc_data
+		bamkRuneData,
+		btc_data
 	}
 }
 
 export default async function Leaderboard() {
 	const data = await getData()
-
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 			<div className="flex flex-col gap-4 md:ml-12">
@@ -107,13 +106,14 @@ export default async function Leaderboard() {
                   </tr>
               </thead>
               <tbody>
-                  {data?.leaderboard_data?.points?.length > 0 ? (
-                    <Body points={data.leaderboard_data.points} bamkPriceSats={data?.bamkRuneData?.curPrice} btcData={data?.btc_data}/>
+                  {data?.leaderboard_data?.rewards?.length > 0 ? (
+                    <Body points={data.leaderboard_data.rewards} bamkPriceSats={data?.bamkRuneData?.curPrice} btcData={data?.btc_data}/>
                   ) :
                   <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         No data
                     </th>
+                    <th></th>
                     <th></th>
                     <th></th>
                   </tr>}
