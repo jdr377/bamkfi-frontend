@@ -21,7 +21,8 @@
     "react-dom": "^18",
     "react-fitty": "^1.0.1",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@types/node": "^20",
