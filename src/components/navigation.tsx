@@ -31,8 +31,8 @@ export default function Navigation() {
 						key={props.name}
 						href={props.href}
 						className={classNames(
-							`pb-1 transition-colors text-foreground/60 hover:text-foreground/80 border-b border-transparent`, 
-							{['border-current border-orange-400 text-orange-400 hover:text-orange-400']: props.href === pathname }
+							`pb-1 transition-colors text-foreground/60 hover:text-foreground/80`, 
+							{['border-b border-current border-orange-400 text-orange-400 hover:text-orange-400']: props.href === pathname }
 						)}
 					>
 						{props.name}
