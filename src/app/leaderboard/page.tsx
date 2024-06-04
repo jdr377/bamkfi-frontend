@@ -74,8 +74,8 @@ export default async function Leaderboard() {
 	const data = await getData()
 	return (
 		<div className="max-w-screen-xl container flex flex-col gap-8 sm:mt-8">
-			<div className="flex flex-col gap-4 md:ml-12">
-				<h1 className={classNames(nunito, 'text-3xl max-w-full w-[520px] mt-2 break-words')}>
+			<div className="flex flex-col gap-4 mx-3 md:mx-8">
+				<h1 className={classNames(nunito, 'text-3xl mt-2')}>
 					Season 1 Airdrop Leaderboard
 				</h1>
 				<div>

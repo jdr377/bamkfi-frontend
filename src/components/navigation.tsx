@@ -3,9 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import {
-	BAMK_MARKET_URL,
     GITBOOK_URL,
-    NUSD_RUNE_MARKET_URL,
 } from '@/lib/constants'
 import classNames from 'classnames'
 
@@ -14,18 +12,6 @@ export default function Navigation() {
 
 	const links = React.useMemo(() => {
 		return [
-            // {
-            //     name: 'Buy BAMK',
-            //     href: BAMK_MARKET_URL
-            // },
-			// {
-			// 	name: 'Buy NUSD',
-			// 	href: NUSD_RUNE_MARKET_URL
-			// },
-			// {
-			// 	name: 'Info',
-			// 	href: "/"
-			// },
 			{
 				name: 'Docs',
 				href: GITBOOK_URL
@@ -44,10 +30,10 @@ export default function Navigation() {
 					<Link
 						key={props.name}
 						href={props.href}
-						className={classNames(`pb-1 border-b border-transparent ${props.href === pathname ? 'border-orange-400' : ''}`, 
-							`transition-colors  text-foreground/60 ${props.href === pathname ? 'text-orange-400' : 'hover:text-foreground/80'}`, {
-							['text-foreground']: props.href === pathname
-						})}
+						className={classNames(
+							`pb-1 transition-colors text-foreground/60 hover:text-foreground/80 border-b border-transparent`, 
+							{['border-current border-orange-400 text-orange-400 hover:text-orange-400']: props.href === pathname }
+						)}
 					>
 						{props.name}
 					</Link>
@@ -58,7 +44,7 @@ export default function Navigation() {
 				<a
 					key={props.name}
 					href={props.href}
-					className="transition-colors hover:text-foreground/80 text-foreground/60 pb-1"
+					className="pb-1 transition-colors text-foreground/60 hover:text-foreground/80 "
 					target="_blank"
 					rel="noopener noreferrer"
 				>

@@ -6,8 +6,6 @@ import { usePathname } from 'next/navigation'
 import { Inter } from 'next/font/google'
 
 import {
-	NUSD_MARKET_URL,
-	BAMK_MARKET_URL,
 	SEASON_1_BAMK_PER_BLOCK,
 } from '@/lib/constants'
 import BamkIcon from '@/icons/bamk'
@@ -59,7 +57,6 @@ export default function Header(props: {
 		  }
 }) {
 	const { data } = props
-	const pathname = usePathname()
 
 	let APY = 0;
 	if (data.bamkRuneData && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
@@ -101,9 +98,8 @@ export default function Header(props: {
 					</div>
 				) : null
 				}
-				{/* <Button>Connect Wallet</Button> */}
 			</div>
-			<div className='sm:hidden container mt-3 mb-4'>
+			<div className='sm:hidden container ml-2 mt-3 mb-4'>
 				<Navigation />
 			</div>
 		</header>
