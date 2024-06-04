@@ -13,6 +13,7 @@ import {
 import BamkIcon from '@/icons/bamk'
 import classNames from 'classnames'
 import NusdIcon from '@/icons/nusd'
+import Navigation from './navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -60,58 +61,6 @@ export default function Header(props: {
 	const { data } = props
 	const pathname = usePathname()
 
-	const links = React.useMemo(() => {
-		return [
-			{
-				name: 'Buy NUSD',
-				href: NUSD_MARKET_URL
-			},
-			{
-				name: 'Buy BAMK',
-				href: BAMK_MARKET_URL
-			}
-			// {
-			// 	name: 'Docs',
-			// 	href: '/docs'
-			// },
-			// {
-			// 	name: 'Airdrop',
-			// 	href: '/airdrop'
-			// }
-		]
-	}, [])
-
-	const RenderLink = React.useCallback(
-		(props: { name: string; href: string }) => {
-			// if (e.href.startsWith('/')) {
-			// 	return (
-			// 		<Link
-			// 			key={e.name}
-			// 			href={e.href}
-			// 			className={classNames('transition-colors hover:text-foreground/80 text-foreground/60', {
-			// 				['text-foreground']: e.href === pathname
-			// 			})}
-			// 		>
-			// 			{e.name}
-			// 		</Link>
-			// 	)
-			// }
-
-			return (
-				<a
-					key={props.name}
-					href={props.href}
-					className="transition-colors hover:text-foreground/80 text-foreground/60"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{props.name}
-				</a>
-			)
-		},
-		[pathname]
-	)
-
 	let APY = 0;
 	if (data.bamkRuneData && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
 		const usdPricePerBamk = data.bamkRuneData?.curPrice / 100_000_000 * data.btcPriceData.bitcoin.usd;
@@ -134,11 +83,9 @@ export default function Header(props: {
 						</div>
 					</Link>
 				</div>
-				{/* <div className="hidden md:flex items-center gap-4 text-sm lg:gap-6">
-					{links.map(l => (
-						<RenderLink key={l.name} {...l} />
-					))}
-				</div> */}
+				<div className='hidden sm:block'>
+					<Navigation />
+				</div>
 				{APY > 0 ? (
 					<div
 						title="Annual Percentage Yield"
@@ -155,6 +102,9 @@ export default function Header(props: {
 				) : null
 				}
 				{/* <Button>Connect Wallet</Button> */}
+			</div>
+			<div className='sm:hidden container mt-3 mb-4'>
+				<Navigation />
 			</div>
 		</header>
 	)
