@@ -1,9 +1,6 @@
-'use client'
-
 import React from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Inter } from 'next/font/google'
+import { Nunito } from 'next/font/google'
 
 import {
 	SEASON_1_BAMK_PER_BLOCK,
@@ -13,7 +10,7 @@ import classNames from 'classnames'
 import NusdIcon from '@/icons/nusd'
 import Navigation from './navigation'
 
-const inter = Inter({ subsets: ['latin'] })
+const nunito = Nunito({ subsets: ['latin'] })
 
 export default function Header(props: {
 	data:
@@ -72,7 +69,7 @@ export default function Header(props: {
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container">
 				<div className="flex items-center">
 					<Link href="/">
-						<div className={classNames(inter.className, "flex h-8 mr-6 gap-4 font-inter")}>
+						<div className={classNames(nunito.className, "flex h-8 mr-6 gap-4")}>
 							<BamkIcon className="h-8 w-8 stroke-primary" />
 							<div className='uppercase text-zinc-50 text-xl leading-[31px] tracking-[0.23em]'>
 								Bamk.fi
