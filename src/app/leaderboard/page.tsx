@@ -104,17 +104,17 @@ export default async function Leaderboard() {
 						{data?.leaderboard_data?.rewards?.length > 0 ? (
 							<>
 								{data.leaderboard_data.rewards?.sort((a: any, b: any) => b.amount - a.amount)?.map((address: any, index: number) => 
-									<tr key={address} className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600">
+									<tr key={address} className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600 font-mono">
 										<td scope="row" className="px-6 py-4 whitespace-nowrap">
 											{index+1}
 										</td>
 										<td scope="row" className="px-6 py-4 whitespace-nowrap">
 											{address?.address}
 										</td>
-										<td className="px-6 py-4">
+										<td className="px-6 py-4 text-right">
 											{address?.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 } )}&nbsp;🏦
 										</td>
-										<td className="px-6 py-4">
+										<td className="px-6 py-4 text-right">
 											{(data?.btcPriceData?.bitcoin.usd && address?.amount && data.bamkRuneData.curPrice) ?
 											('$' + ((address?.amount * data.bamkRuneData.curPrice) / 100000000 * data?.btcPriceData?.bitcoin.usd).toLocaleString(undefined, { maximumFractionDigits: 0 }))
 											: '-'}
