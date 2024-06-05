@@ -16,7 +16,7 @@ export default function Navigation() {
 		return [
 			{
 				name: 'Mint',
-				href: 'https://mint.bamk.fi/mint'
+				href: '/mint'
 			},
 			{
 				name: 'Docs',
