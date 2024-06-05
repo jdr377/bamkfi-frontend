@@ -191,8 +191,8 @@ export default async function Home() {
 								title="Total Value Locked"
 								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 							>
-								<div className="rounded-full bg-secondary flex p-1">
-									<NusdIcon className="h-3 w-3 stroke-primary" />
+								<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+									<NusdIcon height={14} width={14} className="stroke-primary" />
 								</div>
 								<p>TVL</p>
 								<p className="text-primary font-bold">${TVL.toLocaleString()}</p>
@@ -209,8 +209,8 @@ export default async function Home() {
 									title="Backed by Ethena sUSDe"
 									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 								>
-									<div className="rounded-full bg-secondary flex p-1">
-										<NusdIcon className="h-3 w-3 stroke-primary" />
+									<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+										<NusdIcon height={14} width={14} className="stroke-primary" />
 									</div>
 									<p>USDe Reserves</p>
 									<p className="text-primary font-bold">
