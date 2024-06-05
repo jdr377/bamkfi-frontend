@@ -12,7 +12,7 @@ import {
   USDE_CONTRACT_ADDRESS_MAINNET,
   USDF_CONTRACT_ADDRESS_SEPOLIA,
 } from '../../constants';
-import { useModal, useSIWE } from 'connectkit';
+import { ConnectKitButton, useModal, useSIWE } from 'connectkit';
 import { ArrowIcon } from '../../icons/ArrowIcon';
 
 import { useForm } from '@tanstack/react-form';
@@ -172,9 +172,6 @@ const Mint: React.FC = () => {
           e.stopPropagation();
           void form.handleSubmit();
         }}
-        // className={classNames(
-        //   {['blur-sm']: requireConnect}
-        // )}
       >
         <div className={styles.exchangeBlock}>
           <form.Field
