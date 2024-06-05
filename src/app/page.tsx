@@ -7,7 +7,6 @@ import {
 	BAMK_TOTAL_SUPPLY,
 	ETHENA_SUSDE_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
-	NUSD_MARKET_URL,
 	NUSD_RUNE_MARKET_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
@@ -149,7 +148,7 @@ export default async function Home() {
 					</div>
 					<h1 className="text-4xl">NUSD</h1>
 				</div> */}
-				<h1 className={classNames(nunito, 'max-w-full w-[520px] mt-2 break-words')}>
+				<h1 className={classNames(nunito.className, 'max-w-full w-[520px] mt-2 break-words')}>
 					<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
 				</h1>
 				{data.bamkRuneData ? (
