@@ -1,10 +1,7 @@
 'use client';
 
 import { useData } from '@/app/context/datacontext';
-import { Nunito } from 'next/font/google';
 import { useState } from 'react';
-
-const nunito = Nunito({ subsets: ['latin'] });
 
 export default function Calculator() {
   const {
@@ -76,7 +73,7 @@ export default function Calculator() {
       <div className="max-w-screen-xl container flex flex-col gap-8 sm:mt-8 mx-3 md:mx-8" style={{ maxWidth: '600px' }}>
         <div className="mt-3 p-4 border border-border/40 rounded-md shadow-sm bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="flex flex-col mt-0">
-            <label htmlFor="myNusd" className="block text-sm font-medium text-zinc-50">My $NUSD:</label>
+            <label htmlFor="myNusd" className="block text-sm font-medium text-zinc-50">My $NUSD</label>
             <input
               type="text"
               id="myNusd"
@@ -87,7 +84,7 @@ export default function Calculator() {
             />
           </div>
           <div className="flex flex-col mt-4">
-            <label htmlFor="totalNusd" className="block text-sm font-medium text-zinc-50">TVL:</label>
+            <label htmlFor="totalNusd" className="block text-sm font-medium text-zinc-50">$NUSD TVL</label>
             <input
               type="text"
               id="totalNusd"
@@ -97,18 +94,8 @@ export default function Calculator() {
               placeholder="0"
             />
           </div>
-          <div className="relative inline-flex items-center w-full px-1 py-1 text-lg font-bold text-primary rounded-xl
-          mt-1">
-          <p>Daily Reward:</p>
-          </div>
-          <div className="relative inline-flex group mt-1 w-full">
-            <div className="absolute transition-all duration-500 opacity-70 -inset-px rounded-xl blur-sm"></div>
-            <div className="relative inline-flex items-center w-full px-3 py-4 text-lg font-bold text-primary bg-primary/5 rounded-xl border border-primary">
-              <p className="font-bold text-primary">{bamkPerDay.toFixed(2)} BAMK</p>
-            </div>
-          </div>
-          <div className="flex flex-col mt-10">
-            <label htmlFor="bamkPrice" className="block text-sm font-medium text-zinc-50">BAMK Price (sats):</label>
+          <div className="flex flex-col mt-4">
+            <label htmlFor="bamkPrice" className="block text-sm font-medium text-zinc-50">BAMK Price (sats)</label>
             <input
               type="text"
               id="bamkPrice"
@@ -118,10 +105,15 @@ export default function Calculator() {
               placeholder="0"
             />
           </div>
-          <div className="relative inline-flex group mt-4 w-full">
+          <div className="relative inline-flex items-center w-full px-1 py-1 text-lg font-bold text-primary rounded-xl
+          mt-4">
+          <p>Daily Reward</p>
+          </div>
+          <div className="relative inline-flex group mt-1 w-full">
             <div className="absolute transition-all duration-500 opacity-70 -inset-px rounded-xl blur-sm"></div>
-            <div className="relative inline-flex items-center w-full px-3 py-4 text-lg font-bold text-white bg-primary/5 rounded-xl border border-primary">
-              <p className="font-bold text-primary">{((bamkPerDay * bamkPrice)/100000000).toFixed(5)}BTC (${(btcPriceData.bitcoin.usd * (Math.floor(bamkPerDay * bamkPrice)) / 100000000).toFixed(2)})</p>
+            <div className="relative inline-flex items-center w-full px-3 py-4 text-lg font-bold text-primary bg-primary/5 rounded-xl border border-primary">
+              <p className="font-bold text-primary">{bamkPerDay.toLocaleString(undefined, { maximumFractionDigits: 2 })} BAMK = {((bamkPerDay * bamkPrice)/100000000).toLocaleString(undefined, { maximumFractionDigits: 8 })} BTC = ${(btcPriceData.bitcoin.usd * (Math.floor(bamkPerDay * bamkPrice)) / 100000000).toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+              <p className="font-bold text-primary"> </p>
             </div>
           </div>
         </div>
