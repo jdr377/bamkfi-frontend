@@ -8,6 +8,7 @@ import Footer from '@/components/footer'
 import classNames from 'classnames'
 import { DataProvider } from "@/app/context/datacontext";
 import { UnisatBamkData, MagicEdenBamkData, NusdRuneData } from "@/types";
+import { Web3Provider } from "@/components/providers/Web3Provider";
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -141,11 +142,13 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<DataProvider data={data}>
+					<Web3Provider>
 						<Header data={data} />
 						<main className="flex-[1_1_auto]">
 							{children}
 						</main>
 						<Footer />
+					</Web3Provider>
 					</DataProvider>
 				</ThemeProvider>
 			</body>
