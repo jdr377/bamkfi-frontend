@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import classNames from 'classnames'
+import { DataProvider } from "@/app/context/datacontext";
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -138,11 +139,13 @@ export default async function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
+					<DataProvider data={data}>
 					<Header data={data} />
 					<main className="flex-[1_1_auto]">
 						{children}
 					</main>
 					<Footer />
+					</DataProvider>
 				</ThemeProvider>
 			</body>
 		</html>
