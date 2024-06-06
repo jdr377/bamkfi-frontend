@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 export default function Calculator() {
   const {
-    bamkRuneData,
+	bamkRune2Data,
     nusdInfoData,
     nusdRuneData,
     btcPriceData,
@@ -19,8 +19,8 @@ export default function Calculator() {
     initialTotalNusd = (2100000000000000 - Number(nusdRuneData.amount)) + Number(nusdInfoData.minted);
   }
 
-  if (bamkRuneData) {
-    initialBamkPrice = bamkRuneData.curPrice;
+  if (bamkRune2Data) {
+    initialBamkPrice = Number(bamkRune2Data.floorUnitPrice.formatted);
   }
 
   const [myNusd, setMyNusd] = useState('2000');
@@ -51,7 +51,7 @@ export default function Calculator() {
   const bamkPerDay = ((Number(myNusd) || 0) / totalNusd) * (31250 * 144);
 
   if (
-    !bamkRuneData ||
+    !bamkRune2Data ||
     !nusdInfoData ||
     !nusdRuneData ||
     !btcPriceData ||

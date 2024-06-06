@@ -8,6 +8,11 @@ export interface DataContextType {
     changePrice: number;
     capUSD: string;
   };
+  bamkRune2Data?: {
+    floorUnitPrice: {
+      formatted: string
+    }
+  };
   nusdInfoData?: { minted: string };
   nusdRuneData?: { amount: string };
   btcPriceData?: { bitcoin: { usd: number } };
