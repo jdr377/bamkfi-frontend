@@ -141,15 +141,15 @@ export default async function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<DataProvider data={data}>
 					<Web3Provider>
-						<Header data={data} />
-						<main className="flex-[1_1_auto]">
-							{children}
-						</main>
-						<Footer />
+						<DataProvider data={data}>
+							<Header data={data} />
+							<main className="flex-[1_1_auto]">
+								{children}
+							</main>
+							<Footer />
+						</DataProvider>
 					</Web3Provider>
-					</DataProvider>
 				</ThemeProvider>
 			</body>
 		</html>

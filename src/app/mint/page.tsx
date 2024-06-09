@@ -12,7 +12,7 @@ import {
   USDE_CONTRACT_ADDRESS_MAINNET,
   USDF_CONTRACT_ADDRESS_SEPOLIA,
 } from '../../constants';
-import { ConnectKitButton, useModal, useSIWE } from 'connectkit';
+import { useModal, useSIWE } from 'connectkit';
 import { ArrowIcon } from '../../icons/ArrowIcon';
 
 import { useForm } from '@tanstack/react-form';

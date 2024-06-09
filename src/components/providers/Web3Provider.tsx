@@ -57,6 +57,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
               hideNoWalletCTA: true,
               overlayBlur: 1,
               enforceSupportedChains: true,
+              embedGoogleFonts: true,
             }}
             theme="midnight"
             customTheme={{
