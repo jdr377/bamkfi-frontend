@@ -1,8 +1,6 @@
-import { Nunito } from 'next/font/google';
+import { nunito } from '@/components/ui/fonts'
 import classNames from 'classnames';
 import ClientSideTable, { ClientSideTableProps } from './ClientSideTable';
-
-const nunito = Nunito({ subsets: ['latin'] })
 
 async function getData(): Promise<ClientSideTableProps | null> {
   const leaderboard = await fetch('https://calhounjohn.com/reward/getLeaderboard', {

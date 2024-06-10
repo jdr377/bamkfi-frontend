@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Mulish } from 'next/font/google';
 
 import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
@@ -8,9 +7,7 @@ import Footer from '@/components/footer'
 import classNames from 'classnames'
 import { DataProvider } from "@/app/context/datacontext";
 import { UnisatBamkData, MagicEdenBamkData, NusdRuneData } from "@/types";
-import { Web3Provider } from "@/components/providers/Web3Provider";
-
-const mulish = Mulish({ subsets: ['latin'] })
+import { mulish } from "@/components/ui/fonts";
 
 export const metadata: Metadata = {
 	title: 'BAMK•OF•NAKAMOTO•DOLLAR',
@@ -141,15 +138,13 @@ export default async function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Web3Provider>
-						<DataProvider data={data}>
-							<Header data={data} />
-							<main className="flex-[1_1_auto]">
-								{children}
-							</main>
-							<Footer />
-						</DataProvider>
-					</Web3Provider>
+					<DataProvider data={data}>
+						<Header data={data} />
+						<main className="flex-[1_1_auto]">
+							{children}
+						</main>
+						<Footer />
+					</DataProvider>
 				</ThemeProvider>
 			</body>
 		</html>

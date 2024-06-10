@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { Nunito } from 'next/font/google'
 import classNames from 'classnames'
 import {
 	BAMK_MARKET_URL,
@@ -13,8 +12,7 @@ import { Fitty } from '@/components/ui/fitty'
 import NusdIcon from '@/icons/nusd'
 import SusdeIcon from '@/icons/sUSDe'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
-
-const nunito = Nunito({ subsets: ['latin'] })
+import { nunito } from '@/components/ui/fonts'
 
 async function getData() {
 	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
