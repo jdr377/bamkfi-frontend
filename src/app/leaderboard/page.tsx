@@ -126,7 +126,7 @@ export default function Leaderboard() {
 		<input
 			type="text"
 			placeholder="Search by address"
-			className="w-full p-2 border rounded-md mb-2"
+			className="w-full p-2 border rounded-md mb-2 bg-zinc-700"
 			value={searchTerm}
 			onChange={(e) => setSearchTerm(e.target.value)}
 		/>
@@ -189,20 +189,11 @@ export default function Leaderboard() {
 			</table>
 		</div>
 		</div>
-		{data.leaderboard_data?.block ? 
-			<div className="flex fixed right-4 bottom-4 z-10 gap-4">
-				<div className="flex flex-col justify-end bg-[#3c3333] py-2 px-4">
-					<div className="relative flex gap-x-3 items-center justify-end text-[12px]">
-						<a className="hover:underline" target="_blank" href={"https://mempool.space/block/" + data.leaderboard_data.block}>
-							{data.leaderboard_data.block}
-						</a>
-						<div className="relative h-6 w-6 flex justify-center items-center">
-							<span className="flex w-2 h-2 me-3 bg-green-500 rounded-full"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-		: [] }
+		{data.leaderboard_data?.block && (
+		<div className="ml-auto mr-auto text-zinc-400">
+			Leaderboard synced to block {data.leaderboard_data.block}
+		</div>
+		)}
 	</div>
   );  
 }
