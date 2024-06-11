@@ -1,0 +1,33 @@
+
+
+@media only screen and (max-width: 860px) {
+	.title {
+		word-wrap: break-word;
+		white-space: normal;
+		margin-left: 16px;
+	}
+}
+
+@media only screen and (max-width: 921px) {
+	.searchInputDesktop {
+		width: 88px;
+		margin-right: 10px;
+		display: none !important;
+	}
+	.mobileSearchInputContainer {
+		display: flex;
+		align-items: center;
+		display: flex;
+		margin-bottom: 16px;
+	}
+
+	.headerLeft {
+		margin-bottom: 16px;
+	}
+}
+
+@media only screen and (max-width: 540px) {
+	.headerLeft {
+		flex-direction: column;
+	}
+}
