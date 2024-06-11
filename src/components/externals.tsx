@@ -5,7 +5,6 @@ import MELogo from '../../public/logos/me.svg';
 import OKXLogo from '../../public/logos/okx.png';
 import OWLogo from '../../public/logos/ow.png';
 import UnisatLogo from '../../public/logos/unisat.svg';
-//import BitcoinMagazineLogo from '../../public/logos/bitcoin-magazine-logo-white.svg';
 import SaturnLogo from '../../public/logos/saturn.svg';
 import DotswapLogo from '../../public/logos/dotswap.png';
 
@@ -50,17 +49,6 @@ export default function Externals() {
               className="grayscale group-hover:grayscale-0 transition-all duration-300"
             />
           </a>
-          {/*
-          <a href="https://bitcoinmagazine.com/" target="_blank" rel="noopener noreferrer" className="group flex-1 min-w-[120px] max-w-[33%] flex justify-center items-center">
-            <Image
-              src={BitcoinMagazineLogo}
-              alt="Bitcoin Magazine"
-              width={120}
-              height={100}
-              className="grayscale group-hover:grayscale-0 transition-all duration-300"
-            />
-          </a>
-          */}
           <a href="https://www.saturnbtc.io/app/swap/nusdnusdnusdnusd-sat" target="_blank" rel="noopener noreferrer" className="group flex-1 min-w-[120px] max-w-[33%] flex justify-center items-center">
             <Image
               src={SaturnLogo}
