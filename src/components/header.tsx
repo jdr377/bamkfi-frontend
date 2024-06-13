@@ -20,6 +20,7 @@ export default function Header(props: {
 				bamkRuneData?: undefined
 				nusdRuneData?: undefined
 				btcPriceData?: undefined
+				bamkRune2Data?: undefined
 		  }
 		| {
 				nusdInfoData: {
@@ -51,13 +52,50 @@ export default function Header(props: {
 					  usd: number;
 					}
 				}
+				bamkRune2Data: {
+					rune: string;
+					runeNumber: number;
+					symbol: string;
+					ticker: string;
+					name: string;
+					totalSupply: string;
+					formattedTotalSupply: string;
+					divisibility: number;
+					imageURI: string;
+					minOrderSize: number;
+					maxOrderSize: number;
+					pendingTxnCount: number;
+					floorUnitPrice: {
+					  formatted: string;
+					  value: string;
+					};
+					marketCap: number;
+					holderCount: number;
+					volume: {
+					  '1d': number;
+					  '7d': number;
+					  '30d': number;
+					  all: number;
+					};
+					deltaFloor: {
+					  '1d': number;
+					  '7d': number;
+					  '30d': number;
+					};
+					txnCount: {
+					  '1d': number;
+					  '7d': number;
+					  '30d': number;
+					};
+				}
 		  }
 }) {
 	const { data } = props
 
 	let APY = 0;
-	if (data.bamkRuneData && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
-		const usdPricePerBamk = data.bamkRuneData?.curPrice / 100_000_000 * data.btcPriceData.bitcoin.usd;
+	if (data.bamkRune2Data && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
+		const lowestBamkOrder = Number(data.bamkRune2Data.floorUnitPrice.formatted); //satoshis
+		const usdPricePerBamk = lowestBamkOrder / 100_000_000 * data.btcPriceData.bitcoin.usd;
 		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(data.nusdRuneData.amount)
 		const nusdBrc20Circulating = Number(data.nusdInfoData.minted)
 		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
