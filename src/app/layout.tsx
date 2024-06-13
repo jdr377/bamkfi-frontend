@@ -8,6 +8,8 @@ import classNames from 'classnames'
 import { DataProvider } from "@/app/context/datacontext";
 import { UnisatBamkData, MagicEdenBamkData, NusdRuneData } from "@/types";
 import { mulish } from "@/components/ui/fonts";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
 	title: 'BAMK•OF•NAKAMOTO•DOLLAR',
@@ -144,6 +146,7 @@ export default async function RootLayout({
 							{children}
 						</main>
 						<Footer />
+						<ToastContainer theme="dark" position="bottom-center" newestOnTop hideProgressBar closeButton={false} className="mb-4" />
 					</DataProvider>
 				</ThemeProvider>
 			</body>
