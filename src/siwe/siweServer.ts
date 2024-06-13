@@ -2,20 +2,13 @@ import { configureServerSideSIWE } from 'connectkit-next-siwe';
 import { mainnet, sepolia } from '@wagmi/core/chains';
 import { fallback, http, webSocket } from 'wagmi';
 
-const chain = process.env.VERCEL_ENV === 'production' ? mainnet : sepolia;
-const transport = process.env.VERCEL_ENV === 'production' ? fallback([
+const chain = process.env.NEXT_PUBLIC_ETH_NETWORK === 'mainnet' ? mainnet : sepolia;
+const transport = fallback([
   webSocket(
-    `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_API_KEY}`
+    `wss://${process.env.NEXT_PUBLIC_ETH_NETWORK}.infura.io/ws/v3/${process.env.INFURA_API_KEY}`
   ),
   http(
-    `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
-  ),
-]) : fallback([
-  webSocket(
-    `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`
-  ),
-  http(
-    `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`
+    `https://${process.env.NEXT_PUBLIC_ETH_NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`
   ),
 ]);
 

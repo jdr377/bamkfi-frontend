@@ -9,20 +9,13 @@ import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { siweClient } from '@/siwe/siweClient';
 import { mulish } from '../ui/fonts';
 
-const chain = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? mainnet : sepolia;
-const transport = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? fallback([
+const chain = process.env.NEXT_PUBLIC_ETH_NETWORK === 'mainnet' ? mainnet : sepolia;
+const transport = fallback([
   webSocket(
-    `wss://mainnet.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
+    `wss://${process.env.NEXT_PUBLIC_ETH_NETWORK}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
   ),
   http(
-    `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
-  ),
-]) : fallback([
-  webSocket(
-    `https://sepolia.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
-  ),
-  http(
-    `https://sepolia.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
+    `https://${process.env.NEXT_PUBLIC_ETH_NETWORK}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
   ),
 ]);
 const config = createConfig(
