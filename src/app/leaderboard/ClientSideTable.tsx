@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaCopy } from 'react-icons/fa';
 import { Data, Reward } from './types';
 
 interface ClientSideTableProps {
@@ -11,26 +10,6 @@ interface ClientSideTableProps {
 function shortenAddress(address?: string): string {
   if (!address || address.length <= 10) return address || '';
   return `${address.slice(0, 5)}...${address.slice(-4)}`;
-}
-
-function copyToClipboard(text: string) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).catch((err) => alert(`Failed to copy text: ${err}`));
-  } else {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.top = '-9999px';
-    textArea.style.left = '-9999px';
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-    } catch (err) {
-      alert(`Failed to copy text: ${err}`);
-    }
-    document.body.removeChild(textArea);
-  }
 }
 
 export default function ClientSideTable({ data }: ClientSideTableProps) {
@@ -57,7 +36,7 @@ export default function ClientSideTable({ data }: ClientSideTableProps) {
   return (
     <div className="max-w-screen-xl mx-3 md:mx-8">
       {data.leaderboard_data?.block && (
-        <div className="ml-auto mr-auto text-zinc-400 mb-10">
+        <div className="ml-auto mr-auto text-zinc-400 mb-10 mt-6">
           Leaderboard synced to block {data.leaderboard_data.block}
         </div>
       )}
@@ -86,7 +65,6 @@ export default function ClientSideTable({ data }: ClientSideTableProps) {
                     <td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">{index + 1}</td>
                     <td scope="row" className="pl-1 py-4 whitespace-nowrap flex items-center">
                       {isNarrowScreen ? shortenAddress(reward.address) : reward.address}
-                      <FaCopy className="ml-0.5 cursor-pointer" onClick={() => copyToClipboard(reward.address)} title="Copy Address" />
                     </td>
                     <td className="px-1.5 py-4 text-center">{reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
                     <td className="px-1.5 py-4 text-center">
