@@ -1,11 +1,11 @@
 import { Nunito } from 'next/font/google';
 import classNames from 'classnames';
 import ClientSideTable from './ClientSideTable';
-import { Data } from './types';
+import { ClientSideTableProps } from '@/types'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
-async function getData(): Promise<Data | null> {
+async function getData(): Promise<ClientSideTableProps | null> {
   const leaderboard = await fetch('https://calhounjohn.com/reward/getLeaderboard', {
     headers: {
       Authorization: `Bearer big-bamker-password`
@@ -19,9 +19,9 @@ async function getData(): Promise<Data | null> {
     return null;
   }
 
-  const leaderboard_data = await leaderboard.json();
+  const leaderboardData = await leaderboard.json();
 
-  const bamkRune = await fetch(
+  const unisatBamkReq = await fetch(
     'https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified',
     {
       method: 'POST',
@@ -39,12 +39,12 @@ async function getData(): Promise<Data | null> {
     }
   );
 
-  if (!bamkRune.ok) {
-    console.log(bamkRune);
+  if (!unisatBamkReq.ok) {
+    console.log(unisatBamkReq);
     return null;
   }
 
-  const bamkRuneData = (await bamkRune.json()).data;
+  const unisatBamkData = (await unisatBamkReq.json()).data;
 
   const btcPrice = await fetch(
     'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
@@ -60,17 +60,39 @@ async function getData(): Promise<Data | null> {
   );
 
   if (!btcPrice.ok) {
-    console.log(bamkRune);
+    console.log(btcPrice);
     return null;
   }
 
   const btcPriceData = await btcPrice.json();
 
-  return { leaderboard_data, bamkRuneData, btcPriceData };
+  const btcBlockHeightReq = await fetch(
+    'https://mempool.space/api/blocks/tip/height',
+    {
+      method: 'GET',
+      next: {
+        revalidate: 600
+      }
+    }
+  )
+
+  if (!btcBlockHeightReq.ok) {
+    console.log(btcBlockHeightReq);
+    return null;
+  }
+
+  const btcBlockHeight = await btcBlockHeightReq.text()
+  
+  return {
+    unisatBamkData,
+    leaderboardData,
+    btcPriceData,
+    btcBlockHeight
+  };
 }
 
 export default async function Leaderboard() {
-  const data = await getData();
+  const data = await getData()
 
   if (!data) {
     return <div>Error fetching data</div>;
@@ -88,7 +110,11 @@ export default async function Leaderboard() {
           Rewards will be released 41,982 blocks after the reward is accrued.
         </div>
       </div>
-      <ClientSideTable data={data} />
+      <ClientSideTable
+        unisatBamkData={data?.unisatBamkData}
+        leaderboardData={data?.leaderboardData}
+        btcPriceData={data?.btcPriceData}
+      />
     </div>
   );
 }

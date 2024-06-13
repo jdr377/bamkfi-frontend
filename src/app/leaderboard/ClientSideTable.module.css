@@ -1,0 +1,86 @@
+.root {
+	width: 100%;
+	min-height: 44px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+
+@media only screen and (max-width: 860px) {
+	.title {
+		word-wrap: break-word;
+		white-space: normal;
+		margin-left: 16px;
+	}
+}
+
+@media only screen and (max-width: 921px) {
+	.dropdownOptions {
+	}
+	.root {
+		flex-direction: column;
+	}
+	
+	.searchInput {
+		width: 274px;
+		margin-right: 10px;
+
+	}
+
+	.title {
+		margin-left: 0;
+		display: none;
+	}
+	.mobileTitle {
+		display: initial !important;
+		font-size: 36px;
+		line-height: 44px;
+		font-weight: 700;
+		text-align: center;
+		max-width: calc(100vw - 64px);
+	}
+	.mobileLabel {
+		display: block;
+		font-size: 14px;
+		line-height: 20px;
+		font-weight: 600px;
+		color: var(--gray-300);
+		text-transform: uppercase;
+		align-self: flex-start;
+	}
+
+	.dropdownSection {
+		margin: 0 auto;
+		margin-bottom: 0px !important;
+	}
+
+	.mobileLabel {
+		margin-left: 16px;
+	}
+
+	.layoutSection {
+		margin: 32px 0 18px 0;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.icons {
+		align-self: flex-end;
+		justify-self: flex-end;
+	}
+
+	.icon {
+		height: 18px;
+	}
+}
+
+@media only screen and (max-width: 540px) {
+	.headerLeft {
+		flex-direction: column;
+	}
+}

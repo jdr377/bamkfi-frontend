@@ -1,18 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Data, Reward } from './types';
+import { ClientSideTableProps, Reward } from '@/types';
 
-interface ClientSideTableProps {
-  data: Data;
-}
 
 function shortenAddress(address?: string): string {
   if (!address || address.length <= 10) return address || '';
   return `${address.slice(0, 5)}...${address.slice(-4)}`;
 }
 
-export default function ClientSideTable({ data }: ClientSideTableProps) {
+export default function ClientSideTable(data: ClientSideTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isNarrowScreen, setIsNarrowScreen] = useState<boolean>(false);
 
@@ -28,22 +25,24 @@ export default function ClientSideTable({ data }: ClientSideTableProps) {
   }, []);
 
   const filteredResults = searchTerm
-    ? data.leaderboard_data.rewards.filter((reward) =>
+    ? data.leaderboardData.rewards.filter((reward) =>
         reward.address.toLowerCase().includes(searchTerm.toLowerCase())
       )
-    : data.leaderboard_data.rewards;
+    : data.leaderboardData.rewards;
 
   return (
     <div className="max-w-screen-xl mx-3 md:mx-8">
-      {data.leaderboard_data?.block && (
-        <div className="ml-auto mr-auto text-zinc-400 mb-10 mt-6">
-          Leaderboard synced to block {data.leaderboard_data.block}
+      {data.leaderboardData?.block ? (
+        <div className="ml-auto mr-auto text-zinc-400 mb-5 mt-1 pl-2">
+          Leaderboard synced to block {data.leaderboardData.block}
+          <br></br>
+          Latest block from mempool:  {data.leaderboardData.block}
         </div>
-      )}
+      ): []}
       <input
         type="text"
         placeholder="Search by address"
-        className="w-full p-2 border rounded-md bg-input"
+        className="w-full p-2 border rounded-md bg-input mb-2"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
@@ -68,8 +67,8 @@ export default function ClientSideTable({ data }: ClientSideTableProps) {
                     </td>
                     <td className="px-1.5 py-4 text-center">{reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
                     <td className="px-1.5 py-4 text-center">
-                      {data.btcPriceData.bitcoin.usd && reward.amount && data.bamkRuneData.curPrice
-                        ? `$${((reward.amount * data.bamkRuneData.curPrice) / 100000000 * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+                      {data.btcPriceData.bitcoin.usd && reward.amount && data.unisatBamkData.curPrice
+                        ? `$${((reward.amount * data.unisatBamkData.curPrice) / 100000000 * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
                         : '-'}
                     </td>
                   </tr>
