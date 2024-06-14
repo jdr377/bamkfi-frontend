@@ -7,7 +7,7 @@ import {
 	BAMK_TOTAL_SUPPLY,
 	ETHENA_SUSDE_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
-	NUSD_RUNE_MARKET_URL
+	NUSD_RUNE_MARKET_OKX_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
 import NusdIcon from '@/icons/nusd'
@@ -238,7 +238,7 @@ export default async function Home() {
 						<Button className="w-full h-14 text-lg">Buy BAMK</Button>
 					</a>
 					<a
-						href={NUSD_RUNE_MARKET_URL}
+						href={NUSD_RUNE_MARKET_OKX_URL}
 						target="_blank"
 						rel="noopener noreferrer"
 						className='flex-grow'
