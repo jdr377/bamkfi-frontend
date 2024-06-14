@@ -70,6 +70,8 @@ const Mint: React.FC = () => {
           throw new Error('Invalid amount');
         } else if (Number(value.sendAmount) > balanceUSDE) {
           throw new Error('Insufficient balance');
+        } else if (Number(value.sendAmount) < 10000) {
+          throw new Error("Minimum mint is $10,000")
         }
 
         const reqData = {
@@ -111,7 +113,7 @@ const Mint: React.FC = () => {
             onSettled: async () => {},
             onError: async (e: any) => {
               console.error(e);
-              toast.error(e.message);
+              // toast.error(e.message);
             },
             onSuccess: async () => {
               const displayAmount = BigInt(value.sendAmount).toLocaleString();
