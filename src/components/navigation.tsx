@@ -20,11 +20,11 @@ export default function Navigation() {
 			},
 			{
 				name: 'Leaderboard',
-				href: '/leaderboard'
+				href: 'https://bamk.fi/leaderboard'
 			},
 			{
 				name: 'Calculator',
-				href: '/calculator'
+				href: 'https://bamk.fi/calculator'
 			},
 			{
 				name: 'Docs',
