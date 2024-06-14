@@ -1,5 +1,3 @@
-'use client';
-
 export default function Externals() {
   return (
     <div className="relative h-28 sm:h-36 mt-6">
@@ -54,6 +52,24 @@ export default function Externals() {
             <img
               src="/logos/dotswap.png"
               alt="Dotswap"
+              width={120}
+              height={100}
+              className="grayscale group-hover:grayscale-0 transition-all duration-300"
+            />
+          </a>
+          <a href="https://liquidium.fi/" target="_blank" rel="noopener noreferrer" className="group flex-1 min-w-[120px] max-w-[33%] flex justify-center items-center">
+            <img
+              src="/logos/liquidium.svg"
+              alt="Liquidium"
+              width={75}
+              height={65}
+              className="grayscale group-hover:grayscale-0 transition-all duration-300"
+            />
+          </a>
+          <a href="https://fluidtokens.com//" target="_blank" rel="noopener noreferrer" className="group flex-1 min-w-[120px] max-w-[33%] flex justify-center items-center">
+            <img
+              src="/logos/fluid.png"
+              alt="FluidTokens"
               width={120}
               height={100}
               className="grayscale group-hover:grayscale-0 transition-all duration-300"
