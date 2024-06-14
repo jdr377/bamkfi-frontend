@@ -15,6 +15,10 @@ export default function Navigation() {
 	const links = React.useMemo(() => {
 		return [
 			{
+				name: 'Mint',
+				href: 'https://mint.bamk.fi/mint'
+			},
+			{
 				name: 'Docs',
 				href: GITBOOK_URL
 			},
@@ -23,7 +27,7 @@ export default function Navigation() {
 				href: '/leaderboard'
 			},
 			{
-				name: 'Reward Calculator',
+				name: 'Calculator',
 				href: '/calculator'
 			}
 		]
