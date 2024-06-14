@@ -124,7 +124,7 @@ function TableRow({ data }: {
                     body: JSON.stringify({
                         eth_account: account.address,
                         uuid: data.uuid,
-                        btc_txid: btcTxid,
+                        btc_txid: pendingSaveBtcTxid,
                     }),
                 }
             )
