@@ -82,7 +82,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   }
 
   const btcBlockHeight = await btcBlockHeightReq.text()
-  
+
   return {
     unisatBamkData,
     leaderboardData,
@@ -114,6 +114,7 @@ export default async function Leaderboard() {
         unisatBamkData={data?.unisatBamkData}
         leaderboardData={data?.leaderboardData}
         btcPriceData={data?.btcPriceData}
+        btcBlockHeight={data?.btcBlockHeight}
       />
     </div>
   );
