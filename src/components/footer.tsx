@@ -70,7 +70,7 @@ export default function Footer() {
 					<img
 						src="/logos/liquidium.svg"
 						alt="Liquidium"
-						width={75}
+						width={110}
 						height={65}
 						className="grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
 					/>

@@ -16,3 +16,9 @@
     }
 }
 
+.tableCell {
+    text-align: left;
+    white-space: nowrap;
+    width: fit-content;
+    vertical-align: middle;
+}

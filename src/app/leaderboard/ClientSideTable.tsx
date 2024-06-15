@@ -38,7 +38,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
     : data.leaderboardData.rewards;
 
   return (
-    <div className="max-w-screen-xl mx-3 md:mx-8 mb-8">
+    <div className="max-w-screen-xl mx-0 md:mx-8 mb-8">
       <input
         type="text"
         placeholder="Filter by address"
@@ -50,10 +50,10 @@ export default function ClientSideTable(data: ClientSideTableProps) {
         <table className="w-full text-sm text-left rtl:text-right text-zinc-400">
           <thead className="text-xs uppercase bg-zinc-700 text-zinc-400">
             <tr>
-              <th scope="col" className="pl-1 py-4 whitespace-nowrap text-center pr-1" style={{}}>Rank</th>
-              <th scope="col" className="pl-2 py-4 whitespace-nowrap" style={{}}>Address</th>
-              <th scope="col" className="px-3 py-3 text-center pr-1">Amount&nbsp;🏦</th>
-              <th scope="col" className="px-2 py-3 text-center">Value</th>
+              <th scope="col" className="px-0 py-4 whitespace-nowrap text-center">#</th>
+              <th scope="col" className="pl-1 py-4 whitespace-nowrap">Address</th>
+              <th scope="col" className="px-1 py-3 text-center pr-1">Amount&nbsp;🏦</th>
+              <th scope="col" className="px-1 py-3 text-center">Value</th>
             </tr>
           </thead>
           <tbody>
@@ -62,16 +62,16 @@ export default function ClientSideTable(data: ClientSideTableProps) {
                 {filteredResults.sort((a: Reward, b: Reward) => b.amount - a.amount).map((reward: Reward, index: number) => (
                   <tr key={reward.address} className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600 font-mono">
                     <td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">{searchTerm ? data.leaderboardData?.rewards.findIndex((data: any) => data.address === searchTerm) + 1 : index + 1}</td>
-                    <td scope="row" className={classNames("pl-2 py-4 whitespace-nowrap flex items-center", styles.longAddressDisplay)}>
+                    <td scope="row" className={classNames("pl-2 py-4 whitespace-nowrap flex items-center", styles.longAddressDisplay, styles.tableCell)}>
                       {reward.address}
                     </td>
-                    <td scope="row" className={classNames("pl-2 py-4 whitespace-nowrap flex items-center", styles.shortAddressDisplay)}>
+                    <td scope="row" className={classNames("pl-2 py-4 whitespace-nowrap flex items-center", styles.shortAddressDisplay, styles.tableCell)}>
                       {isMobile ?
                         shortenAddress(5, reward.address)
                         : shortenAddress(20, reward.address)}
                     </td>
-                    <td className="px-1.5 py-4 text-center">{reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
-                    <td className="px-1.5 py-4 text-center">
+                    <td className="px-1 py-4 text-center">{reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}</td>
+                    <td className="px-1 py-4 text-center">
                       {data.btcPriceData.bitcoin.usd && reward.amount && data.unisatBamkData.curPrice
                         ? `$${((reward.amount * data.unisatBamkData.curPrice) / 100000000 * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
                         : '-'}

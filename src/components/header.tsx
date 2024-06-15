@@ -59,7 +59,7 @@ export default function Header(props: {
 				) : null
 				}
 			</div>
-			<div className='sm:hidden container ml-2 mt-3 mb-4'>
+			<div className='sm:hidden inline-flex container ml-2 mt-3 mb-4 w-fit pl-2 pr-0'>
 				<Navigation />
 			</div>
 		</header>
