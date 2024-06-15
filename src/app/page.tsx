@@ -136,119 +136,111 @@ export default async function Home() {
 		TVL = nusdRuneCirculating + nusdBrc20Circulating
 	}
 	return (
-		<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
-			<div className="flex flex-col gap-4 md:ml-12">
-				{/* <div className="flex items-center gap-4">
-					<div className="rounded-full bg-secondary flex p-8 border-2 border-[#F3E9DD4D]">
-						<NusdIcon className="h-14 w-14 stroke-primary" />
-					</div>
-					<h1 className="text-4xl">NUSD</h1>
-				</div> */}
-				<h1 className={classNames(nunito.className, 'max-w-full w-[520px] mt-2 break-words')}>
-					<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
-				</h1>
-				{data.magicEdenBamkData ? (
-					<div className="flex gap-2 flex-wrap -mt-2">
-						<div
-							title="BAMK Price"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-						>
-							<p>
-								<span className="text-primary">{Number(data.magicEdenBamkData.floorUnitPrice.formatted).toLocaleString(undefined, { maximumFractionDigits: 2 })} sats</span>
-								{' / 🏦'}
-							</p>
-						</div>
-						<div
-							title="Market Cap (Circulating Supply)"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-						>
-							<p>🏦 MCAP</p>
-							<p className="text-primary font-bold">
-								{`$${(
-									Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd *
-									(1 - BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY)
-								).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-							</p>
-						</div>
-						<div
-							title="Fully Diluted Valuation"
-							className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-						>
-							<p>🏦 FDV</p>
-							<p className="text-primary font-bold">
-								{`$${(Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
-									maximumFractionDigits: 0
-								})}`}
-							</p>
-						</div>
-						{TVL > 0 && (
-							<div
-								title="Total Value Locked"
-								className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-							>
-								<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-									<NusdIcon height={14} width={14} className="stroke-primary" />
-								</div>
-								<p>TVL</p>
-								<p className="text-primary font-bold">${TVL.toLocaleString()}</p>
-							</div>
-						)}
-						{data.susdeBackingUSDValue > 0 && (
-							<a
-								href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_SUSDE_BACKING_ACCOUNT}`}
-								className="cursor-pointer"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
+        <div className="flex flex-col h-full">
+			<div className="flex-grow">    
+				<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
+					<div className="flex flex-col gap-4 md:ml-12">
+						<h1 className={classNames(nunito.className, 'max-w-full w-[520px] mt-2 break-words')}>
+							<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
+						</h1>
+						{data.bamkRune2Data ? (
+							<div className="flex gap-2 flex-wrap -mt-2">
 								<div
-									title="Backed by Ethena sUSDe"
+									title="BAMK Price"
 									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 								>
-									<SusdeIcon height={27} width={27} className="stroke-primary" />
-									<p>sUSDe Reserves</p>
-									<p className="text-primary font-bold">
-										$
-										{data.susdeBackingUSDValue.toLocaleString(undefined, {
-											maximumFractionDigits: 0
-										})}
+									<p>
+										<span className="text-primary">{Number(data.bamkRune2Data.floorUnitPrice.formatted).toLocaleString(undefined, { maximumFractionDigits: 2 })} sats</span>
+										{' / 🏦'}
 									</p>
 								</div>
+								<div
+									title="Market Cap (Circulating Supply)"
+									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+								>
+									<p>🏦 MCAP</p>
+									<p className="text-primary font-bold">
+										{`$${(
+											Number(data.bamkRune2Data.marketCap) * data.btcPriceData.bitcoin.usd *
+											(1 - BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY)
+										).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+									</p>
+								</div>
+								<div
+									title="Fully Diluted Valuation"
+									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+								>
+									<p>🏦 FDV</p>
+									<p className="text-primary font-bold">
+										{`$${(Number(data.bamkRune2Data.marketCap) * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
+											maximumFractionDigits: 0
+										})}`}
+									</p>
+								</div>
+								{TVL > 0 && (
+									<div
+										title="Total Value Locked"
+										className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+									>
+										<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+											<NusdIcon height={14} width={14} className="stroke-primary" />
+										</div>
+										<p>TVL</p>
+										<p className="text-primary font-bold">${TVL.toLocaleString()}</p>
+									</div>
+								)}
+								{data.susdeBackingUSDValue > 0 && (
+									<a
+										href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_SUSDE_BACKING_ACCOUNT}`}
+										className="cursor-pointer"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<div
+											title="Backed by Ethena sUSDe"
+											className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
+										>
+											<SusdeIcon height={27} width={27} className="stroke-primary" />
+											<p>sUSDe Reserves</p>
+											<p className="text-primary font-bold">
+												$
+												{data.susdeBackingUSDValue.toLocaleString(undefined, {
+													maximumFractionDigits: 0
+												})}
+											</p>
+										</div>
+									</a>
+								)}
+							</div>
+						) : null}
+						<h2 className="max-w-full w-[612px] leading-7">
+							Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
+							solution for money not reliant on the traditional banking system, alongside a globally
+							accessible dollar-denominated savings instrument — the Bitcoin&nbsp;Bond.
+						</h2>
+						<div className="flex flex-wrap gap-3 max-w-full sm:w-[612px]">
+							<a
+								href={BAMK_MARKET_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+								className='flex-grow'
+							>
+								<Button className="w-full h-14 text-lg">Buy BAMK</Button>
 							</a>
-						)}
+							<a
+								href={NUSD_RUNE_MARKET_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+								className='flex-grow'
+							>
+								<Button className="w-full h-14 text-lg" variant="secondary">
+									Buy NUSD
+								</Button>
+							</a>
+						</div>
 					</div>
-				) : null}
-				<h2 className="max-w-full w-[612px] leading-7">
-					Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
-					solution for money not reliant on the traditional banking system, alongside a globally
-					accessible dollar-denominated savings instrument — the Bitcoin&nbsp;Bond.
-				</h2>
-				{/* <h2 className="max-w-full w-[612px] leading-7">
-					Season 0 was a public mint starting at block {840280}. 6.25% of $BAMK supply was free to inscribe.
-				</h2>
-				<h2 className="max-w-full w-[612px] leading-7">
-					Welcome to Season 1. Starting with the first public purchase of $NUSD at block {SEASON_1_GENESIS_BLOCK}, holders of $NUSD are allocated 6.25% of supply ({SEASON_1_BAMK_PER_BLOCK.toLocaleString()} $BAMK per block) proportionally based on their $NUSD holdings. Season 1 ends at block {SEASON_1_GENESIS_BLOCK + SEASON_1_TOTAL_BLOCKS}.
-				</h2> */}
-				<div className="flex flex-wrap gap-3 max-w-full sm:w-[612px]">
-					<a
-						href={BAMK_MARKET_URL}
-						target="_blank"
-						rel="noopener noreferrer"
-						className='flex-grow'
-					>
-						<Button className="w-full h-14 text-lg">Buy BAMK</Button>
-					</a>
-					<a
-						href={NUSD_RUNE_MARKET_OKX_URL}
-						target="_blank"
-						rel="noopener noreferrer"
-						className='flex-grow'
-					>
-						<Button className="w-full h-14 text-lg" variant="secondary">
-							Buy NUSD
-						</Button>
-					</a>
 				</div>
-			</div>
-		</div>
+        	</div>
+        </div>
 	)
 }
