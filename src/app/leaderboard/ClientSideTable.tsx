@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClientSideTableProps, Reward } from '@/types';
 import styles from './ClientSideTable.module.css'
 import useWindowSize from '@/utils/useWindowSize'
@@ -11,6 +11,21 @@ export default function ClientSideTable(data: ClientSideTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const { isMobile } = useWindowSize()
 
+  const [latestBlockHeight, setLatestBlockHeight] = useState('Loading...')
+	const fetchBtcBlockHeight = async () => {
+		const response = await fetch('https://mempool.space/api/blocks/tip/height')
+		  if (!response.ok) {
+        setLatestBlockHeight('Unknown')
+        return;
+		  } else {
+        console.log(response)
+      }
+		  const value = await response.text()
+      setLatestBlockHeight(value)
+	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => { fetchBtcBlockHeight() }, []);
+
   const filteredResults = searchTerm
     ? data.leaderboardData.rewards.filter((reward) =>
       reward.address.toLowerCase().includes(searchTerm.toLowerCase())
@@ -18,17 +33,10 @@ export default function ClientSideTable(data: ClientSideTableProps) {
     : data.leaderboardData.rewards;
 
   return (
-    <div className="max-w-screen-xl mx-3 md:mx-8">
-      {data.leaderboardData?.block ? (
-        <div className="ml-auto mr-auto text-zinc-400 mb-5 mt-1 pl-2">
-          Leaderboard synced to block {data.leaderboardData.block}
-          <br></br>
-          Latest block from mempool:  {data?.btcBlockHeight}
-        </div>
-      ) : []}
+    <div className="max-w-screen-xl mx-3 md:mx-8 mb-36">
       <input
         type="text"
-        placeholder="Search by address"
+        placeholder="Filter by address"
         className="w-full p-2 border rounded-md bg-input mb-2 bg-zinc-700"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -48,7 +56,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
               <>
                 {filteredResults.sort((a: Reward, b: Reward) => b.amount - a.amount).map((reward: Reward, index: number) => (
                   <tr key={reward.address} className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600 font-mono">
-                    <td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">{index + 1}</td>
+                    <td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">{searchTerm ? data.leaderboardData?.rewards.findIndex((data: any) => data.address === searchTerm) + 1 : index + 1}</td>
                     <td scope="row" className={classNames("pl-2 py-4 whitespace-nowrap flex items-center", styles.longAddressDisplay)}>
                       {reward.address}
                     </td>
@@ -77,6 +85,13 @@ export default function ClientSideTable(data: ClientSideTableProps) {
           </tbody>
         </table>
       </div>
+      {data.leaderboardData?.block ? (
+        <div className="text-zinc-400 text-right mt-3">
+          Latest block:  {latestBlockHeight}
+          <br/>
+          Leaderboard synced to block: {data.leaderboardData.block}
+        </div>
+      ) : []}
     </div>
   );
 }

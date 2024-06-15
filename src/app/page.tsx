@@ -7,7 +7,7 @@ import {
 	BAMK_TOTAL_SUPPLY,
 	ETHENA_SUSDE_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
-	NUSD_RUNE_MARKET_OKX_URL
+	NUSD_RUNE_MARKET_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
 import NusdIcon from '@/icons/nusd'
@@ -24,7 +24,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!nusdInfo.ok) {
-		console.log(nusdInfo)
+		console.error('Error fetching nusdInfo', nusdInfo)
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
@@ -36,7 +36,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!magicEdenBamkReq.ok) {
-		console.log(magicEdenBamkReq)
+		console.error('Error fetching magicEdenBamkReq', magicEdenBamkReq)
 		return {}
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamkReq.json()).data
@@ -52,7 +52,7 @@ async function getData() {
 		}
 	)
 	if (!nusdRune.ok) {
-		console.log('error fetching nusdRune:', nusdRune)
+		console.error('Error fetching nusdRune:', nusdRune)
 		return {}
 	}
 	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data
@@ -78,6 +78,9 @@ async function getData() {
 		body: JSON.stringify(data),
 		next: { revalidate: 600 }
 	})
+	if (!susdeBackingResponse.ok) {
+		console.error('Error fetching susdeBacking', susdeBackingResponse)
+	}
 	const susdeBalance = BigInt((await susdeBackingResponse.json()).result) / BigInt(10 ** 18)
 	const susdePrice = await fetch(
 		'https://api.coingecko.com/api/v3/simple/price?ids=ethena-staked-usde&vs_currencies=usd',
@@ -90,7 +93,7 @@ async function getData() {
 		}
 	)
 	if (!susdePrice.ok) {
-		console.log(susdePrice)
+		console.error('Error fetching susdePrice', susdePrice)
 		return {}
 	}
 	const susdePriceData: {
@@ -108,7 +111,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
-		console.log(btcPrice)
+		console.error("Error fetching BTC price", btcPrice)
 		return {}
 	}
 	
