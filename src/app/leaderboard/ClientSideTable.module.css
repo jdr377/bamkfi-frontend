@@ -1,0 +1,18 @@
+
+.shortAddressDisplay {
+    display:none
+}
+.longAddressDisplay {
+    display:flex
+}
+
+
+@media only screen and (max-width: 954px) {
+	.shortAddressDisplay {
+        display:flex
+    }
+	.longAddressDisplay {
+        display:none
+    }
+}
+

@@ -5,13 +5,12 @@ import { useState } from 'react';
 
 export default function Calculator() {
   const {
-	bamkRune2Data,
+	  magicEdenBamkData,
     nusdInfoData,
     nusdRuneData,
     btcPriceData,
     bestHeightData,
   } = useData();
-
   let initialTotalNusd = 2000000; // Default value if totalNusd is not available
   let initialBamkPrice = 0;
 
@@ -19,8 +18,8 @@ export default function Calculator() {
     initialTotalNusd = (2100000000000000 - Number(nusdRuneData.amount)) + Number(nusdInfoData.minted);
   }
 
-  if (bamkRune2Data) {
-    initialBamkPrice = Number(bamkRune2Data.floorUnitPrice.formatted);
+  if (magicEdenBamkData) {
+    initialBamkPrice = Number(magicEdenBamkData.floorUnitPrice.formatted);
   }
 
   const [myNusd, setMyNusd] = useState('2000');
@@ -51,7 +50,7 @@ export default function Calculator() {
   const bamkPerDay = ((Number(myNusd) || 0) / totalNusd) * (31250 * 144);
 
   if (
-    !bamkRune2Data ||
+    !magicEdenBamkData ||
     !nusdInfoData ||
     !nusdRuneData ||
     !btcPriceData ||

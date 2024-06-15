@@ -19,8 +19,8 @@ export default function Header(props: {
 	const { data } = props
 
 	let APY = 0;
-	if (data.bamkRune2Data && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
-		const usdPricePerBamk = Number(data.bamkRune2Data.floorUnitPrice.formatted) / 100_000_000 * data.btcPriceData.bitcoin.usd;
+	if (data.magicEdenBamkData && data.nusdRuneData && data.btcPriceData && data.nusdInfoData) {
+		const usdPricePerBamk = Number(data.magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000 * data.btcPriceData.bitcoin.usd;
 		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(data.nusdRuneData.amount)
 		const nusdBrc20Circulating = Number(data.nusdInfoData.minted)
 		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating

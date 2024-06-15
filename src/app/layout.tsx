@@ -7,6 +7,7 @@ import Header from '@/components/header'
 import Footer from '@/components/footer'
 import classNames from 'classnames'
 import { DataProvider } from "@/app/context/datacontext";
+import { UnisatBamkData, MagicEdenBamkData, NusdRuneData } from "@/types";
 
 const mulish = Mulish({ subsets: ['latin'] })
 
@@ -33,7 +34,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!nusdInfo.ok) {
-		console.log(nusdInfo)
+		console.error("Error fetching NUSD BRC20 data from unisat", nusdInfo)
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
@@ -45,12 +46,12 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!bestHeight.ok) {
-		console.log(bestHeight)
+		console.error("Error fetching best brc20 height", bestHeight)
 		return {}
 	}
 	const bestHeightData: { height: number } = (await bestHeight.json()).data;
 
-	const bamkRune = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
+	const unisatBamkReq = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
 		method: 'POST',
 		headers: {
 		  "Content-Type": "application/json",
@@ -62,69 +63,24 @@ async function getData() {
 		}),
 		next: { revalidate: 600 }
 	});
-	if (!bamkRune.ok) {
-		console.log(bamkRune)
+	if (!unisatBamkReq.ok) {
+		console.error("Error fetching unisat bamk", unisatBamkReq)
 		return {}
 	}
-	const bamkRuneData: {
-		tick: string;
-		symbol: string;
-		curPrice: number; // in sats
-		changePrice: number;
-		btcVolume: number;
-		amountVolume: number;
-		cap: string;
-		capUSD: string;
-		warning: boolean;
-	} = (await bamkRune.json()).data;
+	const unisatBamkData: UnisatBamkData = (await unisatBamkReq.json()).data;
 
 
-	const bamkRune2 = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
+	const magicEdenBamk = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
 			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
 		},
 		next: { revalidate: 600 }
 	})
-	if (!bamkRune2.ok) {
-		console.log(bamkRune2)
+	if (!magicEdenBamk.ok) {
+		console.error("Error fetching magic eden bamk", magicEdenBamk)
 		return {}
 	}
-	const bamkRune2Data = (await bamkRune2.json()) as {
-		rune: string;
-		runeNumber: number;
-		symbol: string;
-		ticker: string;
-		name: string;
-		totalSupply: string;
-		formattedTotalSupply: string;
-		divisibility: number;
-		imageURI: string;
-		minOrderSize: number;
-		maxOrderSize: number;
-		pendingTxnCount: number;
-		floorUnitPrice: {
-		  formatted: string;
-		  value: string;
-		};
-		marketCap: number;
-		holderCount: number;
-		volume: {
-		  '1d': number;
-		  '7d': number;
-		  '30d': number;
-		  all: number;
-		};
-		deltaFloor: {
-		  '1d': number;
-		  '7d': number;
-		  '30d': number;
-		};
-		txnCount: {
-		  '1d': number;
-		  '7d': number;
-		  '30d': number;
-		};
-	  }
+	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
 
 	const nusdRune = await fetch('https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance', {
 		method: 'GET',
@@ -134,16 +90,10 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!nusdRune.ok) {
-		console.log('error fetching nusdRune:', nusdRune)
+		console.error('Error fetching nusdRune:', nusdRune)
 		return {}
 	}
-	const nusdRuneData: {
-		"amount": string,
-		"runeid": string,
-		"rune": string,
-		"spacedRune": string,
-		"symbol": string,
-	} = (await nusdRune.json()).data;
+	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data;
 
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
@@ -153,7 +103,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
-		console.log(bamkRune)
+		console.error("Error fetching btcPrice", btcPrice)
 		return {}
 	}
 	const btcPriceData: {
@@ -166,8 +116,8 @@ async function getData() {
 		nusdInfoData,
 		nusdRuneData,
 		bestHeightData,
-		bamkRuneData,
-		bamkRune2Data,
+		unisatBamkData,
+		magicEdenBamkData,
 		btcPriceData,
 	}
 }
@@ -191,11 +141,11 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<DataProvider data={data}>
-					<Header data={data} />
-					<main className="flex-[1_1_auto]">
-						{children}
-					</main>
-					<Footer />
+						<Header data={data} />
+						<main className="flex-[1_1_auto]">
+							{children}
+						</main>
+						<Footer />
 					</DataProvider>
 				</ThemeProvider>
 			</body>
