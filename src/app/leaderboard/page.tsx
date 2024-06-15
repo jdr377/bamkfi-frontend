@@ -1,8 +1,6 @@
 import { Nunito } from 'next/font/google';
 import classNames from 'classnames';
-import ClientSideTable from './ClientSideTable';
-import { ClientSideTableProps } from '@/types'
-import { useEffect, useState } from 'react';
+import ClientSideTable, { ClientSideTableProps } from './ClientSideTable';
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -17,6 +15,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   });
 
   if (!leaderboard.ok) {
+	console.error("Error fetching leaderboard", leaderboard)
     return null;
   }
 
@@ -41,7 +40,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   );
 
   if (!unisatBamkReq.ok) {
-    console.log(unisatBamkReq);
+    console.error('Error fetching unisat bamk rune', unisatBamkReq);
     return null;
   }
 
@@ -61,7 +60,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   );
 
   if (!btcPrice.ok) {
-    console.log(btcPrice);
+    console.error("Error fetching BTC price", btcPrice);
     return null;
   }
 

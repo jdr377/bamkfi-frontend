@@ -25,23 +25,10 @@ export interface Reward {
     amount: number;
 }
 
-export interface LeaderboardData {
-    rewards: Reward[];
-    block: number;
-}
-
-
 export interface BtcPriceData {
     bitcoin: {
         usd: number;
     };
-}
-
-export interface ClientSideTableProps {
-    unisatBamkData: BamkRuneData;
-    leaderboardData: LeaderboardData;
-    btcPriceData: BtcPriceData;
-    btcBlockHeight?: string;
 }
 
 export interface MagicEdenBamkData {

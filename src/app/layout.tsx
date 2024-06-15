@@ -34,7 +34,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!nusdInfo.ok) {
-		console.log(nusdInfo)
+		console.error("Error fetching NUSD BRC20 data from unisat", nusdInfo)
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
@@ -46,7 +46,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!bestHeight.ok) {
-		console.log(bestHeight)
+		console.error("Error fetching best brc20 height", bestHeight)
 		return {}
 	}
 	const bestHeightData: { height: number } = (await bestHeight.json()).data;
@@ -64,23 +64,23 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!unisatBamkReq.ok) {
-		console.log(unisatBamkReq)
+		console.error("Error fetching unisat bamk", unisatBamkReq)
 		return {}
 	}
 	const unisatBamkData: UnisatBamkData = (await unisatBamkReq.json()).data;
 
 
-	const bamkRune2 = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
+	const magicEdenBamk = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
 			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
 		},
 		next: { revalidate: 600 }
 	})
-	if (!bamkRune2.ok) {
-		console.log(bamkRune2)
+	if (!magicEdenBamk.ok) {
+		console.error("Error fetching magic eden bamk", magicEdenBamk)
 		return {}
 	}
-	const magicEdenBamkData: MagicEdenBamkData = (await bamkRune2.json()).data
+	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
 
 	const nusdRune = await fetch('https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance', {
 		method: 'GET',
@@ -90,7 +90,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!nusdRune.ok) {
-		console.log('error fetching nusdRune:', nusdRune)
+		console.error('Error fetching nusdRune:', nusdRune)
 		return {}
 	}
 	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data;
@@ -103,7 +103,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
-		console.log(btcPrice)
+		console.error("Error fetching btcPrice", btcPrice)
 		return {}
 	}
 	const btcPriceData: {
@@ -141,11 +141,11 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<DataProvider data={data}>
-					<Header data={data} />
-					<main className="flex-[1_1_auto]">
-						{children}
-					</main>
-					<Footer />
+						<Header data={data} />
+						<main className="flex-[1_1_auto]">
+							{children}
+						</main>
+						<Footer />
 					</DataProvider>
 				</ThemeProvider>
 			</body>

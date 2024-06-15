@@ -11,7 +11,6 @@ export default function Calculator() {
     btcPriceData,
     bestHeightData,
   } = useData();
-
   let initialTotalNusd = 2000000; // Default value if totalNusd is not available
   let initialBamkPrice = 0;
 

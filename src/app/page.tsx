@@ -39,7 +39,7 @@ async function getData() {
 		console.error('Error fetching magicEdenBamkReq', magicEdenBamkReq)
 		return {}
 	}
-	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamkReq.json()).data
+	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamkReq.json())
 
 	const nusdRune = await fetch(
 		'https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance',
@@ -146,14 +146,14 @@ export default async function Home() {
 						<h1 className={classNames(nunito.className, 'max-w-full w-[520px] mt-2 break-words')}>
 							<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
 						</h1>
-						{data.bamkRune2Data ? (
+						{data.magicEdenBamkData ? (
 							<div className="flex gap-2 flex-wrap -mt-2">
 								<div
 									title="BAMK Price"
 									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 								>
 									<p>
-										<span className="text-primary">{Number(data.bamkRune2Data.floorUnitPrice.formatted).toLocaleString(undefined, { maximumFractionDigits: 2 })} sats</span>
+										<span className="text-primary">{Number(data.magicEdenBamkData.floorUnitPrice.formatted).toLocaleString(undefined, { maximumFractionDigits: 2 })} sats</span>
 										{' / 🏦'}
 									</p>
 								</div>
@@ -164,7 +164,7 @@ export default async function Home() {
 									<p>🏦 MCAP</p>
 									<p className="text-primary font-bold">
 										{`$${(
-											Number(data.bamkRune2Data.marketCap) * data.btcPriceData.bitcoin.usd *
+											Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd *
 											(1 - BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY)
 										).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
 									</p>
@@ -175,7 +175,7 @@ export default async function Home() {
 								>
 									<p>🏦 FDV</p>
 									<p className="text-primary font-bold">
-										{`$${(Number(data.bamkRune2Data.marketCap) * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
+										{`$${(Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
 											maximumFractionDigits: 0
 										})}`}
 									</p>

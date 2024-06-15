@@ -1,11 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ClientSideTableProps, Reward } from '@/types';
+import { BtcPriceData, Reward, UnisatBamkData } from '@/types';
 import styles from './ClientSideTable.module.css'
 import useWindowSize from '@/utils/useWindowSize'
 import classNames from 'classnames';
 import shortenAddress from '@/utils/shortenAddress';
+import { LeaderboardData } from './types';
+
+export interface ClientSideTableProps {
+  unisatBamkData: UnisatBamkData;
+  leaderboardData: LeaderboardData;
+  btcPriceData: BtcPriceData;
+}
 
 export default function ClientSideTable(data: ClientSideTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,9 +24,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 		  if (!response.ok) {
         setLatestBlockHeight('Unknown')
         return;
-		  } else {
-        console.log(response)
-      }
+		  }
 		  const value = await response.text()
       setLatestBlockHeight(value)
 	}
@@ -33,7 +38,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
     : data.leaderboardData.rewards;
 
   return (
-    <div className="max-w-screen-xl mx-3 md:mx-8 mb-36">
+    <div className="max-w-screen-xl mx-3 md:mx-8 mb-8">
       <input
         type="text"
         placeholder="Filter by address"
