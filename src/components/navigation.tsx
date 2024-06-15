@@ -66,7 +66,7 @@ export default function Navigation() {
 	)
 
 	return (
-        <div className="flex items-center gap-4 text-sm lg:gap-6">
+        <div className="inline-flex items-center gap-4 text-sm lg:gap-6 px-0">
             {links.map(l => (
                 <RenderLink key={l.name} {...l} />
             ))}
