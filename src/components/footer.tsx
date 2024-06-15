@@ -9,7 +9,7 @@ import { TWITTER_URL, TELEGRAM_URL, GITHUB_URL, GITBOOK_URL } from '@/lib/consta
 
 export default function Footer() {
 	return (
-		<div className="flex flex-col md:flex-row md:justify-between items-center md:items-end h-14 max-w-screen-xl container mb-12 pb-5 gap-8">
+		<div className="flex flex-col md:flex-row md:justify-between items-center md:items-end mt-12 max-w-screen-xl container mb-12 pb-5 gap-8">
 			<div className="relative">
 				<div className="flex flex-wrap justify-center items-center gap-4 max-w-[600px] mx-auto sm:mx-0">
 					<a href="https://www.okx.com/web3/marketplace/runes/token/BAMK%E2%80%A2OF%E2%80%A2NAKAMOTO%E2%80%A2DOLLAR/840256:35" target="_blank" rel="noopener noreferrer" className="group flex-1 min-w-[120px] max-w-[33%] flex justify-center items-center">
