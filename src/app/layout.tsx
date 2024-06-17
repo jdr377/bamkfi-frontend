@@ -6,7 +6,7 @@ import Header from '@/components/header'
 import Footer from '@/components/footer'
 import classNames from 'classnames'
 import { DataProvider } from "@/app/context/datacontext";
-import { UnisatBamkData, MagicEdenBamkData, NusdRuneData } from "@/types";
+import { MagicEdenBamkData, NusdRuneData } from "@/types";
 import { mulish } from "@/components/ui/fonts";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,37 +38,6 @@ async function getData() {
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
-
-	const bestHeight = await fetch('https://open-api.unisat.io/v1/indexer/brc20/bestheight', {
-		headers: {
-			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
-		},
-		next: { revalidate: 600 }
-	})
-	if (!bestHeight.ok) {
-		console.error("Error fetching best brc20 height", bestHeight)
-		return {}
-	}
-	const bestHeightData: { height: number } = (await bestHeight.json()).data;
-
-	const unisatBamkReq = await fetch('https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified', {
-		method: 'POST',
-		headers: {
-		  "Content-Type": "application/json",
-		  Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
-		},
-		body: JSON.stringify({
-			tick: 'BAMK•OF•NAKAMOTO•DOLLAR',
-			timeType: 'day1',
-		}),
-		next: { revalidate: 600 }
-	});
-	if (!unisatBamkReq.ok) {
-		console.error("Error fetching unisat bamk", unisatBamkReq)
-		return {}
-	}
-	const unisatBamkData: UnisatBamkData = (await unisatBamkReq.json()).data;
-
 
 	const magicEdenBamk = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
@@ -115,8 +84,6 @@ async function getData() {
 	return {
 		nusdInfoData,
 		nusdRuneData,
-		bestHeightData,
-		unisatBamkData,
 		magicEdenBamkData,
 		btcPriceData,
 	}
