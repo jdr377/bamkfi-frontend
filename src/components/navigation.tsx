@@ -16,11 +16,7 @@ export default function Navigation() {
 		return [
 			{
 				name: 'Mint',
-				href: 'https://mint.bamk.fi/mint'
-			},
-			{
-				name: 'Docs',
-				href: GITBOOK_URL
+				href: '/mint'
 			},
 			{
 				name: 'Leaderboard',
@@ -29,7 +25,11 @@ export default function Navigation() {
 			{
 				name: 'Calculator',
 				href: '/calculator'
-			}
+			},
+			{
+				name: 'Docs',
+				href: GITBOOK_URL
+			},
 		]
 	}, [])
 

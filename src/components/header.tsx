@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import { Nunito } from 'next/font/google'
 
 import {
 	SEASON_1_BAMK_PER_BLOCK,
@@ -10,8 +9,7 @@ import classNames from 'classnames'
 import NusdIcon from '@/icons/nusd'
 import Navigation from './navigation'
 import { AppData } from '@/app/layout'
-
-const nunito = Nunito({ subsets: ['latin'] })
+import { nunito } from './ui/fonts'
 
 export default function Header(props: {
 	data: AppData

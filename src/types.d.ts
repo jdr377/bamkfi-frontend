@@ -65,3 +65,5 @@ export interface NusdRuneData {
     "spacedRune": string,
     "symbol": string,
 }
+
+declare module 'connectkit-next-siwe';
