@@ -1,17 +1,15 @@
 'use client';
 
-import { MagicEdenBamkData, UnisatBamkData } from '@/types';
+import { MagicEdenBamkData } from '@/types';
 import { createContext, useContext } from 'react';
 
 export interface DataContextType {
-  unisatBamkData?: UnisatBamkData;
   magicEdenBamkData?: MagicEdenBamkData;
   nusdInfoData?: { minted: string };
   nusdRuneData?: { amount: string };
   btcPriceData?: { bitcoin: { usd: number } };
   susdeBackingUSDValue?: number;
   apy?: number;
-  bestHeightData?: { height: number };
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);

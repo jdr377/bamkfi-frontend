@@ -1,6 +1,7 @@
 import { nunito } from '@/components/ui/fonts'
 import classNames from 'classnames';
 import ClientSideTable, { ClientSideTableProps } from './ClientSideTable';
+import { MagicEdenBamkData } from '@/types';
 
 async function getData(): Promise<ClientSideTableProps | null> {
   const leaderboard = await fetch('https://calhounjohn.com/reward/getLeaderboard', {
@@ -19,30 +20,17 @@ async function getData(): Promise<ClientSideTableProps | null> {
 
   const leaderboardData = await leaderboard.json();
 
-  const unisatBamkReq = await fetch(
-    'https://open-api.unisat.io/v3/market/runes/auction/runes_types_specified',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
-      },
-      body: JSON.stringify({
-        tick: 'BAMK•OF•NAKAMOTO•DOLLAR',
-        timeType: 'day1'
-      }),
-      next: {
-        revalidate: 600
-      }
-    }
-  );
-
-  if (!unisatBamkReq.ok) {
-    console.error('Error fetching unisat bamk rune', unisatBamkReq);
-    return null;
-  }
-
-  const unisatBamkData = (await unisatBamkReq.json()).data;
+	const magicEdenBamk = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
+		headers: {
+			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
+		},
+		next: { revalidate: 600 }
+	})
+	if (!magicEdenBamk.ok) {
+		console.error("Error fetching magic eden bamk", magicEdenBamk)
+		return null;
+	}
+	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
 
   const btcPrice = await fetch(
     'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
@@ -65,7 +53,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   const btcPriceData = await btcPrice.json();
 
   return {
-    unisatBamkData,
+    magicEdenBamkData,
     leaderboardData,
     btcPriceData,
   };
@@ -88,7 +76,7 @@ export default async function Leaderboard() {
         </div>
       </div>
       <ClientSideTable
-        unisatBamkData={data?.unisatBamkData}
+        magicEdenBamkData={data?.magicEdenBamkData}
         leaderboardData={data?.leaderboardData}
         btcPriceData={data?.btcPriceData}
       />

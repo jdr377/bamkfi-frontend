@@ -9,7 +9,6 @@ export default function Calculator() {
     nusdInfoData,
     nusdRuneData,
     btcPriceData,
-    bestHeightData,
   } = useData();
   let initialTotalNusd = 2000000; // Default value if totalNusd is not available
   let initialBamkPrice = 0;
@@ -53,8 +52,7 @@ export default function Calculator() {
     !magicEdenBamkData ||
     !nusdInfoData ||
     !nusdRuneData ||
-    !btcPriceData ||
-    !bestHeightData
+    !btcPriceData
   ) {
     return (
       <div className="flex justify-center min-h-screen">
