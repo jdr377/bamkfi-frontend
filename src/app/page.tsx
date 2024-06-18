@@ -167,7 +167,7 @@ export default async function Home() {
 										).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
 									</p>
 								</div>
-								<div
+								{/* <div
 									title="Fully Diluted Valuation"
 									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 								>
@@ -177,7 +177,7 @@ export default async function Home() {
 											maximumFractionDigits: 0
 										})}`}
 									</p>
-								</div>
+								</div> */}
 								{TVL > 0 && (
 									<div
 										title="Total Value Locked"
