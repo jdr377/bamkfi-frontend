@@ -58,10 +58,10 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 							<th scope="col" className="pl-1 py-4 whitespace-nowrap">
 								Address
 							</th>
-							<th scope="col" className="px-1 py-3 text-center pr-1">
+							<th scope="col" className="px-1 py-3 text-right pr-1">
 								Amount&nbsp;🏦
 							</th>
-							<th scope="col" className="px-1 py-3 text-center">
+							<th scope="col" className="px-1 py-3 text-right pr-2">
 								Value
 							</th>
 						</tr>
@@ -71,7 +71,9 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 							<>
 								{filteredResults
 									.sort((a: Reward, b: Reward) => b.amount - a.amount)
-									.map((reward: Reward, index: number) => (
+									.map((reward: Reward, index: number) => {
+										const value = reward.amount * Number(data.magicEdenBamkData.floorUnitPrice.formatted) / 100000000 * data.btcPriceData.bitcoin.usd;
+										return (
 										<tr
 											key={reward.address}
 											className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600 font-mono"
@@ -105,23 +107,25 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 													? shortenAddress(5, reward.address)
 													: shortenAddress(20, reward.address)}
 											</td>
-											<td className="px-1 py-4 text-center">
-												{reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+											<td className="px-1 py-4 text-right">
+												{reward.amount < 1
+													? '< 1'
+													: reward.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 }) }
 											</td>
-											<td className="px-1 py-4 text-center">
+											<td className="px-1 py-4 text-right pr-2">
 												{data.btcPriceData.bitcoin.usd &&
 												reward.amount &&
 												Number(data.magicEdenBamkData.floorUnitPrice.formatted)
-													? `$${(
-															((reward.amount *
-																Number(data.magicEdenBamkData.floorUnitPrice.formatted)) /
-																100000000) *
-															data.btcPriceData.bitcoin.usd
-													  ).toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+													?
+														value < 0.01
+														? '< $0.01'
+														: `$${value.toLocaleString(undefined, {
+															maximumFractionDigits: value < 1 ? 2 : 0 
+														})}`
 													: '-'}
 											</td>
 										</tr>
-									))}
+									)})}
 							</>
 						) : (
 							<tr className="bg-zinc-800 hover:bg-zinc-600">
