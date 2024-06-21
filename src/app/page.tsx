@@ -99,7 +99,8 @@ async function getData() {
 			usd: number
 		}
 	} = await susdePrice.json()
-	const susdeBackingUSDValue = susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance)
+	const UNSTAKING = 432_711 // manually managed amount of sUSDe that is being unstaked // TODO: should get this from chain 
+	const susdeBackingUSDValue = susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance) + UNSTAKING
 
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
