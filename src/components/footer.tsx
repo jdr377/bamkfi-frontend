@@ -18,7 +18,7 @@ export default function Footer() {
             		  src="/logos/okx.png"
             		  alt="OKX"
             		  width={75}
-            		  height={60}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -29,7 +29,7 @@ export default function Footer() {
             		  src="/logos/me.svg"
             		  alt="Magic Eden"
             		  width={130}
-            		  height={100}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -40,7 +40,7 @@ export default function Footer() {
             		  src="/logos/unisat.svg"
             		  alt="Unisat"
             		  width={120}
-            		  height={100}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -51,7 +51,7 @@ export default function Footer() {
             		  src="/logos/ow.png"
             		  alt="Ordinals Wallet"
             		  width={130}
-            		  height={140}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -62,7 +62,7 @@ export default function Footer() {
             		  src="/logos/saturn.svg"
             		  alt="Saturn"
             		  width={120}
-            		  height={100}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -73,7 +73,7 @@ export default function Footer() {
             		  src="/logos/dotswap.png"
             		  alt="Dotswap"
             		  width={120}
-            		  height={100}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -84,7 +84,7 @@ export default function Footer() {
             		  src="/logos/liquidium.svg"
             		  alt="Liquidium"
             		  width={110}
-            		  height={65}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
@@ -95,7 +95,7 @@ export default function Footer() {
             		  src="/logos/fluid.png"
             		  alt="FluidTokens"
             		  width={120}
-            		  height={100}
+            		  height={1}
             		  priority
             		  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"
             		  style={{ height: 'auto' }}
