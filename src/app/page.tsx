@@ -1,11 +1,14 @@
+import { decodeParameter } from 'web3-eth-abi';
+import { keccak256 } from 'web3-utils';
 import { Button } from '@/components/ui/button'
 import classNames from 'classnames'
 import {
 	BAMK_MARKET_URL,
 	BAMK_PREMINED_SUPPLY,
 	BAMK_TOTAL_SUPPLY,
-	ETHENA_SUSDE_BACKING_ACCOUNT,
+	ETHENA_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
+	ETHENA_USDE_TOKEN_CONTRACT,
 	NUSD_RUNE_MARKET_URL
 } from '@/lib/constants'
 import { Fitty } from '@/components/ui/fitty'
@@ -56,24 +59,68 @@ async function getData() {
 	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data
 
 	const INFURA_API_KEY = process.env.INFURA_API_KEY
-	const data = {
-		jsonrpc: '2.0',
-		method: 'eth_call',
-		params: [
-			{
-				to: ETHENA_SUSDE_TOKEN_CONTRACT,
-				data: '0x70a08231000000000000000000000000' + ETHENA_SUSDE_BACKING_ACCOUNT.substring(2) // balanceOf method hash + address without '0x'
-			},
-			'latest'
-		],
-		id: 1
+
+	const erc20BalanceOfMethodId = '0x70a08231000000000000000000000000'
+	const usdeBackingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			jsonrpc: '2.0',
+			method: 'eth_call',
+			params: [
+				{
+					to: ETHENA_USDE_TOKEN_CONTRACT,
+					data: erc20BalanceOfMethodId + ETHENA_BACKING_ACCOUNT.substring(2)
+				},
+				'latest'
+			],
+			id: 1
+		}),
+		next: { revalidate: 600 }
+	})
+	if (!usdeBackingResponse.ok) {
+		console.error('Error fetching usdeBacking', usdeBackingResponse)
 	}
+	const usdeBalance = BigInt((await usdeBackingResponse.json()).result) / BigInt(10 ** 18)
+	const usdePrice = await fetch(
+		'https://api.coingecko.com/api/v3/simple/price?ids=ethena-usde&vs_currencies=usd',
+		{
+			method: 'GET',
+			headers: {
+				'x-cg-demo-api-key': process.env.COINGECKO_API_KEY as string
+			},
+			next: { revalidate: 600 }
+		}
+	)
+	if (!usdePrice.ok) {
+		console.error('Error fetching usdePrice', usdePrice)
+		return {}
+	}
+	const usdePriceData: {
+		'ethena-usde': {
+			usd: number
+		}
+	} = await usdePrice.json()
+
 	const susdeBackingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(data),
+		body: JSON.stringify({
+			jsonrpc: '2.0',
+			method: 'eth_call',
+			params: [
+				{
+					to: ETHENA_SUSDE_TOKEN_CONTRACT,
+					data: erc20BalanceOfMethodId + ETHENA_BACKING_ACCOUNT.substring(2)
+				},
+				'latest'
+			],
+			id: 1
+		}),
 		next: { revalidate: 600 }
 	})
 	if (!susdeBackingResponse.ok) {
@@ -99,8 +146,40 @@ async function getData() {
 			usd: number
 		}
 	} = await susdePrice.json()
-	const UNSTAKING = 432_711 // manually managed amount of sUSDe that is being unstaked // TODO: should get this from chain 
-	const susdeBackingUSDValue = susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance) + UNSTAKING
+
+	let susdeCooldownBalance = 0
+	const methodSignature = 'cooldowns(address)';
+	const methodId = keccak256(methodSignature).substring(0, 10); // First 4 bytes of the keccak256 hash
+	const susdeUnstakingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			jsonrpc: '2.0',
+			method: 'eth_call',
+			params: [{
+				to: ETHENA_SUSDE_TOKEN_CONTRACT,
+				data: methodId + ETHENA_BACKING_ACCOUNT.toLowerCase().replace('0x', '').padStart(64, '0')
+			}, 'latest'],
+			id: 1
+		}),
+		next: { revalidate: 600 }
+	});
+	const responseJson = await susdeUnstakingResponse.json();
+	const result = responseJson.result;
+	if (result) {
+    	const underlyingAmount = Number(decodeParameter('uint152', result.slice(66))) / 10 ** 18;
+		susdeCooldownBalance = underlyingAmount
+	} else {
+		console.error('Error fetching cooldown amount', responseJson.error);
+		return {}
+	}
+
+	const susdeBackingUSDValue = 
+		susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance) 
+		+ usdePriceData['ethena-usde'].usd * Number(usdeBalance)
+		+ susdePriceData['ethena-staked-usde'].usd * susdeCooldownBalance
 
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
@@ -193,7 +272,7 @@ export default async function Home() {
 								)}
 								{data.susdeBackingUSDValue > 0 && (
 									<a
-										href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_SUSDE_BACKING_ACCOUNT}`}
+										href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_BACKING_ACCOUNT}`}
 										className="cursor-pointer"
 										target="_blank"
 										rel="noopener noreferrer"
