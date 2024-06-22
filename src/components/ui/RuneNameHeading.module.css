@@ -1,0 +1,4 @@
+.wrapper {
+    font-size: clamp(14px, 5vw, 34px);
+    overflow-wrap: break-word;
+}

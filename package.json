@@ -26,7 +26,6 @@
     "pino-pretty": "^11.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-fitty": "^1.0.1",
     "react-loader-spinner": "^6.1.6",
     "react-toastify": "^10.0.5",
     "siwe": "^2.3.2",

@@ -11,11 +11,10 @@ import {
 	ETHENA_USDE_TOKEN_CONTRACT,
 	NUSD_RUNE_MARKET_OKX_URL,
 } from '@/lib/constants'
-import { Fitty } from '@/components/ui/fitty'
 import NusdIcon from '@/icons/nusd'
 import SusdeIcon from '@/icons/sUSDe'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
-import { nunito } from '@/components/ui/fonts'
+import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 
 async function getData() {
 	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
@@ -221,9 +220,7 @@ export default async function Home() {
 			<div className="flex-grow">    
 				<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 					<div className="flex flex-col gap-4 md:ml-12">
-						<h1 className={classNames(nunito.className, 'max-w-full w-[520px] mt-2 break-words')}>
-							<Fitty>BAMK•OF•NAKAMOTO•DOLLAR</Fitty>
-						</h1>
+						<RuneNameHeading>BAMK•OF•NAKAMOTO•DOLLAR</RuneNameHeading>
 						{data.magicEdenBamkData ? (
 							<div className="flex gap-2 flex-wrap -mt-2">
 								<div
