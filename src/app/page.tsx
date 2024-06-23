@@ -24,7 +24,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!nusdInfo.ok) {
-		console.error('Error fetching nusdInfo', nusdInfo)
+		console.error('Error fetching nusdInfo', nusdInfo.status, nusdInfo.statusText)
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
@@ -36,7 +36,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!magicEdenBamkReq.ok) {
-		console.error('Error fetching magicEdenBamkReq', magicEdenBamkReq)
+		console.error('Error fetching magicEdenBamkReq', magicEdenBamkReq.status, magicEdenBamkReq.statusText)
 		return {}
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamkReq.json())
@@ -52,7 +52,7 @@ async function getData() {
 		}
 	)
 	if (!nusdRune.ok) {
-		console.error('Error fetching nusdRune:', nusdRune)
+		console.error('Error fetching nusdRune:', nusdRune.status, nusdRune.statusText)
 		return {}
 	}
 	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data
@@ -80,7 +80,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!usdeBackingResponse.ok) {
-		console.error('Error fetching usdeBacking', usdeBackingResponse)
+		console.error('Error fetching usdeBacking', usdeBackingResponse.status, usdeBackingResponse.statusText)
 	}
 	const usdeBalance = BigInt((await usdeBackingResponse.json()).result) / BigInt(10 ** 18)
 	const usdePrice = await fetch(
@@ -123,7 +123,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!susdeBackingResponse.ok) {
-		console.error('Error fetching susdeBacking', susdeBackingResponse)
+		console.error('Error fetching susdeBacking', susdeBackingResponse.status, susdeBackingResponse.statusText)
 	}
 	const susdeBalance = BigInt((await susdeBackingResponse.json()).result) / BigInt(10 ** 18)
 	const susdePrice = await fetch(
@@ -165,6 +165,9 @@ async function getData() {
 		}),
 		next: { revalidate: 600 }
 	});
+	if (!susdeUnstakingResponse.ok) {
+		console.error("Error fetching susdeUnstakingResponse", susdeUnstakingResponse.status, susdeUnstakingResponse.statusText)
+	}
 	const responseJson = await susdeUnstakingResponse.json();
 	const result = responseJson.result;
 	if (result) {
@@ -188,7 +191,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
-		console.error("Error fetching BTC price", btcPrice)
+		console.error("Error fetching BTC price", btcPrice.status, btcPrice.statusText)
 		return {}
 	}
 	

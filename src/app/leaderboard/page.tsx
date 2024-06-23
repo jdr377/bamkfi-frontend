@@ -14,7 +14,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   });
 
   if (!leaderboard.ok) {
-	console.error("Error fetching leaderboard", leaderboard)
+	console.error("Error fetching leaderboard", leaderboard.status, leaderboard.statusText)
     return null;
   }
 
@@ -27,7 +27,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
 		next: { revalidate: 600 }
 	})
 	if (!magicEdenBamk.ok) {
-		console.error("Error fetching magic eden bamk", magicEdenBamk)
+		console.error("Error fetching magic eden bamk", magicEdenBamk.status, magicEdenBamk.statusText)
 		return null;
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
@@ -46,7 +46,7 @@ async function getData(): Promise<ClientSideTableProps | null> {
   );
 
   if (!btcPrice.ok) {
-    console.error("Error fetching BTC price", btcPrice);
+    console.error("Error fetching BTC price", btcPrice.status, btcPrice.statusText);
     return null;
   }
 

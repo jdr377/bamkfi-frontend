@@ -34,7 +34,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!nusdInfo.ok) {
-		console.error("Error fetching NUSD BRC20 data from unisat", nusdInfo)
+		console.error("Error fetching NUSD BRC20 data from unisat", nusdInfo.status, nusdInfo.statusText)
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
@@ -46,7 +46,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	})
 	if (!magicEdenBamk.ok) {
-		console.error("Error fetching magic eden bamk", magicEdenBamk)
+		console.error("Error fetching magic eden bamk", magicEdenBamk.status, magicEdenBamk.statusText)
 		return {}
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
@@ -59,7 +59,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!nusdRune.ok) {
-		console.error('Error fetching nusdRune:', nusdRune)
+		console.error('Error fetching nusdRune:', nusdRune.status, nusdRune.statusText)
 		return {}
 	}
 	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data;
@@ -72,7 +72,7 @@ async function getData() {
 		next: { revalidate: 600 }
 	});
 	if (!btcPrice.ok) {
-		console.error("Error fetching btcPrice", btcPrice)
+		console.error("Error fetching btcPrice", btcPrice.status, btcPrice.statusText)
 		return {}
 	}
 	const btcPriceData: {
