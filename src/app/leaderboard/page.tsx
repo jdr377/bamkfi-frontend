@@ -2,6 +2,7 @@ import { nunito } from '@/components/ui/fonts'
 import classNames from 'classnames';
 import ClientSideTable, { ClientSideTableProps } from './ClientSideTable';
 import { MagicEdenBamkData } from '@/types';
+import { SEASON_1_BAMK_PER_BLOCK, SEASON_1_TOTAL_BLOCKS } from '@/lib/constants';
 
 async function getData(): Promise<ClientSideTableProps | null> {
   const leaderboard = await fetch('https://calhounjohn.com/reward/getLeaderboard', {
@@ -72,7 +73,7 @@ export default async function Leaderboard() {
           Season 1 Rewards Leaderboard
         </h1>
         <div>
-          NUSD holders accrue pro-rata rewards of 31,250 BAMK per block. Rewards will be released 41,982 blocks after the reward is accrued.
+          NUSD holders accrue pro-rata rewards of {SEASON_1_BAMK_PER_BLOCK.toLocaleString()} BAMK per block. Rewards will be released {SEASON_1_TOTAL_BLOCKS.toLocaleString()} blocks after the reward is accrued.
         </div>
       </div>
       <ClientSideTable
