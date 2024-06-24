@@ -309,7 +309,7 @@ export default async function Home() {
 								<Button className="w-full h-14 text-lg">Buy BAMK</Button>
 							</a>
 							<a
-								href={NUSD_RUNE_MARKET_OKX_URL}
+								href={"https://www.dotswap.app/swap#R_BTC_NUSD%E2%80%A2NUSD%E2%80%A2NUSD%E2%80%A2NUSD"}
 								target="_blank"
 								rel="noopener noreferrer"
 								className='flex-grow'
