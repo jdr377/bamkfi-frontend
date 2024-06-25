@@ -1,7 +1,6 @@
 import { decodeParameter } from 'web3-eth-abi';
 import { keccak256 } from 'web3-utils';
 import { Button } from '@/components/ui/button'
-import classNames from 'classnames'
 import {
 	BAMK_MARKET_URL,
 	BAMK_PREMINED_SUPPLY,
@@ -12,9 +11,9 @@ import {
 	NUSD_RUNE_MARKET_OKX_URL,
 } from '@/lib/constants'
 import NusdIcon from '@/icons/nusd'
-import SusdeIcon from '@/icons/sUSDe'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
+import UsdeIcon from '@/icons/USDe';
 
 async function getData() {
 	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
@@ -278,11 +277,11 @@ export default async function Home() {
 										rel="noopener noreferrer"
 									>
 										<div
-											title="Backed by Ethena sUSDe"
+											title="Backed by Ethena USDe/sUSDe"
 											className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 										>
-											<SusdeIcon height={27} width={27} className="stroke-primary" />
-											<p>sUSDe Reserves</p>
+											<UsdeIcon height={27} width={27} className="stroke-primary" />
+											<p>USDe Reserves</p>
 											<p className="text-primary font-bold">
 												$
 												{data.susdeBackingUSDValue.toLocaleString(undefined, {
