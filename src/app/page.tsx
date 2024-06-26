@@ -28,6 +28,22 @@ async function getData() {
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
 
+	const nusdCirculationReq = await fetch('https://calhounjohn.com/balances/getCirculationByBlock', {
+		headers: {
+		  Authorization: `Bearer big-bamker-password`
+		},
+		next: {
+		  revalidate: 600
+		}
+	  });
+	
+	  if (!nusdCirculationReq.ok) {
+		console.error("Error fetching NUSD circulation", nusdCirculationReq.status, nusdCirculationReq.statusText)
+		return null;
+	  }
+	
+	  const nusdCirculationData = await nusdCirculationReq.json();
+
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
 			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
@@ -202,6 +218,7 @@ async function getData() {
 
 	return {
 		nusdInfoData,
+		nusdCirculationData,
 		nusdRuneData,
 		magicEdenBamkData,
 		susdeBackingUSDValue,
@@ -212,10 +229,8 @@ async function getData() {
 export default async function Home() {
 	const data = await getData()
 	let TVL = 0
-	if (data.nusdRuneData && data.nusdInfoData) {
-		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(data.nusdRuneData.amount)
-		const nusdBrc20Circulating = Number(data.nusdInfoData.minted)
-		TVL = nusdRuneCirculating + nusdBrc20Circulating
+	if (data?.nusdCirculationData) {
+		TVL = data?.nusdCirculationData?.circulation
 	}
 	return (
         <div className="flex flex-col h-full">
@@ -223,7 +238,7 @@ export default async function Home() {
 				<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
 					<div className="flex flex-col gap-4 md:ml-12">
 						<RuneNameHeading>BAMK•OF•NAKAMOTO•DOLLAR</RuneNameHeading>
-						{data.magicEdenBamkData ? (
+						{data?.magicEdenBamkData ? (
 							<div className="flex gap-2 flex-wrap -mt-2">
 								<div
 									title="BAMK Price"
