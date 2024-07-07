@@ -1,5 +1,4 @@
-import { decodeParameter } from 'web3-eth-abi';
-import { keccak256 } from 'web3-utils';
+import { keccak256, hexToNumberString } from 'web3-utils';
 import { Button } from '@/components/ui/button'
 import {
 	BAMK_MARKET_URL,
@@ -8,7 +7,6 @@ import {
 	ETHENA_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
 	ETHENA_USDE_TOKEN_CONTRACT,
-	NUSD_RUNE_MARKET_OKX_URL,
 } from '@/lib/constants'
 import NusdIcon from '@/icons/nusd'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
@@ -161,9 +159,10 @@ async function getData() {
 		}
 	} = await susdePrice.json()
 
-	let susdeCooldownBalance = 0
+	let usdeUnstakingBalance = 0;
 	const methodSignature = 'cooldowns(address)';
-	const methodId = keccak256(methodSignature).substring(0, 10); // First 4 bytes of the keccak256 hash
+	const methodId = keccak256(methodSignature).substring(0, 10);
+	const paddedAddress = ETHENA_BACKING_ACCOUNT.toLowerCase().replace('0x', '').padStart(64, '0');
 	const susdeUnstakingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
 		method: 'POST',
 		headers: {
@@ -174,30 +173,32 @@ async function getData() {
 			method: 'eth_call',
 			params: [{
 				to: ETHENA_SUSDE_TOKEN_CONTRACT,
-				data: methodId + ETHENA_BACKING_ACCOUNT.toLowerCase().replace('0x', '').padStart(64, '0')
+				data: `${methodId}${paddedAddress}`
 			}, 'latest'],
 			id: 1
 		}),
 		next: { revalidate: 600 }
 	});
+	
 	if (!susdeUnstakingResponse.ok) {
-		console.error("Error fetching susdeUnstakingResponse", susdeUnstakingResponse.status, susdeUnstakingResponse.statusText)
+		console.error("Error fetching susdeUnstakingResponse", susdeUnstakingResponse.status, susdeUnstakingResponse.statusText);
+		return {}
 	}
 	const responseJson = await susdeUnstakingResponse.json();
 	const result = responseJson.result;
 	if (result) {
-    	const underlyingAmount = Number(decodeParameter('uint152', result.slice(66))) / 10 ** 18;
-		susdeCooldownBalance = underlyingAmount
+		const cooldownEndDate = new Date(Number(hexToNumberString(result.slice(0, 66))) * 1000);
+		const underlyingAmount = hexToNumberString('0x' + result.slice(66));
+		usdeUnstakingBalance = Number(underlyingAmount) / 10 ** 18;
 	} else {
-		console.error('Error fetching cooldown amount', responseJson.error);
+		console.error('Error fetching cooldown amount', responseJson);
 		return {}
 	}
 
-	const susdeBackingUSDValue = 
-		susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance) 
-		+ usdePriceData['ethena-usde'].usd * Number(usdeBalance)
-		+ susdePriceData['ethena-staked-usde'].usd * susdeCooldownBalance
-
+	const susdeValue = susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance);
+	const usdeValue = usdePriceData['ethena-usde'].usd * Number(usdeBalance);
+	const usdeUnstakingValue = usdePriceData['ethena-usde'].usd * usdeUnstakingBalance;
+	const susdeBackingUSDValue = susdeValue + usdeValue + usdeUnstakingValue;
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
 		headers: {
