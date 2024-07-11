@@ -41,7 +41,7 @@ const Redeem: React.FC = () => {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false);
   const wallet = useWallet()
-  const nusdBalance = useQuery({
+  const nusdBalanceQuery = useQuery({
 		queryKey: ['nusd-balance', wallet.address],
 		queryFn: async () => {
 			const response = await fetch(
@@ -133,6 +133,13 @@ const Redeem: React.FC = () => {
     );
   }, [form, sendAmountField.state.value]);
 
+  let displayNusdBalance = ''
+  if (!isNaN(nusdBalanceQuery.data?.total)) {
+    displayNusdBalance = Number(nusdBalanceQuery.data.total).toLocaleString();
+  } else if (nusdBalanceQuery.isFetching) {
+    return 'Loading...'
+  }
+
   return (
     <div>
       <form
@@ -178,7 +185,7 @@ const Redeem: React.FC = () => {
                         className={styles.input}
                         placeholder="0"
                         min={0}
-                        max={nusdBalance.data?.total > 0 ? nusdBalance.data.total : undefined}
+                        max={nusdBalanceQuery.data?.total > 0 ? nusdBalanceQuery.data.total : undefined}
                         disabled={isSubmitting}
                       />
                       <FieldInfo field={field} />
@@ -197,10 +204,10 @@ const Redeem: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      {wallet.connected && !!wallet.authorization && (nusdBalance.data !== null || nusdBalance.isFetching) && (
+                      {wallet.connected && !!wallet.authorization && (nusdBalanceQuery.data !== null || nusdBalanceQuery.isFetching) && (
                         <div className={styles.balanceContainer}>
                           <div className={styles.balance}>
-                            Balance: {nusdBalance.data !== null ? Number(nusdBalance.data.total).toLocaleString() : nusdBalance.isFetching ? 'Loading' : 0}
+                            Balance: {displayNusdBalance}
                           </div>
                         </div>
                       )}

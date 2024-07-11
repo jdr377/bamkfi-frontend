@@ -12,7 +12,7 @@ export default async function CalculatorPage() {
   if (address) {
     try {
       const nusdBalance = await getNusdBalance(address);
-      initialNusdBalance = nusdBalance.total.toString();
+      initialNusdBalance = nusdBalance?.total.toString();
     } catch (err) {
       console.error("Error fetching initialNusdBalance:", err)
     }

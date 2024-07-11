@@ -47,18 +47,14 @@ export default function Calculator({ initialNusdBalance }: { initialNusdBalance:
         console.error('Error in nusdRuneBalance response:', response.status, response.statusText)
 				return null;
 			}
-			const data = await response.json()
-      if (data.error) {
-        console.error('Error in nusdRuneBalance response:', data.error)
-        return null;
-      }
-			return data.total;
+			const data = await response.json() as NusdBalance
+			return data?.total ?? null;
 		},
     enabled: wallet.connected && !!wallet.authorization
 	})
   useEffect(() => {
     if (nusdBalanceQuery.data) {
-      setMyNusd(nusdBalanceQuery.data)
+      setMyNusd(nusdBalanceQuery.data.toString())
     } else {
       setMyNusd('')
     }
