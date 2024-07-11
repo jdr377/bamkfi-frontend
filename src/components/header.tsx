@@ -83,7 +83,7 @@ export default function Header() {
 						<Wallets />
 					)}
 					<div className='sm:hidden'>
-						<MobileNavigation links={[...links, { name: 'Home',	href: '/' }]} />
+						<MobileNavigation links={[{ name: 'Home',	href: '/' }, ...links]} />
 					</div>
 				</div>
 			</div>
