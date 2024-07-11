@@ -7,6 +7,7 @@ import useWindowSize from '@/utils/useWindowSize'
 import classNames from 'classnames'
 import shortenAddress from '@/utils/shortenAddress'
 import { LeaderboardData } from './types'
+import { useWallet } from '@/components/providers/BtcWalletProvider'
 
 export interface ClientSideTableProps {
 	magicEdenBamkData: MagicEdenBamkData
@@ -33,11 +34,15 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 		fetchBtcBlockHeight()
 	}, [])
 
+	const wallet = useWallet()
+
 	const filteredResults = searchTerm
 		? data.leaderboardData.rewards.filter(reward =>
 				reward.address.toLowerCase().includes(searchTerm.toLowerCase())
 		  )
 		: data.leaderboardData.rewards
+
+	const userRow = wallet.connected && !!wallet.authorization && filteredResults.find(reward => reward.address === wallet.address)
 
 	return (
 		<div className="max-w-screen-xl mx-0 md:mx-8 mb-8">
@@ -67,6 +72,54 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 						</tr>
 					</thead>
 					<tbody>
+						{!searchTerm && userRow && (
+							<tr
+								key={userRow.address}
+								className="border-b bg-green-600 border-green-600 text-gray-200 font-mono"
+							>
+								<td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">
+									{filteredResults.findIndex(reward => reward.address === userRow.address) + 1}
+								</td>
+								<td
+									scope="row"
+									className={classNames(
+										'pl-2 py-4 whitespace-nowrap flex items-center gap-2',
+										styles.longAddressDisplay,
+										styles.tableCell
+									)}
+								>
+									{userRow.address}
+								</td>
+								<td
+									scope="row"
+									className={classNames(
+										'pl-2 py-4 whitespace-nowrap flex items-center',
+										styles.shortAddressDisplay,
+										styles.tableCell
+									)}
+								>
+									{isMobile
+										? shortenAddress(5, userRow.address)
+										: shortenAddress(20, userRow.address)}
+								</td>
+								<td className="px-1 py-4 text-right">
+									{userRow.amount < 1
+										? '< 1'
+										: userRow.amount?.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+								</td>
+								<td className="px-1 py-4 text-right pr-2">
+									{data.btcPriceData.bitcoin.usd &&
+									userRow.amount &&
+									Number(data.magicEdenBamkData.floorUnitPrice.formatted)
+										? (userRow.amount * Number(data.magicEdenBamkData.floorUnitPrice.formatted) / 100000000 * data.btcPriceData.bitcoin.usd) < 0.01
+											? '< $0.01'
+											: `$${(userRow.amount * Number(data.magicEdenBamkData.floorUnitPrice.formatted) / 100000000 * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
+												maximumFractionDigits: (userRow.amount * Number(data.magicEdenBamkData.floorUnitPrice.formatted) / 100000000 * data.btcPriceData.bitcoin.usd) < 1 ? 2 : 0 
+											})}`
+										: '-'}
+								</td>
+							</tr>
+						)}
 						{filteredResults.length > 0 ? (
 							<>
 								{filteredResults
@@ -76,7 +129,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 										return (
 										<tr
 											key={reward.address}
-											className="border-b bg-zinc-800 border-zinc-700 hover:bg-zinc-600 font-mono"
+											className="border-b bg-zinc-800 border-zinc-700 font-mono"
 										>
 											<td scope="row" className="pl-1 py-4 whitespace-nowrap text-center">
 												{searchTerm
@@ -128,7 +181,7 @@ export default function ClientSideTable(data: ClientSideTableProps) {
 									)})}
 							</>
 						) : (
-							<tr className="bg-zinc-800 hover:bg-zinc-600">
+							<tr className="bg-zinc-800">
 								<td scope="row" className="px-6 py-4 text-white">
 									No data
 								</td>

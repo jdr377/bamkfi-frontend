@@ -37,57 +37,29 @@ const FieldInfo: React.FC<{ field: FieldApi<any, any, any, any> }> = ({
   );
 };
 
-const NUSD_RUNE_NAME = 'NUSDNUSDNUSDNUSD'
-
 const Redeem: React.FC = () => {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false);
   const wallet = useWallet()
-  const nusdRuneBalance = useQuery({
-		queryKey: ['nusd-rune-balance', wallet.address],
+  const nusdBalance = useQuery({
+		queryKey: ['nusd-balance', wallet.address],
 		queryFn: async () => {
 			const response = await fetch(
-				`/api/opi/getRunesBalanceByAddress?address=${wallet.address}`
+				`/api/nusd/balance/${wallet.address}`
 			)
 			if (!response.ok) {
-        console.error('Error in nusdRuneBalance response:', response.status, response.statusText)
+        console.error('Error in nusdBalance response:', response.status, response.statusText)
 				return null;
 			}
 			const data = await response.json()
       if (data.error) {
-        console.error('Error in nusdRuneBalance response:', data.error)
+        console.error('Error in nusdBalance response:', data.error)
         return null;
       }
-			return data.result.find((rune: any) => rune.rune_name === NUSD_RUNE_NAME)?.total_balance ?? 0;
+			return data;
 		},
-    enabled: wallet.connected
+    enabled: wallet.connected && !!wallet.authorization
 	})
-  // const nusdBrc20Balance = useQuery({
-	// 	queryKey: ['nusd-brc20-balance', wallet.address],
-	// 	queryFn: async () => {
-	// 		const response = await fetch(
-	// 			`/api/opi/getBrc20BalanceByAddress?address=${wallet.address}&ticker=$NUSD`
-	// 		)
-	// 		if (!response.ok) {
-  //       console.error('Error in nusdRuneBalance response:', response.status, response.statusText)
-	// 			throw new Error("Error in getBrc20BalanceByAddress")
-	// 		}
-	// 		const data = await response.json()
-  //     if (data.error) {
-  //       console.error('Error in nusdRuneBalance response:', data.error)
-  //       throw new Error("Error in getBrc20BalanceByAddress");
-  //     }
-	// 		return Number(data.result.overall_balance) / 10 ** 18
-	// 	},
-	// 	enabled: wallet.connected,
-	// })
-  const nusdBalance = 0 
-    // + (nusdBrc20Balance.data ?? 0) 
-    + (nusdRuneBalance.data ?? 0);
-  const nusdInputMax = Math.max(
-    // nusdBrc20Balance.data ?? 0,
-    0,
-    nusdRuneBalance.data ?? 0)
 
   const postRedeem = (body: Authorization & {
     from_nusd_amount: number;
@@ -206,7 +178,7 @@ const Redeem: React.FC = () => {
                         className={styles.input}
                         placeholder="0"
                         min={0}
-                        max={nusdInputMax > 0 ? nusdInputMax : undefined}
+                        max={nusdBalance.data?.total > 0 ? nusdBalance.data.total : undefined}
                         disabled={isSubmitting}
                       />
                       <FieldInfo field={field} />
@@ -225,10 +197,10 @@ const Redeem: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      {wallet.connected && !!wallet.authorization && (nusdRuneBalance.data !== null || nusdRuneBalance.isFetching) && (
+                      {wallet.connected && !!wallet.authorization && (nusdBalance.data !== null || nusdBalance.isFetching) && (
                         <div className={styles.balanceContainer}>
                           <div className={styles.balance}>
-                            Balance: {nusdRuneBalance.data !== null ? Number(nusdBalance).toLocaleString() : nusdRuneBalance.isFetching ? 'Loading' : 0}
+                            Balance: {nusdBalance.data !== null ? Number(nusdBalance.data.total).toLocaleString() : nusdBalance.isFetching ? 'Loading' : 0}
                           </div>
                         </div>
                       )}

@@ -11,7 +11,7 @@ export const CustomConnectKitButton = () => {
     <ConnectKitButton.Custom>
       {({ isConnected, isConnecting, show, hide, address, ensName, chain }) => {
         return (
-          <Button onClick={show} variant={isConnected ? 'ghost' : 'outline'} disabled={isConnecting}>
+          <Button onClick={show} variant={isConnected ? 'ghost' : 'default'} disabled={isConnecting}>
             <div className="flex gap-2 items-center">
               {(isConnected && !siwe.isSignedIn) && (
                 <div className="relative">
@@ -47,11 +47,7 @@ export const CustomConnectKitButton = () => {
                   </div>
                 </div>
               )}
-              {!isConnected && 
-                  <div className="rounded-full bg-slate-100">
-                    <EthIcon height={20} width={20} className="p-[2px]" />
-                  </div>}
-              {(isConnected && address) ? shortenAddress(address) : "Connect Wallet"}
+              {(isConnected && address) ? shortenAddress(address) : <div className="font-semibold">Connect Wallet</div>}
             </div>
           </Button>
         );

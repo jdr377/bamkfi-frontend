@@ -7,11 +7,12 @@ import {
 	ETHENA_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
 	ETHENA_USDE_TOKEN_CONTRACT,
+	SEASON_1_BAMK_PER_BLOCK,
 } from '@/lib/constants'
-import NusdIcon from '@/icons/nusd'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 import UsdeIcon from '@/icons/USDe';
+import NusdIcon from '@/icons/nusd';
 
 async function getData() {
 	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
@@ -25,22 +26,6 @@ async function getData() {
 		return {}
 	}
 	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
-
-	const nusdCirculationReq = await fetch('https://calhounjohn.com/balances/getCirculationByBlock', {
-		headers: {
-		  Authorization: `Bearer big-bamker-password`
-		},
-		next: {
-		  revalidate: 600
-		}
-	  });
-	
-	  if (!nusdCirculationReq.ok) {
-		console.error("Error fetching NUSD circulation", nusdCirculationReq.status, nusdCirculationReq.statusText)
-		return null;
-	  }
-	
-	  const nusdCirculationData = await nusdCirculationReq.json();
 
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
@@ -217,22 +202,54 @@ async function getData() {
 		}
 	 } = (await btcPrice.json());
 
+
+	const nusdCirculationReq = await fetch('https://calhounjohn.com/balances/getCirculationByBlock', {
+		headers: {
+		  Authorization: `Bearer big-bamker-password`
+		},
+		next: {
+		  revalidate: 600
+		}
+	  });
+	if (!nusdCirculationReq.ok) {
+		console.error("Error fetching NUSD circulation", nusdCirculationReq.status, nusdCirculationReq.statusText)
+		return {};
+	}
+	let tvl = 0
+	try {
+		const nusdCirculationData = await nusdCirculationReq.json() as { circulation: number };
+		if (nusdCirculationData?.circulation) {
+			tvl = nusdCirculationData.circulation
+		}
+	} catch (err) {
+		return {}
+	}
+
+
+	let apy = 0
+	if (magicEdenBamkData && nusdRuneData && btcPriceData && nusdInfoData) {
+		const usdPricePerBamk =
+			(Number(magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000) *
+			btcPriceData.bitcoin.usd
+		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(nusdRuneData.amount)
+		const nusdBrc20Circulating = Number(nusdInfoData.minted)
+		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
+		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / nusdTotalCirculating
+	}
+
 	return {
 		nusdInfoData,
-		nusdCirculationData,
 		nusdRuneData,
 		magicEdenBamkData,
 		susdeBackingUSDValue,
-		btcPriceData
+		btcPriceData,
+		tvl,
+		apy
 	}
 }
 
 export default async function Home() {
 	const data = await getData()
-	let TVL = 0
-	if (data?.nusdCirculationData) {
-		TVL = data?.nusdCirculationData?.circulation
-	}
 	return (
         <div className="flex flex-col h-full">
 			<div className="flex-grow">    
@@ -273,18 +290,18 @@ export default async function Home() {
 										})}`}
 									</p>
 								</div>
-								{TVL > 0 && (
+								{data.tvl && data.tvl > 0 ? (
 									<div
 										title="Total Value Locked"
 										className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
 									>
 										<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-											<NusdIcon height={14} width={14} className="stroke-primary" />
+										<NusdIcon height={14} width={14} className="stroke-primary" />
 										</div>
 										<p>TVL</p>
-										<p className="text-primary font-bold">${TVL.toLocaleString()}</p>
+										<p className="text-primary font-bold">${data.tvl.toLocaleString()}</p>
 									</div>
-								)}
+								) : null}
 								{data.susdeBackingUSDValue > 0 && (
 									<a
 										href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_BACKING_ACCOUNT}`}
@@ -307,6 +324,20 @@ export default async function Home() {
 										</div>
 									</a>
 								)}
+								{data.apy && data.apy > 0 ? (
+									<div
+										title="Annual Percentage Yield"
+										className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1 lg:hidden"
+									>
+										<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+											<NusdIcon height={14} width={14} className="stroke-primary" />
+										</div>
+										<p>APY</p>
+										<p className="text-primary font-bold">
+											{`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+										</p>
+									</div>
+								) : null}
 							</div>
 						) : null}
 						<h2 className="max-w-full w-[612px] leading-7">

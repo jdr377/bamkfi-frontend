@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "bamkfi-frontend",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,6 +23,7 @@
     "connectkit": "^1.8.0",
     "connectkit-next-siwe": "^0.3.0",
     "encoding": "^0.1.13",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.7",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

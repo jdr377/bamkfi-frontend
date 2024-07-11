@@ -31,7 +31,6 @@ export default async function handler(
         },
       });
     } else if (req.method === 'POST') {
-      console.log('POSTING',req.body)
       response = await fetch(`${process.env.AUTOSWAP_BASE_URL}/deposits`, {
         method: 'POST',
         body: req.body,

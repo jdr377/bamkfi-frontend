@@ -16,6 +16,7 @@ import BtcIcon from '@/icons/btc';
 import { OvalSpinner } from '../Loaders';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 export interface Authorization {
   from_btc_address: string;
@@ -85,6 +86,7 @@ export const BtcWalletProvider = ({ children }: { children: React.ReactNode }) =
           body: JSON.stringify(authorization)
         });
         if (response.ok) {
+          Cookies.set('connected_btc_address', authorization.from_btc_address);
           return
         }
       }
@@ -108,12 +110,14 @@ export const BtcWalletProvider = ({ children }: { children: React.ReactNode }) =
       if (!response.ok) {
         throw new Error("Unauthorized")
       }
+      Cookies.set('connected_btc_address', newAuthorization.from_btc_address);
       setAuthorization(newAuthorization)
       return newAuthorization
     } catch (e) {
       console.error(e)
       toast.error("Unauthorized")
       setOpen(true)
+      Cookies.remove('connected_btc_address')
     } finally {
       setAuthorizing(false)
     }
@@ -127,6 +131,7 @@ export const BtcWalletProvider = ({ children }: { children: React.ReactNode }) =
         setPublicKey("")
         setAuthorization(undefined)
         setSelectedAdapter(undefined)
+        Cookies.remove('connected_btc_address')
       }
 
       // let xverseAdapter: WalletAdapter 
@@ -199,7 +204,6 @@ export const BtcWalletProvider = ({ children }: { children: React.ReactNode }) =
               setConnecting('okx')
               try {
                 const result = await okxProvider.connect()
-                console.log('result', result)
                 const publicKey = await okxProvider.getPublicKey()
                 setAddress(result.address)
                 setPublicKey(publicKey)
@@ -333,10 +337,10 @@ export const ConnectBtcButton = () => {
   const { connected, connecting, initialized, address, authorization } = wallet;
   return (
     <>
-        <Button variant={connected ? 'ghost' : 'outline'} disabled={!initialized || !!connecting}>
+        <Button variant={connected ? 'ghost' : 'default'} disabled={!initialized || !!connecting}>
         <div className="flex gap-2 items-center">
-            <BitcoinIconWithStatus />
-            {address && authorization ? shortenAddress(address) : "Connect Wallet"}
+            {connected && <BitcoinIconWithStatus />}
+            {address && authorization ? shortenAddress(address) : <div className="font-semibold">Connect Wallet</div>}
         </div>
         </Button>
     </>

@@ -10,6 +10,7 @@ export interface DataContextType {
   btcPriceData?: { bitcoin: { usd: number } };
   susdeBackingUSDValue?: number;
   apy?: number;
+  tvl?: number;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);

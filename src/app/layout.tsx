@@ -10,6 +10,9 @@ import { MagicEdenBamkData, NusdRuneData } from "@/types";
 import { mulish } from "@/components/ui/fonts";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { BtcWalletProvider } from "@/components/providers/BtcWalletProvider";
+import { Web3Provider } from "@/components/providers/Web3Provider";
+import { SEASON_1_BAMK_PER_BLOCK } from "@/lib/constants";
 
 export const metadata: Metadata = {
 	title: 'BAMK•OF•NAKAMOTO•DOLLAR',
@@ -80,12 +83,48 @@ async function getData() {
 		  usd: number;
 		}
 	 } = (await btcPrice.json());
+
+	let apy = 0
+	if (magicEdenBamkData && nusdRuneData && btcPriceData && nusdInfoData) {
+		const usdPricePerBamk =
+			(Number(magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000) *
+			btcPriceData.bitcoin.usd
+		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(nusdRuneData.amount)
+		const nusdBrc20Circulating = Number(nusdInfoData.minted)
+		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
+		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / nusdTotalCirculating
+	}
+
+
+	const nusdCirculationReq = await fetch('https://calhounjohn.com/balances/getCirculationByBlock', {
+		headers: {
+		  Authorization: `Bearer big-bamker-password`
+		},
+		next: {
+		  revalidate: 600
+		}
+	  });
+	if (!nusdCirculationReq.ok) {
+		console.error("Error fetching NUSD circulation", nusdCirculationReq.status, nusdCirculationReq.statusText)
+		return {};
+	}
+	let tvl = 0
+	try {
+		const nusdCirculationData = await nusdCirculationReq.json() as { circulation: number };
+		if (nusdCirculationData?.circulation) {
+			tvl = nusdCirculationData.circulation
+		}
+	} catch (err) {
+		return {}
+	}
 	
 	return {
 		nusdInfoData,
 		nusdRuneData,
 		magicEdenBamkData,
 		btcPriceData,
+		apy,
+		tvl,
 	}
 }
 
@@ -108,12 +147,16 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<DataProvider data={data}>
-						<Header data={data} />
-						<main className="flex-[1_1_auto]">
-							{children}
-						</main>
-						<Footer />
-						<ToastContainer theme="dark" position="bottom-center" newestOnTop hideProgressBar closeButton={false} className="mb-4" />
+						<BtcWalletProvider>
+							<Web3Provider>
+								<Header/>
+								<main className="flex-[1_1_auto]">
+									{children}
+								</main>
+								<Footer />
+								<ToastContainer theme="dark" position="bottom-center" newestOnTop hideProgressBar closeButton={false} className="mb-4" />
+							</Web3Provider>
+						</BtcWalletProvider>
 					</DataProvider>
 				</ThemeProvider>
 			</body>

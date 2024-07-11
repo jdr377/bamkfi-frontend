@@ -9,11 +9,11 @@ import { CircleCheckIcon } from '../../../../icons/CircleCheckIcon'
 import Link from 'next/link'
 import styles from '../../mint/history/History.module.css'
 import UsdeIcon from '@/icons/USDe'
-import Navigation from "@/components/navigation";
-import { CaretLeftIcon, CopyIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import Navigation from '@/components/navigation/navigation'
+import { CaretLeftIcon, CopyIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import swapStyles from '@/app/swap/_styles/swap.module.css'
 
-const ValueWithLoader = (props: { value: string | null; loadingLabel?: string; }) => {
+const ValueWithLoader = (props: { value: string | null; loadingLabel?: string }) => {
 	return (
 		<div className={styles.valueContainer}>
 			{!props.value && <GridSpinner color="white" />}
@@ -22,11 +22,7 @@ const ValueWithLoader = (props: { value: string | null; loadingLabel?: string; }
 	)
 }
 
-function getStatus({
-	ethTxid,
-}: {
-	ethTxid: Redeem['eth_txid']
-}) {
+function getStatus({ ethTxid }: { ethTxid: Redeem['eth_txid'] }) {
 	let status: 'Completed' | 'In Progress'
 	if (ethTxid) {
 		status = 'Completed'
@@ -37,16 +33,16 @@ function getStatus({
 }
 
 export type Redeem = {
-	uuid: string;
-	from_btc_address: string;
-	from_nusd_amount: number;
-	to_eth_account: string;
-	to_nusd_address: string;
-	btc_txid: string | null;
-	eth_txid: string | null;
-	created_at: number;
-  };
-import { CalendarIcon } from "@radix-ui/react-icons";
+	uuid: string
+	from_btc_address: string
+	from_nusd_amount: number
+	to_eth_account: string
+	to_nusd_address: string
+	btc_txid: string | null
+	eth_txid: string | null
+	created_at: number
+}
+import { CalendarIcon } from '@radix-ui/react-icons'
 import { toast } from 'react-toastify'
 import NusdIcon from '@/icons/nusd'
 import { Badge } from '@/components/ui/badge'
@@ -54,7 +50,7 @@ import { ArrowIcon } from '@/icons/ArrowIcon'
 
 const RedeemHistoryCard: React.FC<Redeem> = props => {
 	const status = getStatus({
-		ethTxid: props.eth_txid,
+		ethTxid: props.eth_txid
 	})
 	return (
 		<div className={styles.card}>
@@ -62,7 +58,7 @@ const RedeemHistoryCard: React.FC<Redeem> = props => {
 				<div>
 					<label className={styles.label}>Order ID</label>
 					<div className="flex items-center">
-						<Link href={`/swap/redeem/history/${props.uuid}`} className="hover:underline">	
+						<Link href={`/swap/redeem/history/${props.uuid}`} className="hover:underline">
 							<div className={styles.valueContainer}>{props.uuid}</div>
 						</Link>
 					</div>
@@ -81,9 +77,12 @@ const RedeemHistoryCard: React.FC<Redeem> = props => {
 							<NusdIcon height={14} width={14} className="stroke-primary" />
 						</div>
 						<div className="flex-grow">
-							{(Number(props.from_nusd_amount)).toLocaleString()} NUSD•NUSD•NUSD•NUSD
+							{Number(props.from_nusd_amount).toLocaleString()} NUSD•NUSD•NUSD•NUSD
 						</div>
-						<Badge variant={"outline"} className="border-[#F7931A] text-[#F7931A] rounded-sm whitespace-nowrap"> 
+						<Badge
+							variant={'outline'}
+							className="border-[#F7931A] text-[#F7931A] rounded-sm whitespace-nowrap"
+						>
 							Runes
 						</Badge>
 					</div>
@@ -98,15 +97,15 @@ const RedeemHistoryCard: React.FC<Redeem> = props => {
 					<div className={styles.label}>To address</div>
 					<div className={styles.valueContainer}>
 						<div className="flex items-center w-full gap-2">
-							<div className="break-all flex-grow">{props.to_nusd_address}</div> {/* TODO: modify this to have a bamkfi green check next to it? */}
+							<div className="break-all flex-grow">{props.to_nusd_address}</div>{' '}
 							{!props.btc_txid && (
-								<Button 
-									variant="default" 
+								<Button
+									variant="default"
 									size="sm"
 									className="h-8 px-2 flex-shrink-0 rounded-sm"
 									onClick={() => {
-										navigator.clipboard.writeText(props.to_nusd_address);
-										toast.success("Address copied to clipboard");
+										navigator.clipboard.writeText(props.to_nusd_address)
+										toast.success('Address copied to clipboard')
 									}}
 								>
 									<CopyIcon className="h-4 w-4 mr-1" />
@@ -118,9 +117,9 @@ const RedeemHistoryCard: React.FC<Redeem> = props => {
 				</div>
 				<div>
 					<label className={styles.label}>Deposit Transaction ID</label>
-					<ValueWithLoader value={props.btc_txid} loadingLabel='Awaiting Deposit' />
+					<ValueWithLoader value={props.btc_txid} loadingLabel="Awaiting Deposit" />
 				</div>
-				<div className={"my-4"}>
+				<div className={'my-4'}>
 					<div className={swapStyles.arrow}>
 						<ArrowIcon />
 					</div>
@@ -152,17 +151,16 @@ const RedeemHistoryCard: React.FC<Redeem> = props => {
 				{status === 'In Progress' ? (
 					<div>
 						<div className="text-center opacity-75 text-xs mt-4">
-							Please wait a few block confirmations for deposit transaction to be confirmed. Redeems are normally processed within 24 hours. The tool is being rolled out in stages
-								and manual checks are imposed before any funds are sent to prioritize security.
+							Please wait a few block confirmations for deposit transaction to be confirmed. Redeems
+							are normally processed within 24 hours. The tool is being rolled out in stages and
+							manual checks are imposed before any funds are sent to prioritize security.
 						</div>
 					</div>
 				) : (
 					<div>
 						<label className={styles.label}>Status</label>
 						<div className={styles.valueContainer}>
-							{status === 'Completed' && (
-								<CircleCheckIcon size="1.5rem" fill="rgb(60, 179, 113)" />
-							)}
+							{status === 'Completed' && <CircleCheckIcon size="1.5rem" fill="rgb(60, 179, 113)" />}
 							{status}
 						</div>
 					</div>
@@ -177,20 +175,26 @@ const DefaultNav = () => (
 			<Link href="/swap/redeem">
 				<Button aria-label="Back" variant="ghost">
 					<div className="flex items-center gap-1 opacity-60">
-						<CaretLeftIcon/>
+						<CaretLeftIcon />
 						<div>Back</div>
 					</div>
 				</Button>
 			</Link>
 		</div>
 		<div className="absolute left-1/2 transform -translate-x-1/2">
-			<Navigation links={[{ href: "/swap/redeem/history", name: 'History'}]} />
+			<Navigation links={[{ href: '/swap/redeem/history', name: 'History' }]} />
 		</div>
 	</nav>
 )
-export const RedeemHistory = ({ orderId, nav = <DefaultNav /> }: { orderId?: string; nav?: React.ReactNode }) => {
+export const RedeemHistory = ({
+	orderId,
+	nav = <DefaultNav />
+}: {
+	orderId?: string
+	nav?: React.ReactNode
+}) => {
 	const [page, setPage] = useState(1)
-	const limit = 10;
+	const limit = 10
 	const needsRefreshRef = useRef(false)
 	const wallet = useWallet()
 	const getRedeemResponse = useQuery({
@@ -199,7 +203,7 @@ export const RedeemHistory = ({ orderId, nav = <DefaultNav /> }: { orderId?: str
 			const response = await fetch(
 				`${process.env.NEXT_PUBLIC_REDEEM_BASE_URL}/redeems?${new URLSearchParams({
 					...wallet.authorization,
-					order_id: orderId || "",
+					order_id: orderId || '',
 					limit: limit.toString(),
 					offset: ((page - 1) * limit).toString()
 				}).toString()}`,
@@ -212,9 +216,7 @@ export const RedeemHistory = ({ orderId, nav = <DefaultNav /> }: { orderId?: str
 			}
 			const data = await response.json()
 			needsRefreshRef.current = data.redeems.some(
-				(d: any) =>
-					getStatus({ ethTxid: d.eth_txid }) ===
-					'In Progress'
+				(d: any) => getStatus({ ethTxid: d.eth_txid }) === 'In Progress'
 			)
 			return data
 		},
@@ -236,9 +238,7 @@ export const RedeemHistory = ({ orderId, nav = <DefaultNav /> }: { orderId?: str
 			<div className={styles.cardsContainer}>
 				{data.redeems.map((r: Redeem) => (
 					<div key={r.uuid} className={styles.cardWrapper}>
-						<RedeemHistoryCard
-							{...r}
-						/>
+						<RedeemHistoryCard {...r} />
 					</div>
 				))}
 			</div>

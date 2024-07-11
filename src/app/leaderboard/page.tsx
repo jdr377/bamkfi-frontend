@@ -68,7 +68,7 @@ export default async function Leaderboard() {
 
   return (
     <div className="max-w-screen-xl container flex flex-col gap-8 sm:mt-8 px-2">
-      <div className="flex flex-col gap-4 md:mx-8">
+      <div className="flex flex-col gap-4 mx-4 md:mx-10">
         <h1 className={classNames(nunito.className, 'text-3xl mt-2')}>
           Season 1 Rewards Leaderboard
         </h1>
