@@ -293,7 +293,14 @@ const Redeem: React.FC = () => {
               />
             </div>
           </div>
-
+          {Number(sendAmountField.getValue()) > 0 ? (
+            <div className='flex justify-center text-xs text-center opacity-50 mt-2'>
+              <div className='flex flex-col gap-1'>
+                <div>Service fee: $0</div>
+                <div>ETH network fee will be deducted from your received amount</div>
+              </div>
+            </div>
+          ) : null}
           <form.Subscribe
             selector={(state) => [state.canSubmit]}
             children={([canSubmit]) => {
@@ -304,7 +311,7 @@ const Redeem: React.FC = () => {
                     disabled={isSubmitting}
                     variant={"default"}
                   >
-                    Redeem
+                    {isSubmitting ? 'Redeeming' : 'Redeem' }
                   </Button>
                 </div>
               );
