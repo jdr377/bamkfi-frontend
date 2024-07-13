@@ -91,7 +91,7 @@ const MintFromErc20 = (props: {
           method: 'POST',
           body: JSON.stringify(reqData),
         });
-        if (!response.ok) throw new Error('Server error');
+        if (!response.ok) throw new Error('Server error. Please try agaain.');
         const responseData = await response.json();
         if (
           Number(responseData.deposit_usde_total_amount) /
@@ -179,12 +179,11 @@ const MintFromErc20 = (props: {
                         name={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        type="number"
+                        onChange={(e) => /^\d*(\.\d{0,6})?$/.test(e.target.value) && field.handleChange(e.target.value)}
+                        type="text"
+                        inputMode="decimal"
                         className={styles.input}
                         placeholder="0.00"
-                        min={0}
-                        max={balance > 0 ? balance : undefined}
                         disabled={isSubmitting}
                       />
                       <FieldInfo field={field} />
