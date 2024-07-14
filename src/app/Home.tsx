@@ -6,8 +6,10 @@ import {
 	BAMK_TOTAL_SUPPLY,
 	ETHENA_BACKING_ACCOUNT,
 	ETHENA_SUSDE_TOKEN_CONTRACT,
-	ETHENA_USDE_TOKEN_CONTRACT,
 	SEASON_1_BAMK_PER_BLOCK,
+	USDT_CONTRACT_ADDRESS_MAINNET,
+	USDE_CONTRACT_ADDRESS_MAINNET,
+	BACKING_ACCOUNT_2
 } from '@/lib/constants'
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
@@ -57,7 +59,7 @@ async function getData() {
 
 	const INFURA_API_KEY = process.env.INFURA_API_KEY
 
-	const erc20BalanceOfMethodId = '0x70a08231000000000000000000000000'
+	const erc20BalanceOfMethodId = keccak256('balanceOf(address)').substring(0, 10).padEnd(34, '0');
 	const usdeBackingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
 		method: 'POST',
 		headers: {
@@ -68,7 +70,7 @@ async function getData() {
 			method: 'eth_call',
 			params: [
 				{
-					to: ETHENA_USDE_TOKEN_CONTRACT,
+					to: USDE_CONTRACT_ADDRESS_MAINNET,
 					data: erc20BalanceOfMethodId + ETHENA_BACKING_ACCOUNT.substring(2)
 				},
 				'latest'
@@ -80,7 +82,31 @@ async function getData() {
 	if (!usdeBackingResponse.ok) {
 		console.error('Error fetching usdeBacking', usdeBackingResponse.status, usdeBackingResponse.statusText)
 	}
-	const usdeBalance = BigInt((await usdeBackingResponse.json()).result) / BigInt(10 ** 18)
+	const usdeBackingResponseAccount2 = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			jsonrpc: '2.0',
+			method: 'eth_call',
+			params: [
+				{
+					to: USDE_CONTRACT_ADDRESS_MAINNET,
+					data: erc20BalanceOfMethodId + BACKING_ACCOUNT_2.substring(2)
+				},
+				'latest'
+			],
+			id: 1
+		}),
+		next: { revalidate: 600 }
+	})
+	if (!usdeBackingResponseAccount2.ok) {
+		console.error('Error fetching usdeBacking', usdeBackingResponseAccount2.status, usdeBackingResponseAccount2.statusText)
+	}
+	const usdeBalance1 = BigInt((await usdeBackingResponse.json()).result) / BigInt(10 ** 18)
+	const usdeBalance2 = BigInt((await usdeBackingResponseAccount2.json()).result) / BigInt(10 ** 18)
+	const usdeBalance = usdeBalance1 + usdeBalance2
 	const usdePrice = await fetch(
 		'https://api.coingecko.com/api/v3/simple/price?ids=ethena-usde&vs_currencies=usd',
 		{
@@ -100,6 +126,49 @@ async function getData() {
 			usd: number
 		}
 	} = await usdePrice.json()
+
+	const usdtBackingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			jsonrpc: '2.0',
+			method: 'eth_call',
+			params: [
+				{
+					to: USDT_CONTRACT_ADDRESS_MAINNET,
+					data: erc20BalanceOfMethodId + BACKING_ACCOUNT_2.substring(2)
+				},
+				'latest'
+			],
+			id: 1
+		}),
+		next: { revalidate: 600 }
+	})
+	if (!usdtBackingResponse.ok) {
+		console.error('Error fetching usdeBacking', usdeBackingResponse.status, usdeBackingResponse.statusText)
+	}
+	const usdtBalance = BigInt((await usdtBackingResponse.json()).result) / BigInt(10 ** 6)
+	const usdtPrice = await fetch(
+		'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd',
+		{
+			method: 'GET',
+			headers: {
+				'x-cg-demo-api-key': process.env.COINGECKO_API_KEY as string
+			},
+			next: { revalidate: 3600 }
+		}
+	)
+	if (!usdtPrice.ok) {
+		console.error('Error fetching usdePrice', usdtPrice)
+		return {}
+	}
+	const usdtPriceData: {
+		'tether': {
+			usd: number
+		}
+	} = await usdtPrice.json()
 
 	const susdeBackingResponse = await fetch(`https://mainnet.infura.io/v3/${INFURA_API_KEY}`, {
 		method: 'POST',
@@ -182,8 +251,9 @@ async function getData() {
 
 	const susdeValue = susdePriceData['ethena-staked-usde'].usd * Number(susdeBalance);
 	const usdeValue = usdePriceData['ethena-usde'].usd * Number(usdeBalance);
+	const usdtValue = usdtPriceData['tether'].usd * Number(usdtBalance);
 	const usdeUnstakingValue = usdePriceData['ethena-usde'].usd * usdeUnstakingBalance;
-	const susdeBackingUSDValue = susdeValue + usdeValue + usdeUnstakingValue;
+	const susdeBackingUSDValue = susdeValue + usdeValue + usdeUnstakingValue + usdtValue;
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
 		headers: {
