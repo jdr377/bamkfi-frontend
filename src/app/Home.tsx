@@ -360,7 +360,7 @@ export default async function Home() {
 										})}`}
 									</p>
 								</div>
-								{data.tvl && data.tvl > 0 ? (
+								{data.tvl && data.tvl > 0 && data.tvl < 1_000_000_000_000_000 ? (
 									<div
 										title="Total Value Locked"
 										className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
