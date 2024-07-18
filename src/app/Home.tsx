@@ -394,7 +394,7 @@ export default async function Home() {
 										</div>
 									</a>
 								)}
-								{data.apy && data.apy > 0 ? (
+								{data.apy && data.apy > 0.01 ? (
 									<div
 										title="Annual Percentage Yield"
 										className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1 lg:hidden"

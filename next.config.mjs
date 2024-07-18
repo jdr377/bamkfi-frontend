@@ -8,11 +8,6 @@ const nextConfig = {
     async redirects() {
         return [
           {
-            source: '/',
-            destination: '/swap/mint',
-            permanent: false,
-          },
-          {
             source: '/mint',
             destination: '/swap/mint',
             permanent: false,

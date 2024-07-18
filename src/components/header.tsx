@@ -44,7 +44,7 @@ export default function Header() {
 		<header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="flex justify-between items-center h-14 max-w-screen-xl container px-2 sm:px-8">
 				<div className="flex items-center">
-					<Link href="/home">
+					<Link href="/">
 						<div className={classNames(nunito.className, 'flex h-8 mr-2 gap-4')}>
 							<BamkIcon className="h-8 w-8 stroke-primary" />
 							<div className="uppercase text-zinc-50 text-xl leading-[31px] tracking-[0.23em]">
@@ -56,7 +56,7 @@ export default function Header() {
 				<div className="hidden sm:block">
 					<Navigation links={links} />
 				</div>
-				{data.apy && data.apy > 0 ? (
+				{data.apy && data.apy > 0.01 ? (
 					<div
 						title="Annual Percentage Yield"
 						className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center hidden lg:flex"
@@ -83,7 +83,7 @@ export default function Header() {
 						<Wallets />
 					)}
 					<div className='sm:hidden'>
-						<MobileNavigation links={[{ name: 'Home',	href: '/home' }, ...links]} />
+						<MobileNavigation links={[{ name: 'Home',	href: '/' }, ...links]} />
 					</div>
 				</div>
 			</div>
