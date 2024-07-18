@@ -17,18 +17,6 @@ import UsdeIcon from '@/icons/USDe';
 import NusdIcon from '@/icons/nusd';
 
 async function getData() {
-	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
-		headers: {
-			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
-		},
-		next: { revalidate: 600 }
-	})
-	if (!nusdInfo.ok) {
-		console.error('Error fetching nusdInfo', nusdInfo.status, nusdInfo.statusText)
-		return {}
-	}
-	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
-
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
 			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
@@ -40,23 +28,6 @@ async function getData() {
 		return {}
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamkReq.json())
-
-	const nusdRune = await fetch(
-		'https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance',
-		{
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
-			},
-			next: { revalidate: 600 }
-		}
-	)
-	if (!nusdRune.ok) {
-		console.error('Error fetching nusdRune:', nusdRune.status, nusdRune.statusText)
-		return {}
-	}
-	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data
-
 	const INFURA_API_KEY = process.env.INFURA_API_KEY
 
 	const erc20BalanceOfMethodId = keccak256('balanceOf(address)').substring(0, 10).padEnd(34, '0');
@@ -297,19 +268,15 @@ async function getData() {
 
 
 	let apy = 0
-	if (magicEdenBamkData && nusdRuneData && btcPriceData && nusdInfoData) {
+	if (magicEdenBamkData && btcPriceData && nusdCirculationReq) {
 		const usdPricePerBamk =
 			(Number(magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000) *
 			btcPriceData.bitcoin.usd
-		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(nusdRuneData.amount)
-		const nusdBrc20Circulating = Number(nusdInfoData.minted)
-		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
-		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / nusdTotalCirculating
+		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / tvl
 	}
 
 	return {
-		nusdInfoData,
-		nusdRuneData,
+		nusdCirculationReq,
 		magicEdenBamkData,
 		susdeBackingUSDValue,
 		btcPriceData,
@@ -317,6 +284,17 @@ async function getData() {
 		apy
 	}
 }
+
+const formatTVL = (value: number): string => {
+	if (value >= 1_000_000_000) {
+	  return `${(value / 1_000_000_000).toFixed(1)}b`;
+	} else if (value >= 100_000_000) {
+	  return `${(value / 1_000_000).toFixed(1)}m`;
+	} else if (value >= 1_000_000) {
+	  return `${(value / 1_000_000).toFixed(2)}m`;
+	}
+	return value.toLocaleString();
+};
 
 export default async function Home() {
 	const data = await getData()
@@ -369,7 +347,7 @@ export default async function Home() {
 										<NusdIcon height={14} width={14} className="stroke-primary" />
 										</div>
 										<p>TVL</p>
-										<p className="text-primary font-bold">${data.tvl.toLocaleString()}</p>
+										<p className="text-primary font-bold">{formatTVL(data.tvl)}</p>
 									</div>
 								) : null}
 								{data.susdeBackingUSDValue > 0 && (

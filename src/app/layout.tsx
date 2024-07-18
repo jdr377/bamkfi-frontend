@@ -30,18 +30,6 @@ export const metadata: Metadata = {
 }
 
 async function getData() {
-	const nusdInfo = await fetch('https://open-api.unisat.io/v1/indexer/brc20/$NUSD/info', {
-		headers: {
-			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`
-		},
-		next: { revalidate: 600 }
-	})
-	if (!nusdInfo.ok) {
-		console.error("Error fetching NUSD BRC20 data from unisat", nusdInfo.status, nusdInfo.statusText)
-		return {}
-	}
-	const nusdInfoData: { minted: string } = (await nusdInfo.json()).data
-
 	const magicEdenBamk = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
 		headers: {
 			Authorization: `Bearer ${process.env.MAGIC_EDEN_API_KEY}`
@@ -53,19 +41,6 @@ async function getData() {
 		return {}
 	}
 	const magicEdenBamkData: MagicEdenBamkData = (await magicEdenBamk.json())
-
-	const nusdRune = await fetch('https://open-api.unisat.io/v1/indexer/address/bc1pg9afu20tdkmzm40zhqugeqjzl5znfdh8ndns48t0hnmn5gu7uz5saznpu9/runes/845005%3A178/balance', {
-		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${process.env.UNISAT_API_KEY}`,
-		},
-		next: { revalidate: 600 }
-	});
-	if (!nusdRune.ok) {
-		console.error('Error fetching nusdRune:', nusdRune.status, nusdRune.statusText)
-		return {}
-	}
-	const nusdRuneData: NusdRuneData = (await nusdRune.json()).data;
 
 	const btcPrice = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
 		method: 'GET',
@@ -84,18 +59,6 @@ async function getData() {
 		}
 	 } = (await btcPrice.json());
 
-	let apy = 0
-	if (magicEdenBamkData && nusdRuneData && btcPriceData && nusdInfoData) {
-		const usdPricePerBamk =
-			(Number(magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000) *
-			btcPriceData.bitcoin.usd
-		const nusdRuneCirculating = 2_100_000_000_000_000 - Number(nusdRuneData.amount)
-		const nusdBrc20Circulating = Number(nusdInfoData.minted)
-		const nusdTotalCirculating = nusdRuneCirculating + nusdBrc20Circulating
-		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / nusdTotalCirculating
-	}
-
-
 	const nusdCirculationReq = await fetch('https://calhounjohn.com/balances/getCirculationByBlock', {
 		headers: {
 		  Authorization: `Bearer big-bamker-password`
@@ -109,23 +72,21 @@ async function getData() {
 		return {};
 	}
 	let tvl = 0
+	let apy = 0
+
 	try {
 		const nusdCirculationData = await nusdCirculationReq.json() as { circulation: number };
 		if (nusdCirculationData?.circulation) {
-			tvl = nusdCirculationData.circulation
-		}
-	} catch (err) {
-		return {}
-	}
-	
-	return {
-		nusdInfoData,
-		nusdRuneData,
-		magicEdenBamkData,
-		btcPriceData,
-		apy,
-		tvl,
-	}
+    		tvl = nusdCirculationData.circulation;
+      		const usdPricePerBamk = (Number(magicEdenBamkData.floorUnitPrice.formatted) / 100_000_000) * btcPriceData.bitcoin.usd;
+      		apy = (usdPricePerBamk * SEASON_1_BAMK_PER_BLOCK * 144 * 365) / tvl;
+    	}
+  	} catch (err) {
+    console.error("Error processing circulation data", err);
+    return {};
+  	}
+
+  return { magicEdenBamkData, btcPriceData, apy, tvl };
 }
 
 export type AppData = Awaited<ReturnType<typeof getData>>
