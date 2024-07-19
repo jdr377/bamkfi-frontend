@@ -15,6 +15,8 @@ import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 import UsdeIcon from '@/icons/USDe';
 import NusdIcon from '@/icons/nusd';
+import ExternalLink from '@/icons/ExternalLink';
+import { DescriptionText } from '@/components/ui/DescriptionText';
 
 async function getData() {
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
@@ -299,100 +301,30 @@ const formatTVL = (value: number): string => {
 export default async function Home() {
 	const data = await getData()
 	return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col mt-44">
 			<div className="flex-grow">    
-				<div className="max-w-screen-xl container flex flex-col gap-8 mt-8">
-					<div className="flex flex-col gap-4 md:ml-12">
-						<RuneNameHeading>BAMK•OF•NAKAMOTO•DOLLAR</RuneNameHeading>
-						{data?.magicEdenBamkData ? (
-							<div className="flex gap-2 flex-wrap -mt-2">
-								<div
-									title="BAMK Price"
-									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-								>
-									<p>
-										<span className="text-primary">{Number(data.magicEdenBamkData.floorUnitPrice.formatted).toLocaleString(undefined, { maximumFractionDigits: 2 })} sats</span>
-										{' / 🏦'}
-									</p>
+				<div className="max-w-screen-xl container flex flex-col gap-8">
+					<div className="flex flex-col gap-0 md:ml-12 my-0 py-0">
+						<RuneNameHeading>NUSD:</RuneNameHeading>
+						<RuneNameHeading>BITCOIN'S DOLLAR</RuneNameHeading>
+						<div className="mt-6">
+						<DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
+						<DescriptionText>oldest most secure blockchain</DescriptionText>
+						</div>
+						{data.apy && data.apy > 0.01 ? (
+							<div
+								title="Annual Percentage Yield"
+								className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1 lg:hidden"
+							>
+								<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+									<NusdIcon height={14} width={14} className="stroke-primary" />
 								</div>
-								<div
-									title="Market Cap (Circulating Supply)"
-									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-								>
-									<p>🏦 MCAP</p>
-									<p className="text-primary font-bold">
-										{`$${(
-											Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd *
-											(1 - BAMK_PREMINED_SUPPLY / BAMK_TOTAL_SUPPLY)
-										).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-									</p>
-								</div>
-								<div
-									title="Fully Diluted Valuation"
-									className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-								>
-									<p>🏦 FDV</p>
-									<p className="text-primary font-bold">
-										{`$${(Number(data.magicEdenBamkData.marketCap) * data.btcPriceData.bitcoin.usd).toLocaleString(undefined, {
-											maximumFractionDigits: 0
-										})}`}
-									</p>
-								</div>
-								{data.tvl && data.tvl > 0 && data.tvl < 1_000_000_000_000_000 ? (
-									<div
-										title="Total Value Locked"
-										className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-									>
-										<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-										<NusdIcon height={14} width={14} className="stroke-primary" />
-										</div>
-										<p>TVL</p>
-										<p className="text-primary font-bold">{formatTVL(data.tvl)}</p>
-									</div>
-								) : null}
-								{data.susdeBackingUSDValue > 0 && (
-									<a
-										href={`https://www.oklink.com/eth/token/${ETHENA_SUSDE_TOKEN_CONTRACT}?address=${ETHENA_BACKING_ACCOUNT}`}
-										className="cursor-pointer"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<div
-											title="Backed by Ethena USDe/sUSDe"
-											className="bg-primary/5 flex text-sm gap-2 px-4 rounded-md h-10 items-center w-max mt-1"
-										>
-											<UsdeIcon height={27} width={27} className="stroke-primary" />
-											<p>USDe Reserves</p>
-											<p className="text-primary font-bold">
-												$
-												{data.susdeBackingUSDValue.toLocaleString(undefined, {
-													maximumFractionDigits: 0
-												})}
-											</p>
-										</div>
-									</a>
-								)}
-								{data.apy && data.apy > 0.01 ? (
-									<div
-										title="Annual Percentage Yield"
-										className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1 lg:hidden"
-									>
-										<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-											<NusdIcon height={14} width={14} className="stroke-primary" />
-										</div>
-										<p>APY</p>
-										<p className="text-primary font-bold">
-											{`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-										</p>
-									</div>
-								) : null}
+								<p>APY</p>
+								<p className="text-primary font-bold">
+									{`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+								</p>
 							</div>
 						) : null}
-						<h2 className="max-w-full w-[612px] leading-7">
-							Bamk.fi is a synthetic dollar protocol built on Bitcoin L1 providing a crypto-native
-							solution for money not reliant on the traditional banking system, alongside a globally
-							accessible dollar-denominated savings instrument — the Bitcoin&nbsp;Bond.
-						</h2>
 						<div className="flex flex-wrap gap-3 max-w-full sm:w-[612px]">
 							<a
 								href={BAMK_MARKET_URL}
@@ -400,7 +332,7 @@ export default async function Home() {
 								rel="noopener noreferrer"
 								className='flex-grow'
 							>
-								<Button className="w-full h-14 text-lg">Buy BAMK</Button>
+								<Button className="w-full h-14 text-lg font-bold">GET NUSD</Button>
 							</a>
 							<a
 								href={"https://www.dotswap.app/swap#R_BTC_NUSD%E2%80%A2NUSD%E2%80%A2NUSD%E2%80%A2NUSD"}
@@ -408,8 +340,8 @@ export default async function Home() {
 								rel="noopener noreferrer"
 								className='flex-grow'
 							>
-								<Button className="w-full h-14 text-lg" variant="secondary">
-									Buy NUSD
+								<Button className="w-full h-14 text-lg font-bold" variant="hollow">
+									LEARN HOW NUSD WORKS &nbsp; <ExternalLink />
 								</Button>
 							</a>
 						</div>
