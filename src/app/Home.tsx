@@ -14,10 +14,11 @@ import {
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 import UsdeIcon from '@/icons/USDe';
-import NusdBackground from '@/icons/nusdbackground';
+import NusdBackground from '@/icons/NusdBackground';
 import NusdIcon from '@/icons/nusd';
 import ExternalLink from '@/icons/ExternalLink';
 import { DescriptionText } from '@/components/ui/DescriptionText';
+import Timeline from '@/components/timeline/Timeline';
 
 async function getData() {
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
@@ -313,20 +314,6 @@ export default async function Home() {
                                 <DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
                                 <DescriptionText>oldest most secure blockchain</DescriptionText>
                             </div>
-                            {data.apy && data.apy > 0.01 ? (
-                                <div
-                                    title="Annual Percentage Yield"
-                                    className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1"
-                                >
-                                    <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-                                        <NusdIcon height={14} width={14} className="stroke-primary" />
-                                    </div>
-                                    <p>APY</p>
-                                    <p className="text-primary font-bold">
-                                        {`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-                                    </p>
-                                </div>
-                            ) : null}
                             <div className="flex flex-wrap gap-3 max-w-full sm:w-[536px] mt-8">
                                 <a
                                     href={BAMK_MARKET_URL}
@@ -347,12 +334,29 @@ export default async function Home() {
                                     </Button>
                                 </a>
                             </div>
+							{data.apy && data.apy > 0.01 ? (
+                                <div
+                                    title="Annual Percentage Yield"
+                                    className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1"
+                                >
+                                    <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+                                        <NusdIcon height={14} width={14} className="stroke-primary" />
+                                    </div>
+                                    <p>APY</p>
+                                    <p className="text-primary font-bold">
+                                        {`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+                                    </p>
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                     <div className="hidden lg:flex items-center justify-center relative">
                         <NusdBackground className="absolute right-0 top-0 h-auto w-80 opacity-10" />
                     </div>
                 </div>
+				<div>
+				<Timeline />
+				</div>
             </div>
         </div>
     )
