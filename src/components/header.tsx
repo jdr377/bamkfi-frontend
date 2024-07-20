@@ -69,7 +69,7 @@ export default function Header() {
 				</div>
 				<div className="flex items-center gap-4">
           			{data.apy && data.apy ? (
-          			  <div title="Annual Percentage Yield" className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center hidden lg:flex">
+          			  <div title="Annual Percentage Yield" className="bg-primary/5 text-base gap-2 px-4 rounded-md h-10 items-center hidden lg:flex">
           			    <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
           			      <NusdIcon height={14} width={14} className="stroke-primary" />
           			    </div>
@@ -80,7 +80,7 @@ export default function Header() {
           			  </div>
           			) : null}
         		  	{data.tvl && data.tvl > 0 ? (
-        		  	  <div title="Total Value Locked" className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center hidden lg:flex">
+        		  	  <div title="Total Value Locked" className="bg-primary/5 text-base gap-2 px-4 rounded-md h-10 items-center hidden lg:flex">
         		  	    <p>TVL</p>
         		  	    <p className="text-primary font-bold">
         		  	      {`$${formatTVL(data.tvl)}`}

@@ -14,6 +14,7 @@ import {
 import { MagicEdenBamkData, NusdRuneData } from '@/types'
 import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 import UsdeIcon from '@/icons/USDe';
+import NusdBackground from '@/icons/nusdbackground';
 import NusdIcon from '@/icons/nusd';
 import ExternalLink from '@/icons/ExternalLink';
 import { DescriptionText } from '@/components/ui/DescriptionText';
@@ -299,55 +300,60 @@ const formatTVL = (value: number): string => {
 };
 
 export default async function Home() {
-	const data = await getData()
-	return (
-        <div className="flex flex-col mt-44">
-			<div className="flex-grow">    
-				<div className="max-w-screen-xl container flex flex-col gap-8">
-					<div className="flex flex-col gap-0 md:ml-12 my-0 py-0">
-						<RuneNameHeading>NUSD:</RuneNameHeading>
-						<RuneNameHeading>BITCOIN'S DOLLAR</RuneNameHeading>
-						<div className="mt-6">
-						<DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
-						<DescriptionText>oldest most secure blockchain</DescriptionText>
-						</div>
-						{data.apy && data.apy > 0.01 ? (
-							<div
-								title="Annual Percentage Yield"
-								className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1 lg:hidden"
-							>
-								<div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-									<NusdIcon height={14} width={14} className="stroke-primary" />
-								</div>
-								<p>APY</p>
-								<p className="text-primary font-bold">
-									{`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-								</p>
-							</div>
-						) : null}
-						<div className="flex flex-wrap gap-3 max-w-full sm:w-[612px]">
-							<a
-								href={BAMK_MARKET_URL}
-								target="_blank"
-								rel="noopener noreferrer"
-								className='flex-grow'
-							>
-								<Button className="w-full h-14 text-lg font-bold">GET NUSD</Button>
-							</a>
-							<a
-								href={"https://www.dotswap.app/swap#R_BTC_NUSD%E2%80%A2NUSD%E2%80%A2NUSD%E2%80%A2NUSD"}
-								target="_blank"
-								rel="noopener noreferrer"
-								className='flex-grow'
-							>
-								<Button className="w-full h-14 text-lg font-bold" variant="hollow">
-									LEARN HOW NUSD WORKS &nbsp; <ExternalLink />
-								</Button>
-							</a>
-						</div>
-					</div>
-				</div>
-        	</div>
+    const data = await getData();
+    return (
+        <div className="relative flex flex-col mt-16 sm:mt-24 lg:mt-44">
+            <div className="max-w-screen-xl container mx-auto px-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
+                    <div className="flex flex-col gap-8">
+                        <div className="flex flex-col gap-0 md:ml-12 my-0 py-0">
+                            <RuneNameHeading>NUSD:</RuneNameHeading>
+                            <RuneNameHeading>BITCOIN'S DOLLAR</RuneNameHeading>
+                            <div className="mt-8">
+                                <DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
+                                <DescriptionText>oldest most secure blockchain</DescriptionText>
+                            </div>
+                            {data.apy && data.apy > 0.01 ? (
+                                <div
+                                    title="Annual Percentage Yield"
+                                    className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1"
+                                >
+                                    <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+                                        <NusdIcon height={14} width={14} className="stroke-primary" />
+                                    </div>
+                                    <p>APY</p>
+                                    <p className="text-primary font-bold">
+                                        {`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+                                    </p>
+                                </div>
+                            ) : null}
+                            <div className="flex flex-wrap gap-3 max-w-full sm:w-[536px] mt-8">
+                                <a
+                                    href={BAMK_MARKET_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className='flex-grow'
+                                >
+                                    <Button className="w-full h-14 text-lg font-bold">GET NUSD</Button>
+                                </a>
+                                <a
+                                    href={"https://www.dotswap.app/swap#R_BTC_NUSD%E2%80%A2NUSD%E2%80%A2NUSD%E2%80%A2NUSD"}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className='flex-grow'
+                                >
+                                    <Button className="w-full h-14 text-lg font-bold px-4" variant="hollow">
+                                        LEARN HOW NUSD WORKS &nbsp; <ExternalLink />
+                                    </Button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="hidden lg:flex items-center justify-center relative">
+                        <NusdBackground className="absolute right-0 top-0 h-auto w-80 opacity-10" />
+                    </div>
+                </div>
+            </div>
         </div>
-	)
+    )
 }

@@ -49,7 +49,7 @@ export default function Navigation({ links } : { links: { name: string; href: st
 	)
 
 	return (
-        <div className="inline-flex items-center gap-4 text-sm lg:gap-9 px-0">
+        <div className="inline-flex items-center gap-4 text-base lg:gap-9 px-0">
             {links.map(l => (
                 <RenderLink key={l.name} {...l} />
             ))}
