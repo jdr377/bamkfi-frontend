@@ -16,6 +16,10 @@ import { RuneNameHeading } from '@/components/ui/RuneNameHeading';
 import UsdeIcon from '@/icons/USDe';
 import NusdBackground from '@/icons/NusdBackground';
 import NusdIcon from '@/icons/nusd';
+import TwitterIcon from '@/icons/twitter';
+import TelegramIcon from '@/icons/telegram';
+import { TWITTER_URL } from '@/lib/constants';
+import { TELEGRAM_URL } from '@/lib/constants';
 import ExternalLink from '@/icons/ExternalLink';
 import { DescriptionText } from '@/components/ui/DescriptionText';
 import Timeline from '@/components/timeline/Timeline';
@@ -301,63 +305,69 @@ const formatTVL = (value: number): string => {
 };
 
 export default async function Home() {
-    const data = await getData();
-    return (
-        <div className="relative flex flex-col mt-16 sm:mt-24 lg:mt-44">
-            <div className="max-w-screen-xl container mx-auto px-4">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
-                    <div className="flex flex-col gap-8">
-                        <div className="flex flex-col gap-0 md:ml-12 my-0 py-0">
-                            <RuneNameHeading>NUSD:</RuneNameHeading>
-                            <RuneNameHeading>BITCOIN'S DOLLAR</RuneNameHeading>
-                            <div className="mt-8">
-                                <DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
-                                <DescriptionText>oldest most secure blockchain</DescriptionText>
-                            </div>
-                            <div className="flex flex-wrap gap-3 max-w-full sm:w-[536px] mt-8">
-                                <a
-                                    href={BAMK_MARKET_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className='flex-grow'
-                                >
-                                    <Button className="w-full h-14 text-lg font-bold">GET NUSD</Button>
-                                </a>
-                                <a
-                                    href={"https://www.dotswap.app/swap#R_BTC_NUSD%E2%80%A2NUSD%E2%80%A2NUSD%E2%80%A2NUSD"}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className='flex-grow'
-                                >
-                                    <Button className="w-full h-14 text-lg font-bold px-4" variant="hollow">
-                                        LEARN HOW NUSD WORKS &nbsp; <ExternalLink />
-                                    </Button>
-                                </a>
-                            </div>
-							{data.apy && data.apy > 0.01 ? (
-                                <div
-                                    title="Annual Percentage Yield"
-                                    className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1"
-                                >
-                                    <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
-                                        <NusdIcon height={14} width={14} className="stroke-primary" />
-                                    </div>
-                                    <p>APY</p>
-                                    <p className="text-primary font-bold">
-                                        {`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
-                                    </p>
-                                </div>
-                            ) : null}
-                        </div>
-                    </div>
-                    <div className="hidden lg:flex items-center justify-center relative">
-                        <NusdBackground className="absolute right-0 top-0 h-auto w-80 opacity-10" />
-                    </div>
-                </div>
-				<div>
-				<Timeline />
+	const data = await getData();
+	return (
+	  <div className="relative flex flex-col">
+		<div className="top-section relative flex items-center justify-center" style={{ height: 'calc(100vh - 80px)' }}>
+		  <div className="max-w-screen-2xl container px-0 mx-0">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
+			  <div className="flex flex-col gap-8">
+				<div className="flex flex-col gap-0 md:ml-20 my-0 py-0">
+				  <RuneNameHeading>NUSD:</RuneNameHeading>
+				  <RuneNameHeading>BITCOIN'S DOLLAR</RuneNameHeading>
+				  <div className="mt-8">
+					<DescriptionText>The world's leading Bitcoin dollar on the</DescriptionText>
+					<DescriptionText>oldest most secure blockchain</DescriptionText>
+				  </div>
+				   <div className="flex flex-wrap gap-3 max-w-full mx-8 xs:mx-8 sm:mx-8 sm:w-[536px] mt-8 2xl:mx-0 xl:mx-0 lg:mx-0 md:ml-0">
+				 	<a href={BAMK_MARKET_URL} target="_blank" rel="noopener noreferrer" className='flex-grow'>
+				 	  <Button className="w-full h-14 text-lg font-bold">GET NUSD</Button>
+				 	</a>
+				 	<a href={"https://example.com"} target="_blank" rel="noopener noreferrer" className='flex-grow'>
+				 	  <Button className="w-full h-14 text-lg font-bold px-4" variant="hollow">
+				 		LEARN HOW NUSD WORKS &nbsp;
+				 		<ExternalLink />
+				 	  </Button>
+				 	</a>
+				   </div>
+				   {data.apy && data.apy > 0.01 ? (
+				 	<div title="Annual Percentage Yield" className="bg-primary/5 text-sm gap-2 px-4 rounded-md h-10 items-center flex mt-1">
+				 	  <div className="bg-[#F7931A] p-[0.4rem] rounded-full">
+				 		<NusdIcon height={14} width={14} className="stroke-primary" />
+				 	  </div>
+				 	  <p>APY</p>
+				 	  <p className="text-primary font-bold">
+				 		{`${(data.apy * 100).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`}
+				 	  </p>
+				 	</div>
+				   ) : null}
 				</div>
-            </div>
-        </div>
-    )
+			  </div>
+			  <div>
+			   <div className="hidden lg:flex items-center justify-center relative top-20">
+				<NusdBackground className="absolute right-0 top-0 h-auto w-80 opacity-10" />
+			   </div>
+			  </div>
+			</div>
+		  </div>
+		<div className="absolute bottom-3 right-3 mx-3">
+			<div className="flex gap-4">
+			  <a href={TWITTER_URL} target="_blank" rel="noopener noreferrer">
+			    <Button variant="ghost" size="icon">
+			      <TwitterIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
+			    </Button>
+			  </a>
+			  <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
+			    <Button variant="ghost" size="icon">
+			      <TelegramIcon className="h-6 w-6 fill-foreground/60 hover:fill-foreground/80" />
+			    </Button>
+			  </a>
+			</div>
+		</div>
+		</div>
+		<div>
+		  <Timeline />
+		</div>
+	  </div>
+	);
 }

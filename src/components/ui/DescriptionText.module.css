@@ -9,3 +9,9 @@
     line-height: 1;
     color: #F3E9DD99;
 }
+
+@media (max-width: 1024px) {
+    .wrapper {
+      padding-left: 2rem;
+    }
+}

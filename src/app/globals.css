@@ -63,3 +63,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+.top-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .top-section {
+    height: auto;
+    padding-top: 3rem;
+    align-items: flex-start;
+  }
+}
