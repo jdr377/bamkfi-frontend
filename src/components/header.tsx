@@ -64,7 +64,7 @@ export default function Header() {
 						</div>
 					</Link>
 				</div>
-				<div className="hidden sm:block">
+				<div className="hidden sm:block px-2">
 					<Navigation links={links} />
 				</div>
 				<div className="flex items-center gap-4">

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import styles from './Timeline.module.css';
 
 const events = [
-  { date: '21-4-2024', description: 'BAMk token deployed with 6.25% mint' },
+  { date: '21-4-2024', description: 'BAMK token deployed with 6.25% mint' },
   { date: '21-5-2024', description: 'UTXO Mgmt add $1million to NUSD TVL' },
   { date: '15-6-2024', description: 'NUSD TVL over $4million' },
   { date: '3-7-2024', description: 'BTC/NUSD LP TVL on Dotswap over 10 BTC' },
@@ -44,7 +44,7 @@ const Timeline: React.FC = () => {
         {events.map((event, index) => (
           <div
             key={index}
-            className={`${styles.timelineEvent} ${index % 2 === 0 ? styles.bottom : styles.top}`}
+            className={`${styles.timelineEvent} ${index % 2 === 0 ? styles.bottom : styles.top} ${event.date === 'Future' ? styles.future : ''}`}
           >
             <div className={styles.timelineContent}>
               <time>{event.date}</time>

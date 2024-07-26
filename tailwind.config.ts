@@ -18,12 +18,12 @@ const config = {
       },
     },
     screens: {
-      'xs': '375px',
-      'sm': '536px',
-      'md': '1024px',
-      'lg': '1280px',
-      'xl': '1920px',
-      '2xl': '3840px',
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
     },
     extend: {
       colors: {

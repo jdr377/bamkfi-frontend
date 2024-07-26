@@ -1,6 +1,6 @@
 .wrapper {
     font-size: clamp(15px, 3vw, 30px);
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
     height: min-content;
     padding: 0%;
     margin: 0%;

@@ -23,6 +23,7 @@ import { TELEGRAM_URL } from '@/lib/constants';
 import ExternalLink from '@/icons/ExternalLink';
 import { DescriptionText } from '@/components/ui/DescriptionText';
 import Timeline from '@/components/timeline/Timeline';
+import Explainer from '@/components/explainer/explainer';
 
 async function getData() {
 	const magicEdenBamkReq = await fetch('https://api-mainnet.magiceden.dev/v2/ord/btc/runes/market/BAMKOFNAKAMOTODOLLAR/info', {
@@ -310,7 +311,7 @@ export default async function Home() {
 	  <div className="relative flex flex-col">
 		<div className="top-section relative flex items-center justify-center" style={{ height: 'calc(100vh - 80px)' }}>
 		  <div className="max-w-screen-2xl container px-0 mx-0">
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative">
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative">
 			  <div className="flex flex-col gap-8">
 				<div className="flex flex-col gap-0 md:ml-20 my-0 py-0">
 				  <RuneNameHeading>NUSD:</RuneNameHeading>
@@ -344,7 +345,7 @@ export default async function Home() {
 				</div>
 			  </div>
 			  <div>
-			   <div className="hidden lg:flex items-center justify-center relative top-20">
+			   <div className="hidden lg:flex items-center justify-center relative top-10">
 				<NusdBackground className="absolute right-0 top-0 h-auto w-80 opacity-10" />
 			   </div>
 			  </div>
@@ -367,6 +368,9 @@ export default async function Home() {
 		</div>
 		<div>
 		  <Timeline />
+		</div>
+		<div>
+			<Explainer />
 		</div>
 	  </div>
 	);
